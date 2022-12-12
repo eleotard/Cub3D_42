@@ -6,15 +6,21 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2022/12/12 18:36:34 by eleotard         ###   ########.fr        #
+#    Updated: 2022/12/12 23:59:58 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3d
 
-SRCS_DIR = srcs
-SRCS_FILES = main.c
+SRCS_FILES =	main.c \
+				utils.c \
+				check_parsing.c \
+				hook.c  \
+				get_next_line.c \
+				get_next_line_utils.c \
+				error_destroy.c \
 
+SRCS_DIR = srcs
 OBJS_DIR = objs
 OBJS_FILES = ${SRCS_FILES:%.c=%.o}
 OBJS = ${addprefix ${OBJS_DIR}/, ${OBJS_FILES}}
@@ -23,7 +29,7 @@ INC_DIR = includes
 
 CC = gcc
 
-FLAGS = -I.${INC_DIR}/ -Wall -Wextra -Werror -g3
+FLAGS = -I${INC_DIR}/ -Wall -Wextra -Werror -g3
 
 LIBFT = -Llibft -lft
 
