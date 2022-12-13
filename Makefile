@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2022/12/12 23:59:58 by eleotard         ###   ########.fr        #
+#    Updated: 2022/12/13 21:00:14 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ SRCS_FILES =	main.c \
 				get_next_line.c \
 				get_next_line_utils.c \
 				error_destroy.c \
+				moves.c \
+				minimap_imgs.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs
@@ -29,7 +31,7 @@ INC_DIR = includes
 
 CC = gcc
 
-FLAGS = -I${INC_DIR}/ -Wall -Wextra -Werror -g3
+FLAGS = -I${INC_DIR}/ -Wall -Wextra -Werror #-g3
 
 LIBFT = -Llibft -lft
 

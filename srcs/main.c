@@ -6,12 +6,16 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/13 00:14:11 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/13 23:34:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub.h"
+#include "../includes/cub.h"
 #include "../minilibx-linux/mlx.h"
+
+
+
+
 
 int	ft_map_height(char **map)
 {
@@ -137,11 +141,16 @@ void	ft_mlx_win_init(t_vars *vars)
 	//ft_img_init(vars);
 	win_height = SIZEPIC * ft_map_height(vars->map);
 	win_wide = SIZEPIC * ft_map_wide(vars->map);
-	vars->win = mlx_new_window(vars->mlx, win_wide, win_height,
+	vars->minimap.win = mlx_new_window(vars->mlx, win_wide, win_height,
 			"minimap");
-	if (!vars->win)
+	if (!vars->minimap.win)
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");
+	init_perso_pos_x(vars);
+	init_perso_pos_y(vars);
+	set_minimap(vars);
+	//display_minimap_base(vars);
+	display_perso(vars);
 }
 
 //ORDRE: (NORMALEMENT)
@@ -156,7 +165,7 @@ void	ft_mlx_win_init(t_vars *vars)
 int	main(int argc, char **argv)
 {
 	t_vars	vars;
-	vars = (t_vars){0};
+	vars = (t_vars){0}; //initialise la strcutures et celles a l'interieur
 	if (argc != 2)
 		return (-1);
 	if (ft_check_cub(argv[1]) == ERROR)
@@ -165,8 +174,8 @@ int	main(int argc, char **argv)
 	if (!vars.map)
 		return (-3);
 	ft_mlx_win_init(&vars);
-	mlx_hook(vars.win, KeyPress, KeyPressMask, ft_key_hook, &vars);
-	mlx_hook(vars.win, ClientMessage, LeaveWindowMask, ft_mouse_hook, &vars);
+	mlx_hook(vars.minimap.win, KeyPress, KeyPressMask, ft_key_hook, &vars);
+	mlx_hook(vars.minimap.win, ClientMessage, LeaveWindowMask, ft_mouse_hook, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }
