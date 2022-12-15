@@ -6,55 +6,58 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 19:45:33 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/13 23:24:34 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:36:36 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void	init_perso_pos_x(t_vars *vars)
-{
-	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
-	while (vars->map[i])
+void line(t_img *img, int x0, int y0, int x1, int y1)
+{
+	int	dx;
+	int dy; //distance
+	int sx; //sign
+	int	sy;
+	int err;
+	int e2;
+	
+	dx = abs(x1-x0); //retourne la valeur absolue de la difference
+	if (x0 < x1)
+		sx = 1;
+	else
+		sx = -1;
+	dy = abs(y1-y0);
+	if (y0 < y1)
+		sy = 1;
+	else
+		sy = -1;
+	if (dx > dy)
+		err = dx / 2;
+	else
+		err = -dy / 2;
+	
+	while (1)
 	{
-		j = 0;
-		while (vars->map[i][j])
+		my_mlx_pixel_put(img, x0, y0, 0x00000FF);
+		if (x0 == x1 && y0 == y1)
+			break;
+		e2 = err;
+		if (e2 > -dx)
 		{
-			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S'
-				|| vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
-				vars->perso.position.x = j + 0.5;
-			j++;
+			err -= dy;
+			x0 += sx;
 		}
-		i++;
+		if (e2 < dy)
+		{
+			err += dx;
+			y0 += sy;
+		}
 	}
-	printf("perso x = %f\n", vars->perso.position.x);
 }
 
-void	init_perso_pos_y(t_vars *vars)
-{
-	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
-	while (vars->map[i])
-	{
-		j = 0;
-		while (vars->map[i][j])
-		{
-			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S'
-				|| vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
-				vars->perso.position.y = i + 0.5;
-			j++;
-		}
-		i++;
-	}
-	printf("perso y = %f\n", vars->perso.position.y);
-}
+
 
 void	display_minimap_base(t_vars *vars)
 {
@@ -89,14 +92,7 @@ void	display_minimap_base(t_vars *vars)
 	}
 }
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	char	*dst;
 
-	dst = img->addr + (y * img->line_length + 
-		x * (img->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
-}
 
 
 void	pixelize_borders(t_img *img, int color)
@@ -125,7 +121,7 @@ void	pixelize_borders(t_img *img, int color)
 	}
 }
 
-void	pixelize_fill(t_img *img, int color)
+/*void	pixelize_fill(t_img *img, int color)
 {
 	int	x;
 	int	y;
@@ -142,28 +138,14 @@ void	pixelize_fill(t_img *img, int color)
 		}
 		y++;
 	}
-}
+}*/
 
 
-void	pixelize_perso(t_vars *vars, t_img *img, int color)
-{
-	my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC, vars->perso.position.y * SIZEPIC, color);
-}
 
-void	create_img(t_vars *vars, t_img *img, int x, int y)
-{
-	img->px_length = x;
-	img->px_height = y;
-	img->ptr = mlx_new_image(vars->mlx, x, y);
-	img->addr = mlx_get_data_addr(img->ptr, &(img->bits_per_pixel),
-		&(img->line_length), &img->endian);
-}
 
-void	display_perso(t_vars *vars)
-{
-	mlx_put_image_to_window(vars->mlx, vars->minimap.win,
-		vars->minimap.p_point.ptr, 0, 0);
-}
+
+
+
 
 void	set_minimap(t_vars *vars)
 {

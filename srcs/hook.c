@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/13 20:55:02 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:01:28 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,6 @@ int	ft_key_hook(int keycode, t_vars	*vars)
 
 void	ft_close(t_vars *vars)
 {
-	ft_destroy_all(vars->map, vars->mlx, vars->minimap.win);
+	ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
 	exit (0);
 }

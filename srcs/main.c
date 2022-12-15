@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/13 23:34:41 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/15 17:02:32 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,9 @@ void	ft_mlx_win_init(t_vars *vars)
 			"Error\nWin pointer == NULL\n");
 	init_perso_pos_x(vars);
 	init_perso_pos_y(vars);
-	set_minimap(vars);
+	set_good_minimap(vars);
 	//display_minimap_base(vars);
-	display_perso(vars);
+	//display_perso(vars);
 }
 
 //ORDRE: (NORMALEMENT)

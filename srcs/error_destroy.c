@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:57:40 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/12 23:57:57 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/14 17:02:12 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@ void	ft_print_error_exit(char *error)
 	exit (-1);
 }
 
-void	ft_destroy_all(char **map, void *mlx, void *win)
+void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars)
 {
+	if (vars)
+	{
+		if (vars->minimap.mini_img.ptr)
+			mlx_destroy_image(mlx, vars->minimap.mini_img.ptr);
+	}
 	if (map)
 		ft_destroy_map(map);
 	if (win)
@@ -28,7 +33,8 @@ void	ft_destroy_all(char **map, void *mlx, void *win)
 	{
 		mlx_destroy_display(mlx);
 		free(mlx);
-	}	
+	}
+		
 }
 
 void	ft_destroy_map(char **map)
@@ -48,6 +54,6 @@ void	ft_destroy_map(char **map)
 
 void	ft_destroy_all_message(char **map, void	*mlx, char *message)
 {
-	ft_destroy_all(map, mlx, NULL);
+	ft_destroy_all(map, mlx, NULL, NULL);
 	ft_print_error_exit(message);
 }
