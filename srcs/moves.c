@@ -6,104 +6,54 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/13 20:54:52 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/15 21:53:44 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-/*void	ft_move_left(t_vars *vars)
+void	moveForeward(t_vars *vars)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (vars->map[++i])
-	{
-		while (vars->map[i][j])
-		{
-			if (vars->map[i][j] == 'P')
-				break ;
-			j++;
-		}
-		if (vars->map[i][j] == 'P')
-			break ;
-		j = 0;
-	}
-	if (vars->map[i][j - 1] != '1' && (j > 0))
-		ft_swap_perso(vars, &vars->map[i][j],
-			&vars->map[i][j - 1], count);
+	vars->perso.position.x -= vars->perso.direction.x;
+	vars->perso.position.z += vars->perso.direction.y;
+	//vars->perso.position.x -= vars->perso.direction.x;
+	re_display_minimap(vars);
 }
 
-void	ft_move_right(t_vars *vars)
+void	moveBackward(t_vars *vars)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (vars->map[++i])
-	{
-		while (vars->map[i][j])
-		{
-			if (vars->map[i][j] == 'P')
-				break ;
-			j++;
-		}
-		if (vars->map[i][j] == 'P')
-			break ;
-		j = 0;
-	}
-	if (vars->map[i][j + 1] != '1' && j < (ft_map_wide(vars->map) - 2))
-		ft_swap_perso(vars, &vars->map[i][j],
-			&vars->map[i][j + 1], count);
+	vars->perso.position.x += vars->perso.direction.x;
+	vars->perso.position.z -= vars->perso.direction.y;
+	re_display_minimap(vars);
 }
 
-void	ft_move_up(t_vars *vars)
+void	moveLeft(t_vars *vars)
 {
-	int	i;
-	int	j;
-
-	i = -1;
-	j = 0;
-	while (vars->map[++i])
-	{
-		while (vars->map[i][j])
-		{
-			if (vars->map[i][j] == 'P')
-				break ;
-			j++;
-		}
-		if (vars->map[i][j] == 'P')
-			break ;
-		j = 0;
-	}
-	if (vars->map[i - 1][j] != '1' && (i > 0))
-		ft_swap_perso(vars, &vars->map[i][j],
-			&vars->map[i - 1][j], count);
+	vars->perso.position.x += vars->perso.direction.y;
+	vars->perso.position.z -= vars->perso.direction.x;
+	re_display_minimap(vars);
 }
 
-void	ft_move_down(t_vars *vars)
+void	moveRight(t_vars *vars)
 {
-	int	i;
-	int	j;
+	vars->perso.position.x -= vars->perso.direction.y;
+	vars->perso.position.z -= vars->perso.direction.x;
+	re_display_minimap(vars);
+}
 
-	i = -1;
-	j = 0;
-	while (vars->map[++i])
-	{
-		while (vars->map[i][j])
-		{
-			if (vars->map[i][j] == 'P')
-				break ;
-			j++;
-		}
-		if (vars->map[i][j] == 'P')
-			break ;
-		j = 0;
-	}
-	if (vars->map[i + 1][j] != '1' && (i < (ft_map_height(vars->map) - 2)))
-		ft_swap_perso(vars, &vars->map[i][j],
-			&vars->map[i + 1][j], count);
-}*/
+void	watchLeft(t_vars *vars)
+{
+	vars->perso.rotation.y -= SENSITIVITY;
+	updateDirection(vars);
+}
+void	watchRight(t_vars *vars)
+{
+	vars->perso.rotation.y += SENSITIVITY;
+	updateDirection(vars);
+}
+
+void	updateDirection(t_vars *vars)
+{
+	vars->perso.direction.x = sin(vars->perso.rotation.y) * SPEED;
+    vars->perso.direction.y = cos(vars->perso.rotation.y) * SPEED;
+}
