@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2022/12/14 17:29:23 by eleotard         ###   ########.fr        #
+#    Updated: 2022/12/15 19:55:53 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,8 +20,8 @@ SRCS_FILES =	main.c \
 				get_next_line_utils.c \
 				error_destroy.c \
 				moves.c \
-				minimap_imgs.c \
 				new_minimap.c \
+				line.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

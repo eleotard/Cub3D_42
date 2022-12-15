@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/15 17:31:40 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/15 19:48:00 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,20 @@
 
 # define SIZEPIC	100
 # define ERROR		(-1)
+
+typedef struct s_line_params {
+	int	dx; //distance
+	int	dy;
+	int sx; //sign
+	int	sy;
+} t_line_params;
+
+typedef struct s_line_cd {
+	int	x0;
+	int	y0;
+	int x1;
+	int	y1;
+} t_line_cd;
 
 typedef struct s_img {
 	void	*ptr;
@@ -104,7 +118,8 @@ void	pixelize_fill(t_img *img, int color);
 void	pixelize_square(t_img *img, int x, int y, int color);
 void	pixelize_minimap_base(t_vars *vars);
 
-void line(t_img *img, int x0, int y0, int x1, int y1);
+void	line(t_img *img, t_line_cd cd, int color);
+
 void	set_minimap(t_vars *vars);
 void	set_good_minimap(t_vars *vars);
 
