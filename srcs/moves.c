@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 20:47:49 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/17 21:33:19 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	moveForeward(t_vars *vars)
 {
+	//t_line_cd cd;
 	printf("passe\n");
 	//updateDirection(vars);
 	vars->perso.position.x += vars->perso.direction.x;
@@ -22,6 +23,12 @@ void	moveForeward(t_vars *vars)
 	printf("perso y = %f\n", vars->perso.position.y);
 	printf("dir x = %f\n", vars->perso.direction.x);
 	printf("dir y = %f\n", vars->perso.direction.y);
+	printf("\ndistance parcourue = %f\n", sqrt(pow(vars->perso.direction.x, 2) + pow(vars->perso.direction.y, 2)));
+	// cd.x0 = roundf(vars->perso.position.x * SIZEPIC);
+	// cd.y0 = roundf(vars->perso.position.y * SIZEPIC);
+	// cd.x1 = cd.x0 + roundf(vars->perso.direction.x) * 10000;
+	// cd.y1 = cd.y0 +  roundf(vars->perso.direction.y) * 10000;
+	// line(&(vars->minimap.mini_img), cd, 0xFFFF00);
 
 	//vars->perso.position.x -= 0.1;
 	//vars->perso.position.z += 0.1;
@@ -38,9 +45,6 @@ void	updateDirection(t_vars *vars)
 	
 	printf("que avec les cos sin purs:\n\tcos: %f\n", cos(vars->perso.rotation.y));
 	printf("\tsin: %f\n", sin(vars->perso.rotation.y));
-
-	printf("%f\n", cos((3*PI)/2));
-	printf("%f\n", sin((3*PI)/2));
 	
 	printf("dir x = %f\n", vars->perso.direction.x);
 	printf("dir y = %f\n\n", vars->perso.direction.y);
@@ -56,6 +60,7 @@ void	moveBackward(t_vars *vars)
 	printf("perso y = %f\n", vars->perso.position.y);
 	printf("dir x = %f\n", vars->perso.direction.x);
 	printf("dir y = %f\n", vars->perso.direction.y);
+	printf("\ndistance parcourue = %f\n", sqrt(pow(vars->perso.direction.x, 2) + pow(vars->perso.direction.y, 2)));
 	re_display_minimap(vars);
 }
 
@@ -68,6 +73,7 @@ void	moveLeft(t_vars *vars)
 	printf("perso y = %f\n", vars->perso.position.y);
 	printf("dir x = %f\n", vars->perso.direction.x);
 	printf("dir y = %f\n", vars->perso.direction.y);
+	printf("\ndistance parcourue = %f\n", sqrt(pow(vars->perso.direction.x, 2) + pow(vars->perso.direction.y, 2)));
 }
 
 void	moveRight(t_vars *vars)
@@ -79,6 +85,7 @@ void	moveRight(t_vars *vars)
 	printf("perso y = %f\n", vars->perso.position.y);
 	printf("dir x = %f\n", vars->perso.direction.x);
 	printf("dir y = %f\n", vars->perso.direction.y);
+	printf("\ndistance parcourue = %f\n", sqrt(pow(vars->perso.direction.x, 2) + pow(vars->perso.direction.y, 2)));
 }
 
 
@@ -86,18 +93,18 @@ void	watchLeft(t_vars *vars)
 {
 	//t_line_cd cd;
 
-	//cd.x0 = vars->perso.position.x;
-	//cd.y0 = vars->perso.position.z;
 	vars->perso.rotation.y += SENSITIVITY;
 	/*if (vars->perso.rotation.y -= SENSITIVITY > 0)
 		vars->perso.rotation.y = 2 * PI;*/
 	//if (vars->perso.rotation.y += SENSITIVITY > 2 * PI)
 	//	vars->perso.rotation.y = 0;
 	updateDirection(vars);
-	//cd.x1 = cd.x0 * SIZEPIC + cos(vars->perso.rotation.y);
-	//cd.y1 = cd.y0 * SIZEPIC + sin(vars->perso.rotation.y);
-	re_display_minimap(vars);
-	//line(&(vars->minimap.mini_img), cd, 0xFFFF00);
+	// cd.x0 = vars->perso.position.x * SIZEPIC;
+	// cd.y0 = vars->perso.position.y * SIZEPIC;
+	// cd.x1 = cd.x0 + vars->perso.direction.x;
+	// cd.y1 = cd.y0 +  vars->perso.direction.y;
+	// line(&(vars->minimap.mini_img), cd, 0xFFFF00);
+	// re_display_minimap(vars);
 }
 void	watchRight(t_vars *vars)
 {

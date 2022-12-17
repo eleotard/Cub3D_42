@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 20:36:58 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/17 21:22:11 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,7 @@ void	set_minimap(t_vars *vars)
 	pixelize_perso(vars, &(vars->minimap.mini_img), 0xFFFF00);
 	display_minimap_img(vars);
 }
+
 
 void	re_display_minimap(t_vars *vars)
 {
