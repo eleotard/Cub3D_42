@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2022/12/15 19:55:53 by eleotard         ###   ########.fr        #
+#    Updated: 2022/12/15 21:11:02 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS_FILES =	main.c \
 				moves.c \
 				new_minimap.c \
 				line.c \
+				init_perso.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

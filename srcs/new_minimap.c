@@ -3,58 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   new_minimap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/15 19:53:08 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/17 21:22:11 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
-
-void	init_perso_pos_x(t_vars *vars)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (vars->map[i])
-	{
-		j = 0;
-		while (vars->map[i][j])
-		{
-			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S'
-				|| vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
-				vars->perso.position.x = j + 0.5;
-			j++;
-		}
-		i++;
-	}
-	printf("perso x = %f\n", vars->perso.position.x);
-}
-
-void	init_perso_pos_y(t_vars *vars)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (vars->map[i])
-	{
-		j = 0;
-		while (vars->map[i][j])
-		{
-			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S'
-				|| vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
-				vars->perso.position.y = i + 0.5;
-			j++;
-		}
-		i++;
-	}
-	printf("perso y = %f\n", vars->perso.position.y);
-}
 
 void	display_minimap_img(t_vars *vars)
 {
@@ -64,8 +20,40 @@ void	display_minimap_img(t_vars *vars)
 
 void	pixelize_perso(t_vars *vars, t_img *img, int color)
 {
-	my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC,
+	int	i;
+	int	j;
+
+	j = 0;
+	while (j < 5)
+	{
+		i = -5;
+		while (++i < 5)
+			my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC + i,
+				vars->perso.position.y * SIZEPIC + j, color);
+		j++;
+		display_minimap_img(vars);
+	}
+	j = 0;
+	while (j > -5)
+	{
+		i = -5;
+		while (++i < 5)
+			my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC + i,
+				vars->perso.position.y * SIZEPIC + j, color);
+		display_minimap_img(vars);
+		j--;
+	}
+	
+	/*
+	
+	my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC + 1,
 		vars->perso.position.y * SIZEPIC, color);
+	my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC - 1,
+		vars->perso.position.y * SIZEPIC, color);
+	//my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC,
+	//	vars->perso.position.y * SIZEPIC + 1, color);
+	my_mlx_pixel_put(img, (vars->perso.position.x - 1) * SIZEPIC,
+		vars->perso.position.y * SIZEPIC - 1, color);*/
 }
 
 void	pixelize_fill(t_img *img, int color)
@@ -159,7 +147,7 @@ void	create_img(t_vars *vars, t_img *img, int x, int y)
 			&(img->line_length), &img->endian);
 }
 
-void	set_good_minimap(t_vars *vars)
+void	set_minimap(t_vars *vars)
 {
 	create_img(vars, &(vars->minimap.mini_img),
 		SIZEPIC * ft_map_wide(vars->map), SIZEPIC * ft_map_height(vars->map));
@@ -169,8 +157,18 @@ void	set_good_minimap(t_vars *vars)
 		exit (-1);
 	}
 	pixelize_fill(&(vars->minimap.mini_img), 0x002200);
-	pixelize_grid(vars, &(vars->minimap.mini_img), 0x000FFFF);
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
+	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
+	pixelize_perso(vars, &(vars->minimap.mini_img), 0xFFFF00);
+	display_minimap_img(vars);
+}
+
+
+void	re_display_minimap(t_vars *vars)
+{
+	pixelize_fill(&(vars->minimap.mini_img), 0x002200);
+	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
+	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_perso(vars, &(vars->minimap.mini_img), 0xFFFF00);
 	display_minimap_img(vars);
 }

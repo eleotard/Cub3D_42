@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/15 19:48:00 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/17 20:43:36 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,11 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define SIZEPIC	100
-# define ERROR		(-1)
+# define SIZEPIC		100
+# define SENSITIVITY	0.4
+# define SPEED			0.1
+# define ERROR			(-1)
+# define PI				3.1415926535
 
 typedef struct s_line_params {
 	int	dx; //distance
@@ -34,11 +37,11 @@ typedef struct s_line_params {
 	int	sy;
 } t_line_params;
 
-typedef struct s_line_cd {
-	int	x0;
-	int	y0;
-	int x1;
-	int	y1;
+typedef struct s_line_cd { //coordonnees
+	float	x0;
+	float	y0;
+	float	x1;
+	float	y1;
 } t_line_cd;
 
 typedef struct s_img {
@@ -67,9 +70,9 @@ typedef struct s_vec3 {
 
 
 typedef struct s_perso {
-	t_vec3 position;
-	t_vec3 rotation;
-	t_vec3 direction;
+	t_vec3	position;
+	t_vec3	rotation;
+	t_vec3	direction;
 }	t_perso;
 
 typedef struct s_vars {
@@ -101,35 +104,39 @@ void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars);
 void	ft_print_error_exit(char *error);
 
 /*MOVES*/
-void	ft_move_left(t_vars *vars);
-void	ft_move_right(t_vars *vars);
-void	ft_move_up(t_vars *vars);
-void	ft_move_down(t_vars *vars);
+void	moveLeft(t_vars *vars);
+void	moveRight(t_vars *vars);
+void	moveForeward(t_vars *vars);
+void	moveBackward(t_vars *vars);
+
+void	watchLeft(t_vars *vars);
+void	watchRight(t_vars *vars);
+
+void	updateDirection(t_vars *vars);
 
 /*MAP CHARACTERISTIC*/
 int	ft_map_height(char **map);
 int	ft_map_wide(char **map);
 
-/*MINIMAP IMAGE PAR IMAGE*/
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	create_img(t_vars *vars, t_img *img, int x, int y);
-void	pixelize_borders(t_img *img, int color);
-void	pixelize_fill(t_img *img, int color);
-void	pixelize_square(t_img *img, int x, int y, int color);
-void	pixelize_minimap_base(t_vars *vars);
-
+/*DRAW LINE*/
 void	line(t_img *img, t_line_cd cd, int color);
 
+/*MINIMAP IMAGE PAR IMAGE*/
 void	set_minimap(t_vars *vars);
-void	set_good_minimap(t_vars *vars);
+void	create_img(t_vars *vars, t_img *img, int x, int y);
 
-void	display_minimap_base(t_vars *vars);
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	pixelize_fill(t_img *img, int color);
+void	pixelize_walls(t_vars *vars, t_img *img, int color);
+void	pixelize_grid(t_vars *vars, t_img *img, int color);
+void	pixelize_perso(t_vars *vars, t_img *img, int color);
+
+void	re_display_minimap(t_vars *vars);
 
 /*PERSO POSITION*/
-void	init_perso_pos_x(t_vars *vars);
-void	init_perso_pos_y(t_vars *vars);
+void	init_perso_pos(t_vars *vars);
+void	init_perso_rotation(t_vars *vars, char dir);
 void	display_perso(t_vars *vars);
-void	pixelize_perso(t_vars *vars, t_img *img, int color);
 
 
 
