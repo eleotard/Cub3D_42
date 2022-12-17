@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_perso.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 21:10:16 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/15 22:00:04 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/17 19:02:32 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	init_perso_pos(t_vars *vars)
 void	init_perso_rotation(t_vars *vars, char dir)
 {
 	if (dir == 'N')
-		vars->perso.rotation.y = 0;
+		vars->perso.rotation.y = PI/2;
 	else if (dir == 'S')
-		vars->perso.rotation.y = 90;
+		vars->perso.rotation.y = (3 * PI) / 2;
 	else if (dir == 'E')
-		vars->perso.rotation.y = 180;
+		vars->perso.rotation.y = 0;
 	else if (dir == 'W')
-		vars->perso.rotation.y = 270;
+		vars->perso.rotation.y = PI;
 }

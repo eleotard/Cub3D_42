@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/15 22:03:42 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/17 20:43:36 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@
 # include <math.h>
 
 # define SIZEPIC		100
-# define SENSITIVITY	50
-# define SPEED			10
+# define SENSITIVITY	0.4
+# define SPEED			0.1
 # define ERROR			(-1)
+# define PI				3.1415926535
 
 typedef struct s_line_params {
 	int	dx; //distance
@@ -37,10 +38,10 @@ typedef struct s_line_params {
 } t_line_params;
 
 typedef struct s_line_cd { //coordonnees
-	int	x0;
-	int	y0;
-	int x1;
-	int	y1;
+	float	x0;
+	float	y0;
+	float	x1;
+	float	y1;
 } t_line_cd;
 
 typedef struct s_img {
@@ -69,9 +70,9 @@ typedef struct s_vec3 {
 
 
 typedef struct s_perso {
-	t_vec3 position;
-	t_vec3 rotation;
-	t_vec3 direction;
+	t_vec3	position;
+	t_vec3	rotation;
+	t_vec3	direction;
 }	t_perso;
 
 typedef struct s_vars {
