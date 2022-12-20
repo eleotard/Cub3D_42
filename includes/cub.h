@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 20:43:36 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/20 21:11:24 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <math.h>
 
 # define SIZEPIC		100
-# define SENSITIVITY	0.4
-# define SPEED			0.1
+# define ROTATION_SPEED	2 * (3.1415926535 / 180)
+# define MOVE_SPEED		0.1
 # define ERROR			(-1)
 # define PI				3.1415926535
 
@@ -69,17 +69,19 @@ typedef struct s_vec3 {
 }	t_vec3;
 
 
-typedef struct s_perso {
+typedef struct s_player {
 	t_vec3	position;
 	t_vec3	rotation;
 	t_vec3	direction;
-}	t_perso;
+	int 	walkDirection;
+	int		turnDirection;
+}	t_player;
 
 typedef struct s_vars {
 	void		*mlx;
 	char		**map;
 	t_minimap	minimap;
-	t_perso		perso;
+	t_player	player;
 	//tab de tab des paths de textures NSEW
 	//tab de tab des couleurs du sol et du ciel
 	
@@ -95,6 +97,7 @@ char	*join(char *base, char *read);
 /*HOOK*/
 int		ft_mouse_hook(t_vars *vars);
 int		ft_key_hook(int keycode, t_vars	*vars);
+int		ft_key_release(int keycode, t_vars	*vars);
 void	ft_close(t_vars *vars);
 
 /*ERRORS DESTROY FREE*/
@@ -129,14 +132,14 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	pixelize_fill(t_img *img, int color);
 void	pixelize_walls(t_vars *vars, t_img *img, int color);
 void	pixelize_grid(t_vars *vars, t_img *img, int color);
-void	pixelize_perso(t_vars *vars, t_img *img, int color);
+void	pixelize_player(t_vars *vars, t_img *img, int color);
 
 void	re_display_minimap(t_vars *vars);
 
-/*PERSO POSITION*/
-void	init_perso_pos(t_vars *vars);
-void	init_perso_rotation(t_vars *vars, char dir);
-void	display_perso(t_vars *vars);
+/*player POSITION*/
+void	init_player_pos(t_vars *vars);
+void	init_player_rotation(t_vars *vars, char dir);
+void	display_player(t_vars *vars);
 
 
 

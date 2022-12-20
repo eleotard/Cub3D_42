@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 19:02:24 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/20 21:30:34 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,10 +146,9 @@ void	ft_mlx_win_init(t_vars *vars)
 	if (!vars->minimap.win)
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");
-	init_perso_pos(vars);
-	printf("perso x = %f\n", vars->perso.position.x);
-	//init_perso_pos_y(vars);
-	printf("perso y = %f\n", vars->perso.position.y);
+	init_player_pos(vars);
+	printf("perso x = %f\n", vars->player.position.x);
+	printf("player y = %f\n", vars->player.position.y);
 	set_minimap(vars);
 }
 
@@ -175,6 +174,7 @@ int	main(int argc, char **argv)
 		return (-3);
 	ft_mlx_win_init(&vars);
 	mlx_hook(vars.minimap.win, KeyPress, KeyPressMask, ft_key_hook, &vars);
+	mlx_hook(vars.minimap.win, KeyRelease, KeyReleaseMask, ft_key_release, &vars);
 	mlx_hook(vars.minimap.win, ClientMessage, LeaveWindowMask, ft_mouse_hook, &vars);
 	mlx_loop(vars.mlx);
 	return (0);

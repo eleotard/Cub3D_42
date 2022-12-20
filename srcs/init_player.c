@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_perso.c                                       :+:      :+:    :+:   */
+/*   init_player.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../includes/cub.h"
 
-void	init_perso_pos(t_vars *vars)
+void	init_player_pos(t_vars *vars)
 {
 	int	i;
 	int	j;
@@ -26,9 +26,9 @@ void	init_perso_pos(t_vars *vars)
 			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S'
 				|| vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
 			{
-				vars->perso.position.x = j + 0.5;
-				vars->perso.position.y = i + 0.5;
-				init_perso_rotation(vars, vars->map[i][j]);
+				vars->player.position.x = j + 0.5;
+				vars->player.position.y = i + 0.5;
+				init_player_rotation(vars, vars->map[i][j]);
 				updateDirection(vars);
 			}
 		}
@@ -36,14 +36,14 @@ void	init_perso_pos(t_vars *vars)
 }
 
 
-void	init_perso_rotation(t_vars *vars, char dir)
+void	init_player_rotation(t_vars *vars, char dir)
 {
 	if (dir == 'N')
-		vars->perso.rotation.y = PI/2;
+		vars->player.rotation.y = -(PI/2);
 	else if (dir == 'S')
-		vars->perso.rotation.y = (3 * PI) / 2;
+		vars->player.rotation.y = PI / 2;
 	else if (dir == 'E')
-		vars->perso.rotation.y = 0;
+		vars->player.rotation.y = 0;
 	else if (dir == 'W')
-		vars->perso.rotation.y = PI;
+		vars->player.rotation.y = PI;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/15 21:59:48 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/20 22:46:41 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,32 +18,59 @@ int	ft_mouse_hook(t_vars *vars)
 	return (0);
 }
 
-//XK_Left
-//XK_Right
-//XK_Up
-//XK_Down
-
 int	ft_key_hook(int keycode, t_vars	*vars)
 {
-	// static int	count_moves;
 	if (keycode == XK_Escape)
-	{
-		printf("perso x = %f\n", vars->perso.position.x);
-		printf("perso y = %f\n", vars->perso.position.y);
 		ft_close(vars);
+	if (keycode == XK_w)
+	{
+		vars->player.walkDirection = +1;
+		moveForeward(vars);
+	}
+	if (keycode == XK_s)
+	{
+		vars->player.walkDirection = -1;
+		moveBackward(vars);
 	}
 	if (keycode == XK_d)
+	{
 		moveRight(vars);
+	}
 	if (keycode == XK_a)
+	{
 		moveLeft(vars);
-	if (keycode == XK_w)
-		moveForeward(vars);
-	if (keycode == XK_s)
-		moveBackward(vars);
+	}
 	if (keycode == XK_Right)
+	{
+		vars->player.turnDirection = +1;
 		watchRight(vars);
+	}
 	if (keycode == XK_Left)
+	{
+		vars->player.turnDirection = -1;
 		watchLeft(vars);
+	}
+	printf("turn = %d\n", vars->player.turnDirection);
+	printf("walk = %d\n", vars->player.walkDirection);
+	return (0);
+}
+
+int	ft_key_release(int keycode, t_vars	*vars)
+{
+	if (keycode == XK_w)
+		vars->player.walkDirection = 0;
+	if (keycode == XK_s)
+		vars->player.walkDirection = 0;
+	if (keycode == XK_Right)
+		vars->player.turnDirection = 0;
+	if (keycode == XK_Left)
+		vars->player.turnDirection = 0;
+	//if (keycode == XK_d)
+	//	vars->player.turnDirection = 0;
+	//if (keycode == XK_a)
+	//	vars->player.turnDirection = 0;
+	printf("turn = %d\n", vars->player.turnDirection);
+	printf("walk = %d\n", vars->player.walkDirection);
 	return (0);
 }
 

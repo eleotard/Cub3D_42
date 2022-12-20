@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 19:51:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 18:36:11 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/20 21:34:21 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,4 @@ void	line(t_img *img, t_line_cd cd, int color)
 		pa.sy = -1;
 	line_2(img, &cd, &pa, color);
 }
+

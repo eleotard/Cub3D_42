@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
+#    By: elsie <elsie@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2022/12/15 21:11:02 by eleotard         ###   ########.fr        #
+#    Updated: 2022/12/20 21:11:09 by elsie            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRCS_FILES =	main.c \
 				moves.c \
 				new_minimap.c \
 				line.c \
-				init_perso.c \
+				init_player.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs
