@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/20 23:13:05 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/20 23:59:53 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	moveForeward(t_vars *vars)
 {
 	float	moveStep;
 	
-	moveStep = vars->player.walkDirection * MOVE_SPEED; 
+	moveStep = vars->player.walkDirection * MOVE_SPEED;
+	//if (vars->map[floor((vars->player.position.x + cos(vars->player.rotation.y) * moveStep) / SIZEPIC)] != 1)
 	vars->player.position.x += cos(vars->player.rotation.y) * moveStep;
 	vars->player.position.y += sin(vars->player.rotation.y) * moveStep;
 	
@@ -59,7 +60,7 @@ void	moveBackward(t_vars *vars)
 
 void	moveLeft(t_vars *vars)
 {
-	vars->player.position.x -= vars->player.direction.y * MOVE_SPEED;
+	vars->player.position.x += vars->player.direction.y * MOVE_SPEED;
 	vars->player.position.y -= vars->player.direction.x * MOVE_SPEED;
 	re_display_minimap(vars);
 	printf("\nLEFT\nplayer x = %f\n", vars->player.position.x);
@@ -71,7 +72,7 @@ void	moveLeft(t_vars *vars)
 
 void	moveRight(t_vars *vars)
 {
-	vars->player.position.x += vars->player.direction.y * MOVE_SPEED;
+	vars->player.position.x -= vars->player.direction.y * MOVE_SPEED;
 	vars->player.position.y += vars->player.direction.x * MOVE_SPEED;
 	re_display_minimap(vars);
 	printf("\nRIGHT\nplayer x = %f\n", vars->player.position.x);
