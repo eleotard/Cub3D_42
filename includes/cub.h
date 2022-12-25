@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/21 00:02:05 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/25 17:26:47 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 
 # define SIZEPIC		100
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
-# define MOVE_SPEED		1
+# define MOVE_SPEED		0.1
 # define ERROR			(-1)
 # define PI				3.1415926535
 

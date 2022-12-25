@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/20 23:09:45 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/25 17:29:23 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,10 +153,10 @@ void    pixelize_dir_vector(t_vars *vars, t_img *img, int color)
 
     while (i < 50)
     {
-		printf("tmpX = %f\n", tmpX);
-		fflush(stdout);
-		printf("tmpY = %f\n", tmpY);
-		fflush(stdout);
+		//printf("tmpX = %f\n", tmpX);
+		//fflush(stdout);
+		//printf("tmpY = %f\n", tmpY);
+		//fflush(stdout);
         my_mlx_pixel_put(img, tmpX, tmpY, color);
         tmpX = tmpX + vars->player.direction.x;
         tmpY = tmpY + vars->player.direction.y;
