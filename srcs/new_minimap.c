@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/25 17:29:23 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/25 18:44:57 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,34 @@ void	pixelize_walls(t_vars *vars, t_img *img, int color)
 	}
 }
 
+void	pixelize_ground(t_vars *vars, t_img *img, int color)
+{
+	int	i;
+	int	j;
+	int	x;
+	int	y;
+
+	i = -1;
+	while (vars->map[++i])
+	{
+		j = -1;
+		while (vars->map[i][++j])
+		{
+			if (vars->map[i][j] == '0' || vars->map[i][j] == 'N' || vars->map[i][j] == 'E'
+				|| vars->map[i][j] == 'O' || vars->map[i][j] == 'S')
+			{
+				y = (i * SIZEPIC) - 1;
+				while (++y < (i * SIZEPIC + SIZEPIC))
+				{
+					x = (j * SIZEPIC) - 1;
+					while (++x < ((j * SIZEPIC) + SIZEPIC))
+						my_mlx_pixel_put(img, x, y, color);
+				}
+			}
+		}
+	}
+}
+
 /*void	pixelize_dir_vector(t_vars *vars, t_img *img, int color)
 {
 	t_line_cd cd;
@@ -190,7 +218,8 @@ void	set_minimap(t_vars *vars)
 		ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
 		exit (-1);
 	}
-	pixelize_fill(&(vars->minimap.mini_img), 0x002200);
+	//pixelize_fill(&(vars->minimap.mini_img), 0x000000);
+	pixelize_ground(vars, &(vars->minimap.mini_img), 0x0011000);
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
 	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
@@ -201,9 +230,10 @@ void	set_minimap(t_vars *vars)
 
 void	re_display_minimap(t_vars *vars)
 {
-	pixelize_fill(&(vars->minimap.mini_img), 0x002200);
+	//pixelize_fill(&(vars->minimap.mini_img), 0x000000);
+	pixelize_ground(vars, &(vars->minimap.mini_img), 0x0011000);
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
-	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
+	//pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
 	display_minimap_img(vars);
