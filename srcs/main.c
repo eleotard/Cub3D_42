@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/20 21:30:34 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/30 00:37:53 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ void	ft_mlx_win_init(t_vars *vars)
 		ft_print_error_exit("Error\nMlx pointer == NULL");
 	}
 	//ft_img_init(vars);
-	win_height = SIZEPIC * ft_map_height(vars->map);
-	win_wide = SIZEPIC * ft_map_wide(vars->map);
+	win_height = TILE_SIZE * ft_map_height(vars->map);
+	win_wide = TILE_SIZE * ft_map_wide(vars->map);
 	vars->minimap.win = mlx_new_window(vars->mlx, win_wide, win_height,
 			"minimap");
 	if (!vars->minimap.win)

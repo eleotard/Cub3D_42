@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/25 17:26:47 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/30 00:52:55 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define SIZEPIC		100
+# define TILE_SIZE		100
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
-# define MOVE_SPEED		0.1
+# define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
 # define ERROR			(-1)
 # define PI				3.1415926535
 

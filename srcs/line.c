@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 19:51:27 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/20 21:34:21 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/30 00:22:55 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	line_2(t_img *img, t_line_cd *cd, t_line_params *pa, int color)
 		err = -pa->dy / 2;
 	while (1)
 	{
+		if (cd->x0 < 0 || cd->y0 <0)
+			break ;
 		my_mlx_pixel_put(img, cd->x0, cd->y0, color);
 		if (cd->x0 == cd->x1 && cd->y0 == cd->y1)
 			break ;

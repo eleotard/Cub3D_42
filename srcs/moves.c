@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/25 18:28:57 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/30 00:43:47 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	moveForeward(t_vars *vars)
 	nextX = vars->player.position.x + vars->player.direction.x * moveStep;
 	nextY = vars->player.position.y + vars->player.direction.y * moveStep;
 	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
-	if (vars->map[(int)(nextY)][(int)(nextX)] != '1')
+	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
 		vars->player.position.y = nextY;
@@ -59,7 +59,7 @@ void	moveBackward(t_vars *vars)
 	nextX = vars->player.position.x + vars->player.direction.x * moveStep;
 	nextY = vars->player.position.y + vars->player.direction.y * moveStep;
 	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
-	if (vars->map[(int)(nextY)][(int)(nextX)] != '1')
+	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
 		vars->player.position.y = nextY;
@@ -84,7 +84,7 @@ void	moveLeft(t_vars *vars)
 	nextX = vars->player.position.x + vars->player.direction.y * MOVE_SPEED;
 	nextY = vars->player.position.y - vars->player.direction.x * MOVE_SPEED;
 	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
-	if (vars->map[(int)(nextY)][(int)(nextX)] != '1')
+	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
 		vars->player.position.y = nextY;
@@ -111,7 +111,7 @@ void	moveRight(t_vars *vars)
 	nextX = vars->player.position.x - vars->player.direction.y * MOVE_SPEED;
 	nextY = vars->player.position.y + vars->player.direction.x * MOVE_SPEED;
 	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
-	if (vars->map[(int)(nextY)][(int)(nextX)] != '1')
+	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
 		vars->player.position.y = nextY;
