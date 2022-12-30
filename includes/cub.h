@@ -6,7 +6,7 @@
 /*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/30 00:52:55 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/30 02:21:10 by elsie            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,15 @@
 # define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
 # define ERROR			(-1)
 # define PI				3.1415926535
+# define FOV_ANGLE		60 * (PI / 180)
+
+//INCRUSTE TOI CA DANS LE CRANE ELSIE, 
+
+//1 UNITE = 1 PIXEL
+//PCK LA GRILLE X Y EST EN UNITE PIXEL
+//VOILA
+//C TELLEMENT SIMPLE PK TAS MIS 1000 ANS A COMPRENDRE
+//JE saIS PAS
 
 typedef struct s_line_params {
 	int	dx; //distance
@@ -141,6 +150,14 @@ void	init_player_pos(t_vars *vars);
 void	init_player_rotation(t_vars *vars, char dir);
 void	display_player(t_vars *vars);
 
-
+#define RESET   "\033[0m"
+#define BLACK   "\033[30m"      /* Black */
+#define RED     "\033[31m"      /* Red */
+#define GREEN   "\033[32m"      /* Green */
+#define YELLOW  "\033[33m"      /* Yellow */
+#define BLUE    "\033[34m"      /* Blue */
+#define MAGENTA "\033[35m"      /* Magenta */
+#define CYAN    "\033[36m"      /* Cyan */
+#define WHITE   "\033[37m"      /* White */
 
 #endif
