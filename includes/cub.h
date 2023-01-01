@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/01 18:05:38 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/01 18:51:06 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ void	re_display_minimap(t_vars *vars);
 /*RAYCASTING*/
 void	drawRays(t_vars *vars, t_img *img, int color);
 void    actualizeRaysInfos(t_vars *vars);
+void    findDistX(t_vars *vars);
 
 /*player POSITION*/
 void	init_player_pos(t_vars *vars);

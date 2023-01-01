@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/30 00:37:53 by elsie            ###   ########.fr       */
+/*   Updated: 2023/01/01 18:50:52 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,7 @@ void	ft_mlx_win_init(t_vars *vars)
 	printf("perso x = %f\n", vars->player.position.x);
 	printf("player y = %f\n", vars->player.position.y);
 	set_minimap(vars);
+	findDistX(vars);
 }
 
 //ORDRE: (NORMALEMENT)
