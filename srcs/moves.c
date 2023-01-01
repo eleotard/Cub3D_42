@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   moves.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/30 00:43:47 by elsie            ###   ########.fr       */
+/*   Updated: 2023/01/01 17:35:35 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	moveForeward(t_vars *vars)
 	moveStep = vars->player.walkDirection * MOVE_SPEED;
 	nextX = vars->player.position.x + vars->player.direction.x * moveStep;
 	nextY = vars->player.position.y + vars->player.direction.y * moveStep;
-	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
+	printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
 	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
@@ -58,7 +58,7 @@ void	moveBackward(t_vars *vars)
 	moveStep = vars->player.walkDirection * MOVE_SPEED;
 	nextX = vars->player.position.x + vars->player.direction.x * moveStep;
 	nextY = vars->player.position.y + vars->player.direction.y * moveStep;
-	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
+	printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
 	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
@@ -83,7 +83,7 @@ void	moveLeft(t_vars *vars)
 	
 	nextX = vars->player.position.x + vars->player.direction.y * MOVE_SPEED;
 	nextY = vars->player.position.y - vars->player.direction.x * MOVE_SPEED;
-	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
+	printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
 	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
@@ -110,7 +110,7 @@ void	moveRight(t_vars *vars)
 	
 	nextX = vars->player.position.x - vars->player.direction.y * MOVE_SPEED;
 	nextY = vars->player.position.y + vars->player.direction.x * MOVE_SPEED;
-	printf("testing map[%d][%d]\n", (int)(nextY), (int)(nextX));
+	printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
 	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.position.x = nextX;
@@ -131,11 +131,13 @@ void	watchLeft(t_vars *vars)
 {
 	vars->player.rotation.y += vars->player.turnDirection * ROTATION_SPEED;
 	updateDirection(vars);
+	actualizeRaysInfos(vars);
 	re_display_minimap(vars);
 }
 void	watchRight(t_vars *vars)
 {;
 	vars->player.rotation.y += vars->player.turnDirection * ROTATION_SPEED;
 	updateDirection(vars);
+	actualizeRaysInfos(vars);
 	re_display_minimap(vars);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/30 02:21:10 by elsie            ###   ########.fr       */
+/*   Updated: 2023/01/01 18:05:38 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ typedef struct s_vec3 {
 	float z;
 }	t_vec3;
 
-
 typedef struct s_player {
 	t_vec3	position;
 	t_vec3	rotation;
@@ -86,11 +85,20 @@ typedef struct s_player {
 	int		turnDirection;
 }	t_player;
 
+typedef	struct s_ray {
+	float	rayAngle;
+	float	collDistX;
+	float	collDistY;
+}	t_ray;
+
 typedef struct s_vars {
 	void		*mlx;
 	char		**map;
 	t_minimap	minimap;
 	t_player	player;
+	t_ray		*rays;
+	int			rayNb;
+	float		angleStep;
 	//tab de tab des paths de textures NSEW
 	//tab de tab des couleurs du sol et du ciel
 	
@@ -143,7 +151,12 @@ void	pixelize_walls(t_vars *vars, t_img *img, int color);
 void	pixelize_grid(t_vars *vars, t_img *img, int color);
 void	pixelize_player(t_vars *vars, t_img *img, int color);
 
+void	display_minimap_img(t_vars *vars);
 void	re_display_minimap(t_vars *vars);
+
+/*RAYCASTING*/
+void	drawRays(t_vars *vars, t_img *img, int color);
+void    actualizeRaysInfos(t_vars *vars);
 
 /*player POSITION*/
 void	init_player_pos(t_vars *vars);

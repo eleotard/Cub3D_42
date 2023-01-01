@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: elsie <elsie@student.42.fr>                +#+  +:+       +#+         #
+#    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2022/12/20 21:11:09 by elsie            ###   ########.fr        #
+#    Updated: 2023/01/01 17:42:05 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRCS_FILES =	main.c \
 				new_minimap.c \
 				line.c \
 				init_player.c \
+				raycasting.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs
@@ -37,7 +38,7 @@ FLAGS = -I${INC_DIR}/ -Wall -Wextra -Werror -g3
 
 LIBFT = -Llibft -lft
 
-MLX	= -Lminilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz 
+MLX	= -Lminilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm  
 
 RM = rm -rf
 

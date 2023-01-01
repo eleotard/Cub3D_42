@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/20 22:46:41 by elsie            ###   ########.fr       */
+/*   Updated: 2023/01/01 18:29:13 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	ft_key_release(int keycode, t_vars	*vars)
 
 void	ft_close(t_vars *vars)
 {
+	free(vars->rays);
 	ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
 	exit (0);
 }

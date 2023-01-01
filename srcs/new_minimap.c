@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_minimap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/30 02:28:54 by elsie            ###   ########.fr       */
+/*   Updated: 2023/01/01 17:55:39 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	pixelize_player(t_vars *vars, t_img *img, int color)
 			my_mlx_pixel_put(img, vars->player.position.x + i,
 				vars->player.position.y + j, color);
 		j++;
-		display_minimap_img(vars);
 	}
 	j = 0;
 	while (j > -5)
@@ -40,7 +39,6 @@ void	pixelize_player(t_vars *vars, t_img *img, int color)
 		while (++i < 5)
 			my_mlx_pixel_put(img, vars->player.position.x + i,
 				vars->player.position.y + j, color);
-		display_minimap_img(vars);
 		j--;
 	}
 }
@@ -195,38 +193,7 @@ void	create_img(t_vars *vars, t_img *img, int x, int y)
 			&(img->line_length), &img->endian);
 }
 
-void	castAllRays(t_vars *vars, t_img *img, int color)
-{
-	float	angleStep;
-	float	rayAngle;
-	int		rayNb;
-	float	tmpX;
-	float	tmpY;
-	int		i;
-	int		j;
 
-	//cb de rayons veut-on tirer sur l'ensemble des pixels
-	rayNb = (TILE_SIZE * ft_map_wide(vars->map) / 40);
-	angleStep = FOV_ANGLE / rayNb;
-	rayAngle = vars->player.rotation.y - (FOV_ANGLE / 2);
-	
-	i = 0;
-	while (i < rayNb) // un i par rayon 
-	{
-		j = 0;
-		tmpX = vars->player.position.x;
-		tmpY = vars->player.position.y;
-		while (j < 100)
-		{
-			tmpX = tmpX + cos(rayAngle);
-			tmpY = tmpY + sin(rayAngle);;
-			my_mlx_pixel_put(img, tmpX, tmpY, color);
-			j++;
-		}
-		rayAngle += angleStep;
-		i++;
-	}
-}
 
 void	set_minimap(t_vars *vars)
 {
@@ -242,7 +209,8 @@ void	set_minimap(t_vars *vars)
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
 	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
-	castAllRays(vars, &(vars->minimap.mini_img), 0x0000FF);
+	actualizeRaysInfos(vars);
+	drawRays(vars, &(vars->minimap.mini_img), 0x0000FF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
 	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.position.x
 		+ vars->player.direction.x, vars->player.position.y 
@@ -256,9 +224,9 @@ void	re_display_minimap(t_vars *vars)
 	//piyelize_fill(&(vars->minimap.mini_img), 0x000000);
 	pixelize_ground(vars, &(vars->minimap.mini_img), 0x0011000);
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
-	//pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
+	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
-	castAllRays(vars, &(vars->minimap.mini_img), 0x0000FF);
+	drawRays(vars, &(vars->minimap.mini_img), 0x0000FF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
 	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.position.x
 		+ vars->player.direction.x, vars->player.position.y 
