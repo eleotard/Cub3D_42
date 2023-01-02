@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/01 18:51:06 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/02 20:19:31 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_vec3 {
 }	t_vec3;
 
 typedef struct s_player {
-	t_vec3	position;
+	t_vec3	pos;
 	t_vec3	rotation;
 	t_vec3	direction;
 	int 	walkDirection;
@@ -87,9 +87,27 @@ typedef struct s_player {
 
 typedef	struct s_ray {
 	float	rayAngle;
-	float	collDistX;
-	float	collDistY;
+	float	distCollHoriz;
+	float	distCollVert;
+	float	collPtHorizX;
+	float	collPtHorizY;
+	float	collPtVertX;
+	float	collPtVertY;
+	float	goodDist;
+	float	goodPtX;
+	float	goodPtY;
+	int		isRayFacingRight;
+	int		isRayFacingLeft;
+	int		isRayFacingUp;
+	int		isRayFacingDown ;
 }	t_ray;
+
+typedef struct	s_rc {//raycasting
+	float xstep;
+	float ystep;
+	float xintercept;// = 1st intersection
+	float yintercept;// = 1st intersection
+}	t_rc;
 
 typedef struct s_vars {
 	void		*mlx;
@@ -156,8 +174,10 @@ void	re_display_minimap(t_vars *vars);
 
 /*RAYCASTING*/
 void	drawRays(t_vars *vars, t_img *img, int color);
-void    actualizeRaysInfos(t_vars *vars);
-void    findDistX(t_vars *vars);
+void	castAllRays(t_vars *vars);
+void	castHorizRay(t_vars *vars, t_ray *ray);
+void	updateRaysOrientation(t_vars *vars);
+void    updateRaysAngles(t_vars *vars);
 
 /*player POSITION*/
 void	init_player_pos(t_vars *vars);

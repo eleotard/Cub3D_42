@@ -6,65 +6,13 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/01 20:32:00 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/02 20:54:57 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void    actualizeRaysInfos(t_vars *vars)
-{
-	int			i;
-	static int	status;
-	
-	//cb de rayons veut-on tirer sur l'ensemble des pixels
-	if (status == 0)
-	{
-		vars->rayNb = (TILE_SIZE * ft_map_wide(vars->map) / 40); //un rayon pour tous les 40 px
-		vars->angleStep = FOV_ANGLE / vars->rayNb;
-		vars->rays = malloc(sizeof(t_ray) * vars->rayNb);
-		if (!vars->rays)
-		{
-			ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
-			exit(-1);
-		}
-		status++;
-	}
-	vars->rays[0].rayAngle = vars->player.rotation.y - (FOV_ANGLE / 2);
-	i = 0;
-	while (i < vars->rayNb)
-	{
-		i++;
-		if (i < vars->rayNb && vars->rayNb > 0)
-			vars->rays[i].rayAngle = vars->rays[i - 1].rayAngle + vars->angleStep;
-    }
-}
-
-void	drawRays(t_vars *vars, t_img *img, int color)
-{
-	float	tmpX;
-	float	tmpY;
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < vars->rayNb) // un i par rayon //vars->rayNb
-	{
-		j = 0;
-		tmpX = vars->player.position.x;
-		tmpY = vars->player.position.y;
-		while (j < 300)
-		{
-			tmpX = tmpX + cos(vars->rays[0].rayAngle);
-			tmpY = tmpY + sin(vars->rays[0].rayAngle);;
-			my_mlx_pixel_put(img, tmpX, tmpY, color);
-			j++;
-		}
-		i++;
-	}
-}
-
-void    findDistX(t_vars *vars)
+/*void    findDistX(t_vars *vars)
 {
     float   dx;
     float   dy;
@@ -75,7 +23,7 @@ void    findDistX(t_vars *vars)
 	int		found;
 	int i;
 	
-	float	collPtYX;
+	float	rc.yintercept;
 	float	collPtYY;
 
     //dx = cos(vars->rays[vars->rayNb - 1].rayAngle);
@@ -167,4 +115,178 @@ void    findDistX(t_vars *vars)
 	printf("HYPOTHENUSE Y= %f\n", vars->rays[0].collDistY);
 	printf("collPtYX = %f\n", collPtYX);
 	printf("collPtYY = %f\n\n\n", collPtYY);
+}*/
+
+void    updateRaysAngles(t_vars *vars)
+{
+	int			i;
+	static int	status;
+	
+	//cb de rayons veut-on tirer sur l'ensemble des pixels
+	if (status == 0)
+	{
+		vars->rayNb = (TILE_SIZE * ft_map_wide(vars->map) / 40); //un rayon pour tous les 40 px
+		vars->angleStep = FOV_ANGLE / vars->rayNb;
+		vars->rays = malloc(sizeof(t_ray) * vars->rayNb);
+		if (!vars->rays)
+		{
+			ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
+			exit(-1);
+		}
+		status++;
+	}
+	vars->rays[0].rayAngle = vars->player.rotation.y - (FOV_ANGLE / 2);
+	i = 0;
+	while (i < vars->rayNb)
+	{
+		i++;
+		if (i < vars->rayNb && vars->rayNb > 0)
+			vars->rays[i].rayAngle = vars->rays[i - 1].rayAngle + vars->angleStep;
+    }
+}
+
+void	drawRays(t_vars *vars, t_img *img, int color)
+{
+	float	tmpX;
+	float	tmpY;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < vars->rayNb) // un i par rayon //vars->rayNb
+	{
+		j = 0;
+		tmpX = vars->player.pos.x;
+		tmpY = vars->player.pos.y;
+		while (j < vars->rays[0].distCollHoriz)
+		{
+			tmpX = tmpX + cos(vars->rays[0].rayAngle);
+			tmpY = tmpY + sin(vars->rays[0].rayAngle);;
+			my_mlx_pixel_put(img, tmpX, tmpY, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+void	updateRaysOrientation(t_vars *vars)
+{
+	int	i;
+
+	i = -1;
+	while (++i < vars->rayNb)
+	{
+		vars->rays[i].isRayFacingUp = 0;
+		vars->rays[i].isRayFacingDown = 0;
+		vars->rays[i].isRayFacingLeft = 0;
+		vars->rays[i].isRayFacingRight = 0;
+		if (sin(vars->rays[i].rayAngle) < 0)
+			vars->rays[i].isRayFacingUp = 1;
+		else
+			vars->rays[i].isRayFacingDown = 1;
+		if (cos(vars->rays[i].rayAngle) < 0)
+			vars->rays[i].isRayFacingLeft = 1;
+		else
+			vars->rays[i].isRayFacingRight = 1;
+	}
+}
+
+
+
+void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
+{
+	int		found;
+
+	found = 0;
+	if (rc.xintercept <= 0 || rc.xintercept - vars->player.pos.x
+		>= (ft_map_wide(vars->map) - 1) * TILE_SIZE)
+	{
+		ray->distCollHoriz = -1;
+		found = 1;
+		printf("PAAAASSSEEEE\n");
+		return;
+	}
+	if (vars->map[(int)rc.yintercept / TILE_SIZE][(int)rc.xintercept / TILE_SIZE] == '1')
+	{
+		printf(YELLOW "testing map[%d][%d]\n" RESET, 
+			(int)(rc.yintercept / TILE_SIZE), (int)rc.xintercept / TILE_SIZE);
+		ray->collPtHorizY = rc.yintercept;
+		ray->collPtHorizX = rc.xintercept;
+		ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - rc.xintercept)
+			* fabs(vars->player.pos.x - rc.xintercept)
+			+ fabs(vars->player.pos.y - rc.yintercept)
+			* fabs(vars->player.pos.y - rc.yintercept));
+		found = 1;
+		printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->distCollHoriz);
+		return ;
+	}
+	ray->collPtHorizX = rc.xintercept;
+	ray->collPtHorizY = rc.yintercept;
+	while (found == 0)
+	{
+		ray->collPtHorizX += rc.xstep;
+		ray->collPtHorizY += rc.ystep;
+		if (ray->collPtHorizX <= 0 || ray->collPtHorizX
+			>= (ft_map_wide(vars->map) - 1) * TILE_SIZE)
+		{
+			ray->distCollHoriz = -1;
+			found = 1;
+		}
+		if (vars->map[(int)ray->collPtHorizY / TILE_SIZE][(int)ray->collPtHorizY / TILE_SIZE] == '1')
+		{
+			ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - ray->collPtHorizX)
+				* fabs(vars->player.pos.x - ray->collPtHorizX)
+				+ fabs(vars->player.pos.y - ray->collPtHorizY)
+				* fabs(vars->player.pos.y - ray->collPtHorizY));
+			found = 1;
+			printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->distCollHoriz);
+		}
+	}
+			printf(YELLOW "testing map[%d][%d]\n" RESET, 
+			(int)(ray->collPtHorizY / TILE_SIZE), (int)ray->collPtHorizX / TILE_SIZE);
+}
+
+void	castHorizRay(t_vars *vars, t_ray *ray)
+{
+	t_rc rc;
+	
+	rc.yintercept = floor(vars->player.pos.y / TILE_SIZE) * TILE_SIZE -1;
+	if (ray->isRayFacingDown)
+		rc.yintercept += TILE_SIZE + 1;
+	rc.xintercept = vars->player.pos.x + (rc.yintercept - vars->player.pos.y) / tan(ray->rayAngle); //adj = opp / tan
+	//adj = opp / tan
+	rc.ystep = TILE_SIZE;
+	if (ray->isRayFacingUp)
+		rc.ystep *= -1;
+	rc.xstep = TILE_SIZE / tan(ray->rayAngle);
+	if (ray->isRayFacingLeft && rc.xstep > 0)
+		rc.xstep *= -1;
+	if (ray->isRayFacingRight && rc.xstep < 0)
+		rc.xstep *= -1;
+	findCollHoriz(vars, ray, rc);
+	
+	printf("\tx intercept = %f\n", rc.xintercept);
+	printf("\ty intercept = %f\n", rc.yintercept);
+	printf("\tx intercept = %f\n", rc.xintercept/TILE_SIZE);
+	printf("\ty intercept = %f\n", rc.yintercept/TILE_SIZE);
+}
+
+void	castAllRays(t_vars *vars)
+{
+	//int i;
+	
+	updateRaysAngles(vars);
+	updateRaysOrientation(vars);
+	// i = -1;
+	// while (++i < vars->rayNb)
+		//casthori
+		//castvert
+		//find goodDist
+	// 	castRay(vars, &(vars->rays[i]));
+	// i = -1;
+	// while (++i < vars->rayNb)
+	// 	printf("essai= %d\n", vars->rays[i].isRayFacingDown);
+	castHorizRay(vars, &(vars->rays[0]));
+	printf(GREEN "dxray= %f\n" RESET, cos(vars->rays[0].rayAngle));
+	printf(GREEN "dyray= %f\n" RESET, sin(vars->rays[0].rayAngle));
 }

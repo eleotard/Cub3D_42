@@ -26,8 +26,8 @@ void	init_player_pos(t_vars *vars)
 			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S'
 				|| vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
 			{
-				vars->player.position.x = (j ) * TILE_SIZE;
-				vars->player.position.y = (i ) * TILE_SIZE;
+				vars->player.pos.x = (j + 0.5) * TILE_SIZE;
+				vars->player.pos.y = (i + 0.5) * TILE_SIZE;
 				init_player_rotation(vars, vars->map[i][j]);
 				updateDirection(vars);
 			}

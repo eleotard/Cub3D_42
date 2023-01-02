@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/01 17:55:39 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/02 20:49:32 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	pixelize_player(t_vars *vars, t_img *img, int color)
 	{
 		i = -5;
 		while (++i < 5)
-			my_mlx_pixel_put(img, vars->player.position.x + i,
-				vars->player.position.y + j, color);
+			my_mlx_pixel_put(img, vars->player.pos.x + i,
+				vars->player.pos.y + j, color);
 		j++;
 	}
 	j = 0;
@@ -37,8 +37,8 @@ void	pixelize_player(t_vars *vars, t_img *img, int color)
 	{
 		i = -5;
 		while (++i < 5)
-			my_mlx_pixel_put(img, vars->player.position.x + i,
-				vars->player.position.y + j, color);
+			my_mlx_pixel_put(img, vars->player.pos.x + i,
+				vars->player.pos.y + j, color);
 		j--;
 	}
 }
@@ -152,8 +152,8 @@ void    pixelize_dir_vector(t_vars *vars, t_img *img, int color)
     float tmpY;    
 
     i = 0;
-    tmpX = vars->player.position.x;
-    tmpY = vars->player.position.y;
+    tmpX = vars->player.pos.x;
+    tmpY = vars->player.pos.y;
 	my_mlx_pixel_put(img, tmpX, tmpY, 0x0000FF);
     while (i < 50)
     {
@@ -170,8 +170,8 @@ void    pixelize_dir_vector(t_vars *vars, t_img *img, int color)
 	float dy;
 	float l;
 	
-	dx = fabs(tmpX - vars->player.position.x);
-	dy = fabs(tmpY - vars->player.position.y);
+	dx = fabs(tmpX - vars->player.pos.x);
+	dy = fabs(tmpY - vars->player.pos.y);
 	l = sqrt(dx * dx + dy * dy);
 	printf(RED "LENGHT = %f\n" RESET, l);
 }
@@ -209,11 +209,11 @@ void	set_minimap(t_vars *vars)
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
 	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
-	actualizeRaysInfos(vars);
-	drawRays(vars, &(vars->minimap.mini_img), 0x0000FF);
+	castAllRays(vars);
+	drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
-	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.position.x
-		+ vars->player.direction.x, vars->player.position.y 
+	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.pos.x
+		+ vars->player.direction.x, vars->player.pos.y 
 		+ vars->player.direction.y, 0x00FF00);
 	display_minimap_img(vars);
 }
@@ -226,10 +226,10 @@ void	re_display_minimap(t_vars *vars)
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
 	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
-	drawRays(vars, &(vars->minimap.mini_img), 0x0000FF);
+	drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
-	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.position.x
-		+ vars->player.direction.x, vars->player.position.y 
+	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.pos.x
+		+ vars->player.direction.x, vars->player.pos.y 
 		+ vars->player.direction.y, 0x00FF00);
 	display_minimap_img(vars);
 }
