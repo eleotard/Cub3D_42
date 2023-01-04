@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/02 17:05:03 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:13:25 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,8 +147,8 @@ void	ft_mlx_win_init(t_vars *vars)
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");
 	init_player_pos(vars);
-	printf("perso x = %f\n", vars->player.pos.x);
-	printf("player y = %f\n", vars->player.pos.y);
+	// printf("perso x = %f\n", vars->player.pos.x);
+	// printf("player y = %f\n", vars->player.pos.y);
 	set_minimap(vars);
 	//findDistX(vars);
 }

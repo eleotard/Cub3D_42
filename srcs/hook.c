@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/01 18:38:28 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:59:31 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	ft_key_hook(int keycode, t_vars	*vars)
 		vars->player.turnDirection = -1;
 		watchLeft(vars);
 	}
-	printf("turn = %d\n", vars->player.turnDirection);
-	printf("walk = %d\n", vars->player.walkDirection);
+	// printf("turn = %d\n", vars->player.turnDirection);
+	// printf("walk = %d\n", vars->player.walkDirection);
 	return (0);
 }
 
@@ -69,8 +69,8 @@ int	ft_key_release(int keycode, t_vars	*vars)
 	//	vars->player.turnDirection = 0;
 	//if (keycode == XK_a)
 	//	vars->player.turnDirection = 0;
-	printf("turn = %d\n", vars->player.turnDirection);
-	printf("walk = %d\n", vars->player.walkDirection);
+	// printf("turn = %d\n", vars->player.turnDirection);
+	// printf("walk = %d\n", vars->player.walkDirection);
 	return (0);
 }
 

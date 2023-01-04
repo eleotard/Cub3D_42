@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 16:11:32 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:00:15 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,14 +166,14 @@ void    pixelize_dir_vector(t_vars *vars, t_img *img, int color)
         my_mlx_pixel_put(img, tmpX, tmpY, color);
         i++;
     }
-	float dx;
-	float dy;
-	float l;
+	// float dx;
+	// float dy;
+	// float l;
 	
-	dx = fabs(tmpX - vars->player.pos.x);
-	dy = fabs(tmpY - vars->player.pos.y);
-	l = sqrt(dx * dx + dy * dy);
-	printf(RED "LENGHT = %f\n" RESET, l);
+	// dx = fabs(tmpX - vars->player.pos.x);
+	// dy = fabs(tmpY - vars->player.pos.y);
+	// l = sqrt(dx * dx + dy * dy);
+	//printf(RED "LENGHT = %f\n" RESET, l);
 }
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)

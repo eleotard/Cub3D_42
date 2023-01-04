@@ -6,116 +6,11 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 16:23:09 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:20:09 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
-
-/*void    findDistX(t_vars *vars)
-{
-    float   dx;
-    float   dy;
-	float	dxp;
-	float	dyp;
-	float	collPtXX;
-	float	collPtXY;
-	int		found;
-	int i;
-	
-	float	rc.yintercept;
-	float	collPtYY;
-
-    //dx = cos(vars->rays[vars->rayNb - 1].rayAngle);
-	//dy = sin(vars->rays[vars->rayNb - 1].rayAngle);
-	i = 0;
-	found = 0;
-	dx = cos(vars->rays[0].rayAngle);
-	dy = sin(vars->rays[0].rayAngle);
-
-	while (found == 0)
-	{
-		dxp = (dx * TILE_SIZE) / (dx * TILE_SIZE); // = 1
-		dyp = ((dy * TILE_SIZE) * (dy * TILE_SIZE)) / ((dx * TILE_SIZE) * (dx * TILE_SIZE));
-		vars->rays[0].collDistX = sqrt(dxp + dyp);
-		if (i == 0)
-		{
-			collPtXX = (vars->player.position.x / TILE_SIZE) + dxp;
-			collPtXY = (vars->player.position.y / TILE_SIZE) + (dy / dx);
-			i++;
-		}
-		else
-		{
-			collPtXX = collPtXX + dxp;
-			collPtXY = collPtXY + (dy / dx);
-		}
-		if (collPtXX < 0 || collPtXY < 0 || collPtXX > ft_map_wide(vars->map)
-			|| collPtXY > ft_map_wide(vars->map) || collPtXX > ft_map_height(vars->map)
-			|| collPtXY > ft_map_height(vars->map))
-		{
-			vars->rays[0].collDistX = 0;
-			break ;	
-		}
-		if (vars->map[(int)collPtXY][(int)collPtXX] == '1')
-			found = 1;
-	}
-
-	printf("dx = %f\n", dx);
-	printf("dy = %f\n", dy);
-	printf("dxp = %f\n", dxp);
-	printf("dyp = %f\n", dyp);
-	printf("perso x = %f\n", vars->player.position.x / TILE_SIZE);
-	printf("perso y = %f\n", vars->player.position.y / TILE_SIZE);
-	printf("HYPOTHENUSE X= %f\n", vars->rays[0].collDistX); //le resultat me parait assez ok
-	printf("HYPOTHENUSE Y= %f\n", vars->rays[0].collDistY);
-	printf("collPtXX = %f\n", collPtXX);
-	printf("collPtXY = %f\n\n\n", collPtXY);
-
-	found = 0;
-	i = 0; 
-	while (found == 0)
-	{
-		dxp = ((dx * TILE_SIZE) * (dx * TILE_SIZE)) / ((dy * TILE_SIZE) * (dy * TILE_SIZE));
-		dyp = (dy * TILE_SIZE) / (dy * TILE_SIZE); // = 1
-		vars->rays[0].collDistY = sqrt(dxp + dyp);
-		if (i == 0)
-		{
-			collPtYX = (vars->player.position.x / TILE_SIZE) - (dx / dy);
-			collPtYY = (vars->player.position.y / TILE_SIZE) - dyp;
-			printf("collptyy = %f\n", collPtYY);
-			i++;
-		}
-		else
-		{
-			collPtYX = collPtYX - (dx / dy);
-			collPtYY = collPtYY - dyp;
-		}
-		if (collPtYX < 0 || collPtYY < 0 || collPtYX > ft_map_wide(vars->map)
-			|| collPtYY > ft_map_wide(vars->map) || collPtYX > ft_map_height(vars->map)
-			|| collPtYY > ft_map_height(vars->map))
-		{
-			vars->rays[0].collDistX = 0;
-			break ;	
-		}
-		printf("collptyy = %f\n", collPtYY);
-		printf("testing map[%d][%d]\n", (int)(collPtYY), (int)(collPtYX));
-		if (vars->map[(int)collPtYY - 1][(int)collPtYX] == '1')
-			found = 1;
-	}
-	printf("dx = %f\n", dx);
-	printf("dy = %f\n", dy);
-	printf("dxp = %f\n", dxp);
-	printf("dyp = %f\n", dyp);
-	printf("collptyx = %f\n", collPtYX);
-	printf("collptyy = %f\n", collPtYY);
-	printf("dx/dy = %f\n", dx/dy);
-	printf("perso x = %f\n", vars->player.position.x / TILE_SIZE);
-	printf("perso y = %f\n", vars->player.position.y / TILE_SIZE);
-	printf("HYPOTHENUSE X= %f\n", vars->rays[0].collDistX); //le resultat me parait assez ok
-	printf("HYPOTHENUSE Y= %f\n", vars->rays[0].collDistY);
-	printf("collPtYX = %f\n", collPtYX);
-	printf("collPtYY = %f\n\n\n", collPtYY);
-}*/
 
 void    updateRaysAngles(t_vars *vars)
 {
@@ -125,7 +20,7 @@ void    updateRaysAngles(t_vars *vars)
 	//cb de rayons veut-on tirer sur l'ensemble des pixels
 	if (status == 0)
 	{
-		vars->rayNb = (TILE_SIZE * ft_map_wide(vars->map) / 40); //un rayon pour tous les 40 px
+		vars->rayNb = (TILE_SIZE * ft_map_wide(vars->map)); //un rayon pour tous les 40 px
 		vars->angleStep = FOV_ANGLE / vars->rayNb;
 		vars->rays = malloc(sizeof(t_ray) * vars->rayNb);
 		if (!vars->rays)
@@ -204,8 +99,8 @@ void	findCollVert(t_vars *vars, t_ray *ray, t_rc rc)
 	}
 	if (vars->map[(int)rc.yintercept / TILE_SIZE][(int)rc.xintercept / TILE_SIZE] == '1')
 	{
-		printf(YELLOW "testing map[%d][%d]\n" RESET, 
-			(int)(rc.yintercept / TILE_SIZE), (int)rc.xintercept / TILE_SIZE);
+		// printf(YELLOW "testing map[%d][%d]\n" RESET, 
+		// 	(int)(rc.yintercept / TILE_SIZE), (int)rc.xintercept / TILE_SIZE);
 		ray->collPtVertY = rc.yintercept;
 		ray->collPtVertX = rc.xintercept;
 		ray->distCollVert = sqrt(fabs(vars->player.pos.x - rc.xintercept)
@@ -213,7 +108,7 @@ void	findCollVert(t_vars *vars, t_ray *ray, t_rc rc)
 			+ fabs(vars->player.pos.y - rc.yintercept)
 			* fabs(vars->player.pos.y - rc.yintercept));
 		found = 1;
-		printf(RED "\tDISSSSSSSSSSSST X= %f\n" RESET, ray->distCollVert);
+		//printf(RED "\tDISSSSSSSSSSSST X= %f\n" RESET, ray->distCollVert);
 		return ;
 	}
 	ray->collPtVertX = rc.xintercept;
@@ -236,11 +131,11 @@ void	findCollVert(t_vars *vars, t_ray *ray, t_rc rc)
 				+ fabs(vars->player.pos.y - ray->collPtVertY)
 				* fabs(vars->player.pos.y - ray->collPtVertY));
 			found = 1;
-			printf(RED "\tDISSSSSSSSSSSST X = %f\n" RESET, ray->distCollVert);
-			printf(YELLOW "find wall at map[%d][%d]\n" RESET, 
-				(int)(ray->collPtVertY / TILE_SIZE), (int)ray->collPtVertX / TILE_SIZE);
-			printf("\tCPHX = %f\n", ray->collPtVertX);
-			printf("\tCPHY = %f\n", ray->collPtVertY);
+			// printf(RED "\tDISSSSSSSSSSSST X = %f\n" RESET, ray->distCollVert);
+			// printf(YELLOW "find wall at map[%d][%d]\n" RESET, 
+			// 	(int)(ray->collPtVertY / TILE_SIZE), (int)ray->collPtVertX / TILE_SIZE);
+			// printf("\tCPHX = %f\n", ray->collPtVertX);
+			// printf("\tCPHY = %f\n", ray->collPtVertY);
 		}
 	}
 }
@@ -264,12 +159,12 @@ void	castVertRay(t_vars *vars, t_ray *ray)
 	if (ray->isRayFacingDown && rc.ystep < 0)
 		rc.ystep *= -1;
 	
-	printf("\tx intercept = %f\n", rc.xintercept);
-	printf("\ty intercept = %f\n", rc.yintercept);
-	printf("\txstep = %f\n", rc.xstep);
-	printf("\tystep = %f\n", rc.ystep);
-	printf("\tx intercept = %f\n", rc.xintercept/TILE_SIZE);
-	printf("\ty intercept = %f\n", rc.yintercept/TILE_SIZE);
+	// printf("\tx intercept = %f\n", rc.xintercept);
+	// printf("\ty intercept = %f\n", rc.yintercept);
+	// printf("\txstep = %f\n", rc.xstep);
+	// printf("\tystep = %f\n", rc.ystep);
+	// printf("\tx intercept = %f\n", rc.xintercept/TILE_SIZE);
+	// printf("\ty intercept = %f\n", rc.yintercept/TILE_SIZE);
 	findCollVert(vars, ray, rc);
 }
 
@@ -298,7 +193,7 @@ void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
 			+ fabs(vars->player.pos.y - rc.yintercept)
 			* fabs(vars->player.pos.y - rc.yintercept));
 		found = 1;
-		printf(RED "\tDISSSSSSSSSSSST Y= %f\n" RESET, ray->distCollHoriz);
+		//printf(RED "\tDISSSSSSSSSSSST Y= %f\n" RESET, ray->distCollHoriz);
 		return ;
 	}
 	ray->collPtHorizX = rc.xintercept;
