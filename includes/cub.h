@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 17:15:24 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:27:57 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define TILE_SIZE		150
+# define TILE_SIZE		60
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
 # define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
 # define ERROR			(-1)
