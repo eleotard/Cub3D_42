@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/02 20:54:57 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:23:09 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,10 +158,10 @@ void	drawRays(t_vars *vars, t_img *img, int color)
 		j = 0;
 		tmpX = vars->player.pos.x;
 		tmpY = vars->player.pos.y;
-		while (j < vars->rays[0].distCollHoriz)
+		while (j < vars->rays[i].goodDist)
 		{
-			tmpX = tmpX + cos(vars->rays[0].rayAngle);
-			tmpY = tmpY + sin(vars->rays[0].rayAngle);;
+			tmpX = tmpX + cos(vars->rays[i].rayAngle);
+			tmpY = tmpY + sin(vars->rays[i].rayAngle);;
 			my_mlx_pixel_put(img, tmpX, tmpY, color);
 			j++;
 		}
@@ -191,6 +191,89 @@ void	updateRaysOrientation(t_vars *vars)
 	}
 }
 
+void	findCollVert(t_vars *vars, t_ray *ray, t_rc rc)
+{
+	int		found;
+
+	found = 0;
+	if (rc.yintercept <= 0 || rc.yintercept
+		>= (ft_map_height(vars->map)) * TILE_SIZE)
+	{
+		ray->distCollVert = -1;
+		return;
+	}
+	if (vars->map[(int)rc.yintercept / TILE_SIZE][(int)rc.xintercept / TILE_SIZE] == '1')
+	{
+		printf(YELLOW "testing map[%d][%d]\n" RESET, 
+			(int)(rc.yintercept / TILE_SIZE), (int)rc.xintercept / TILE_SIZE);
+		ray->collPtVertY = rc.yintercept;
+		ray->collPtVertX = rc.xintercept;
+		ray->distCollVert = sqrt(fabs(vars->player.pos.x - rc.xintercept)
+			* fabs(vars->player.pos.x - rc.xintercept)
+			+ fabs(vars->player.pos.y - rc.yintercept)
+			* fabs(vars->player.pos.y - rc.yintercept));
+		found = 1;
+		printf(RED "\tDISSSSSSSSSSSST X= %f\n" RESET, ray->distCollVert);
+		return ;
+	}
+	ray->collPtVertX = rc.xintercept;
+	ray->collPtVertY = rc.yintercept;
+	while (found == 0)
+	{
+		ray->collPtVertX += rc.xstep;
+		ray->collPtVertY += rc.ystep;
+		if (ray->collPtVertY <= 0 || ray->collPtVertY
+			>= (ft_map_height(vars->map) * TILE_SIZE))
+		{
+			ray->distCollVert = -1;
+			break ;
+		}
+		if (vars->map[(int)ray->collPtVertY / TILE_SIZE]
+			[(int)ray->collPtVertX / TILE_SIZE] == '1')
+		{
+			ray->distCollVert = sqrt(fabs(vars->player.pos.x - ray->collPtVertX)
+				* fabs(vars->player.pos.x - ray->collPtVertX)
+				+ fabs(vars->player.pos.y - ray->collPtVertY)
+				* fabs(vars->player.pos.y - ray->collPtVertY));
+			found = 1;
+			printf(RED "\tDISSSSSSSSSSSST X = %f\n" RESET, ray->distCollVert);
+			printf(YELLOW "find wall at map[%d][%d]\n" RESET, 
+				(int)(ray->collPtVertY / TILE_SIZE), (int)ray->collPtVertX / TILE_SIZE);
+			printf("\tCPHX = %f\n", ray->collPtVertX);
+			printf("\tCPHY = %f\n", ray->collPtVertY);
+		}
+	}
+}
+
+
+void	castVertRay(t_vars *vars, t_ray *ray)
+{
+	t_rc rc;
+	
+	rc.xintercept = floor(vars->player.pos.x / TILE_SIZE) * TILE_SIZE - 1;
+	if (ray->isRayFacingRight)
+		rc.xintercept += TILE_SIZE + 1;
+	rc.yintercept = vars->player.pos.y + (rc.xintercept - vars->player.pos.x) * tan(ray->rayAngle); //adj = opp / tan
+
+	rc.xstep = TILE_SIZE;
+	if (ray->isRayFacingLeft)
+		rc.xstep *= -1;
+	rc.ystep = TILE_SIZE * tan(ray->rayAngle);
+	if (ray->isRayFacingUp && rc.ystep > 0)
+		rc.ystep *= -1;
+	if (ray->isRayFacingDown && rc.ystep < 0)
+		rc.ystep *= -1;
+	
+	printf("\tx intercept = %f\n", rc.xintercept);
+	printf("\ty intercept = %f\n", rc.yintercept);
+	printf("\txstep = %f\n", rc.xstep);
+	printf("\tystep = %f\n", rc.ystep);
+	printf("\tx intercept = %f\n", rc.xintercept/TILE_SIZE);
+	printf("\ty intercept = %f\n", rc.yintercept/TILE_SIZE);
+	findCollVert(vars, ray, rc);
+}
+
+
 
 
 void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
@@ -198,18 +281,16 @@ void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
 	int		found;
 
 	found = 0;
-	if (rc.xintercept <= 0 || rc.xintercept - vars->player.pos.x
-		>= (ft_map_wide(vars->map) - 1) * TILE_SIZE)
+	if (rc.xintercept <= 0 || rc.xintercept
+		>= (ft_map_wide(vars->map)) * TILE_SIZE)
 	{
 		ray->distCollHoriz = -1;
-		found = 1;
-		printf("PAAAASSSEEEE\n");
 		return;
 	}
 	if (vars->map[(int)rc.yintercept / TILE_SIZE][(int)rc.xintercept / TILE_SIZE] == '1')
 	{
-		printf(YELLOW "testing map[%d][%d]\n" RESET, 
-			(int)(rc.yintercept / TILE_SIZE), (int)rc.xintercept / TILE_SIZE);
+		// printf(YELLOW "testing map[%d][%d]\n" RESET, 
+		// 	(int)(rc.yintercept / TILE_SIZE), (int)rc.xintercept / TILE_SIZE);
 		ray->collPtHorizY = rc.yintercept;
 		ray->collPtHorizX = rc.xintercept;
 		ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - rc.xintercept)
@@ -217,7 +298,7 @@ void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
 			+ fabs(vars->player.pos.y - rc.yintercept)
 			* fabs(vars->player.pos.y - rc.yintercept));
 		found = 1;
-		printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->distCollHoriz);
+		printf(RED "\tDISSSSSSSSSSSST Y= %f\n" RESET, ray->distCollHoriz);
 		return ;
 	}
 	ray->collPtHorizX = rc.xintercept;
@@ -227,23 +308,26 @@ void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
 		ray->collPtHorizX += rc.xstep;
 		ray->collPtHorizY += rc.ystep;
 		if (ray->collPtHorizX <= 0 || ray->collPtHorizX
-			>= (ft_map_wide(vars->map) - 1) * TILE_SIZE)
+			>= (ft_map_wide(vars->map) * TILE_SIZE))
 		{
 			ray->distCollHoriz = -1;
-			found = 1;
+			break ;
 		}
-		if (vars->map[(int)ray->collPtHorizY / TILE_SIZE][(int)ray->collPtHorizY / TILE_SIZE] == '1')
+		if (vars->map[(int)ray->collPtHorizY / TILE_SIZE]
+			[(int)ray->collPtHorizX / TILE_SIZE] == '1')
 		{
 			ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - ray->collPtHorizX)
 				* fabs(vars->player.pos.x - ray->collPtHorizX)
 				+ fabs(vars->player.pos.y - ray->collPtHorizY)
 				* fabs(vars->player.pos.y - ray->collPtHorizY));
 			found = 1;
-			printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->distCollHoriz);
+			// printf(RED "\tDISSSSSSSSSSSST Y = %f\n" RESET, ray->distCollHoriz);
+			// printf(YELLOW "find wall at map[%d][%d]\n" RESET, 
+			// 	(int)(ray->collPtHorizY / TILE_SIZE), (int)ray->collPtHorizX / TILE_SIZE);
+			// printf("\tCPHX = %f\n", ray->collPtHorizX);
+			// printf("\tCPHY = %f\n", ray->collPtHorizY);
 		}
 	}
-			printf(YELLOW "testing map[%d][%d]\n" RESET, 
-			(int)(ray->collPtHorizY / TILE_SIZE), (int)ray->collPtHorizX / TILE_SIZE);
 }
 
 void	castHorizRay(t_vars *vars, t_ray *ray)
@@ -254,7 +338,6 @@ void	castHorizRay(t_vars *vars, t_ray *ray)
 	if (ray->isRayFacingDown)
 		rc.yintercept += TILE_SIZE + 1;
 	rc.xintercept = vars->player.pos.x + (rc.yintercept - vars->player.pos.y) / tan(ray->rayAngle); //adj = opp / tan
-	//adj = opp / tan
 	rc.ystep = TILE_SIZE;
 	if (ray->isRayFacingUp)
 		rc.ystep *= -1;
@@ -263,30 +346,41 @@ void	castHorizRay(t_vars *vars, t_ray *ray)
 		rc.xstep *= -1;
 	if (ray->isRayFacingRight && rc.xstep < 0)
 		rc.xstep *= -1;
-	findCollHoriz(vars, ray, rc);
 	
-	printf("\tx intercept = %f\n", rc.xintercept);
-	printf("\ty intercept = %f\n", rc.yintercept);
-	printf("\tx intercept = %f\n", rc.xintercept/TILE_SIZE);
-	printf("\ty intercept = %f\n", rc.yintercept/TILE_SIZE);
+	// printf("\tx intercept = %f\n", rc.xintercept);
+	// printf("\ty intercept = %f\n", rc.yintercept);
+	// printf("\txstep = %f\n", rc.xstep);
+	// printf("\tystep = %f\n", rc.ystep);
+	// printf("\tx intercept = %f\n", rc.xintercept/TILE_SIZE);
+	// printf("\ty intercept = %f\n", rc.yintercept/TILE_SIZE);
+	findCollHoriz(vars, ray, rc);
+}
+
+void	setGoodDistance(t_ray *ray)
+{
+	if (ray->distCollHoriz == -1)
+		ray->goodDist = ray->distCollVert;
+	else if (ray->distCollVert == -1)
+		ray->goodDist = ray->distCollHoriz;
+	else if (ray->distCollHoriz <= ray->distCollVert)
+		ray->goodDist = ray->distCollHoriz;
+	else if (ray->distCollVert <= ray->distCollHoriz)
+		ray->goodDist = ray->distCollVert;
 }
 
 void	castAllRays(t_vars *vars)
 {
-	//int i;
+	int i;
 	
 	updateRaysAngles(vars);
 	updateRaysOrientation(vars);
-	// i = -1;
-	// while (++i < vars->rayNb)
-		//casthori
-		//castvert
-		//find goodDist
-	// 	castRay(vars, &(vars->rays[i]));
-	// i = -1;
-	// while (++i < vars->rayNb)
-	// 	printf("essai= %d\n", vars->rays[i].isRayFacingDown);
-	castHorizRay(vars, &(vars->rays[0]));
-	printf(GREEN "dxray= %f\n" RESET, cos(vars->rays[0].rayAngle));
-	printf(GREEN "dyray= %f\n" RESET, sin(vars->rays[0].rayAngle));
+	i = -1;
+	while (++i < vars->rayNb)
+	{
+		castHorizRay(vars, &(vars->rays[i]));
+		castVertRay(vars, &(vars->rays[i]));
+		setGoodDistance(&(vars->rays[i]));
+	}
+	// printf(GREEN "dxray= %f\n" RESET, cos(vars->rays[0].rayAngle));
+	// printf(GREEN "dyray= %f\n" RESET, sin(vars->rays[0].rayAngle));
 }

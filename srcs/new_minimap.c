@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/02 20:49:32 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 16:11:32 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	pixelize_ground(t_vars *vars, t_img *img, int color)
 		while (vars->map[i][++j])
 		{
 			if (vars->map[i][j] == '0' || vars->map[i][j] == 'N' || vars->map[i][j] == 'E'
-				|| vars->map[i][j] == 'O' || vars->map[i][j] == 'S')
+				|| vars->map[i][j] == 'W' || vars->map[i][j] == 'S')
 			{
 				y = (i * TILE_SIZE) - 1;
 				while (++y < (i * TILE_SIZE + TILE_SIZE))
