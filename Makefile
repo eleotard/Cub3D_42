@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2023/01/01 17:42:05 by eleotard         ###   ########.fr        #
+#    Updated: 2023/01/05 15:21:40 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS_FILES =	main.c \
 				line.c \
 				init_player.c \
 				raycasting.c \
+				rendering.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

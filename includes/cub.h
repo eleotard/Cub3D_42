@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 17:27:57 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/05 20:02:26 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
+//# include "../minilibx-linux/mlx_int.h"
 # include "get_next_line.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
@@ -25,6 +26,7 @@
 # include <math.h>
 
 # define TILE_SIZE		60
+# define MINIMAP_SCALE_FACTOR	0.4
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
 # define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
 # define ERROR			(-1)
@@ -94,8 +96,6 @@ typedef	struct s_ray {
 	float	collPtVertX;
 	float	collPtVertY;
 	float	goodDist;
-	float	goodPtX;
-	float	goodPtY;
 	int		isRayFacingRight;
 	int		isRayFacingLeft;
 	int		isRayFacingUp;
@@ -115,8 +115,11 @@ typedef struct s_vars {
 	t_minimap	minimap;
 	t_player	player;
 	t_ray		*rays;
+	void		*game_win;
+	int			gameWinWide;
 	int			rayNb;
 	float		angleStep;
+	float		projPlanDist;
 	//tab de tab des paths de textures NSEW
 	//tab de tab des couleurs du sol et du ciel
 	
@@ -183,6 +186,11 @@ void    updateRaysAngles(t_vars *vars);
 void	init_player_pos(t_vars *vars);
 void	init_player_rotation(t_vars *vars, char dir);
 void	display_player(t_vars *vars);
+
+/*3D*/
+void	createGameWindow(t_vars *vars);
+
+void	render(t_vars *vars);
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */

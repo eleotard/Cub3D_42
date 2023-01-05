@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 17:00:15 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/05 20:04:22 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,32 @@
 
 void	display_minimap_img(t_vars *vars)
 {
-	mlx_put_image_to_window(vars->mlx, vars->minimap.win,
+	mlx_put_image_to_window(vars->mlx, vars->game_win,
 		vars->minimap.mini_img.ptr, 0, 0);
+}
+
+void	drawRays(t_vars *vars, t_img *img, int color)
+{
+	float	tmpX;
+	float	tmpY;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < vars->rayNb) // un i par rayon //vars->rayNb
+	{
+		j = 0;
+		tmpX = vars->player.pos.x * MINIMAP_SCALE_FACTOR;
+		tmpY = vars->player.pos.y * MINIMAP_SCALE_FACTOR;
+		while (j < vars->rays[i].goodDist * MINIMAP_SCALE_FACTOR)
+		{
+			tmpX = tmpX + cos(vars->rays[i].rayAngle) ;
+			tmpY = tmpY + sin(vars->rays[i].rayAngle) ;
+			my_mlx_pixel_put(img, tmpX, tmpY, color);
+			j++;
+		}
+		i++;
+	}
 }
 
 void	pixelize_player(t_vars *vars, t_img *img, int color)
@@ -24,21 +48,21 @@ void	pixelize_player(t_vars *vars, t_img *img, int color)
 	int	j;
 
 	j = 0;
-	while (j < 5)
+	while (j < 5* MINIMAP_SCALE_FACTOR)
 	{
-		i = -5;
-		while (++i < 5)
-			my_mlx_pixel_put(img, vars->player.pos.x + i,
-				vars->player.pos.y + j, color);
+		i = -5 * MINIMAP_SCALE_FACTOR;
+		while (++i < 5 * MINIMAP_SCALE_FACTOR)
+			my_mlx_pixel_put(img, vars->player.pos.x * MINIMAP_SCALE_FACTOR + i,
+				vars->player.pos.y * MINIMAP_SCALE_FACTOR + j, color);
 		j++;
 	}
 	j = 0;
-	while (j > -5)
+	while (j > -5 * MINIMAP_SCALE_FACTOR)
 	{
-		i = -5;
-		while (++i < 5)
-			my_mlx_pixel_put(img, vars->player.pos.x + i,
-				vars->player.pos.y + j, color);
+		i = -5 * MINIMAP_SCALE_FACTOR;
+		while (++i < 5 * MINIMAP_SCALE_FACTOR)
+			my_mlx_pixel_put(img, vars->player.pos.x * MINIMAP_SCALE_FACTOR + i,
+				vars->player.pos.y * MINIMAP_SCALE_FACTOR + j, color);
 		j--;
 	}
 }
@@ -69,23 +93,23 @@ void	pixelize_grid(t_vars *vars, t_img *img, int color)
 	cd.x0 = 0;
 	cd.y0 = 0;
 	cd.x1 = cd.x0;
-	cd.y1 = (TILE_SIZE * ft_map_height(vars->map)) - 1;
-	while (cd.x0 < (TILE_SIZE * ft_map_wide(vars->map)))
+	cd.y1 = ((TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_height(vars->map)) - 1;
+	while (cd.x0 < ((TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_wide(vars->map)))
 	{
 		if (cd.x0 != 0)
 			line(img, cd, color);
-		cd.x0 = cd.x0 + TILE_SIZE;
+		cd.x0 = cd.x0 + (TILE_SIZE * MINIMAP_SCALE_FACTOR);
 		cd.x1 = cd.x0;
 	}
 	cd.x0 = 0;
 	cd.y0 = 0;
-	cd.x1 = (TILE_SIZE * ft_map_wide(vars->map)) - 1;
+	cd.x1 = ((TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_wide(vars->map)) - 1;
 	cd.y1 = cd.y0;
-	while (cd.y0 < (TILE_SIZE * ft_map_height(vars->map)))
+	while (cd.y0 < ((TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_height(vars->map)))
 	{
 		if (cd.y0 != 0)
 			line(img, cd, color);
-		cd.y0 = cd.y0 + TILE_SIZE;
+		cd.y0 = cd.y0 + (TILE_SIZE * MINIMAP_SCALE_FACTOR);
 		cd.y1 = cd.y0;
 	}
 }
@@ -105,11 +129,11 @@ void	pixelize_walls(t_vars *vars, t_img *img, int color)
 		{
 			if (vars->map[i][j] == '1')
 			{
-				y = (i * TILE_SIZE) - 1;
-				while (++y < (i * TILE_SIZE + TILE_SIZE))
+				y = (i * (TILE_SIZE * MINIMAP_SCALE_FACTOR)) - 1;
+				while (++y < (i * (TILE_SIZE * MINIMAP_SCALE_FACTOR) + (TILE_SIZE * MINIMAP_SCALE_FACTOR)))
 				{
-					x = (j * TILE_SIZE) - 1;
-					while (++x < ((j * TILE_SIZE) + TILE_SIZE))
+					x = (j * (TILE_SIZE * MINIMAP_SCALE_FACTOR)) - 1;
+					while (++x < ((j * (TILE_SIZE * MINIMAP_SCALE_FACTOR)) + (TILE_SIZE * MINIMAP_SCALE_FACTOR)))
 						my_mlx_pixel_put(img, x, y, color);
 				}
 			}
@@ -133,11 +157,11 @@ void	pixelize_ground(t_vars *vars, t_img *img, int color)
 			if (vars->map[i][j] == '0' || vars->map[i][j] == 'N' || vars->map[i][j] == 'E'
 				|| vars->map[i][j] == 'W' || vars->map[i][j] == 'S')
 			{
-				y = (i * TILE_SIZE) - 1;
-				while (++y < (i * TILE_SIZE + TILE_SIZE))
+				y = (i * (TILE_SIZE * MINIMAP_SCALE_FACTOR)) - 1;
+				while (++y < (i * (TILE_SIZE * MINIMAP_SCALE_FACTOR) + (TILE_SIZE * MINIMAP_SCALE_FACTOR)))
 				{
-					x = (j * TILE_SIZE) - 1;
-					while (++x < ((j * TILE_SIZE) + TILE_SIZE))
+					x = (j * (TILE_SIZE * MINIMAP_SCALE_FACTOR)) - 1;
+					while (++x < ((j * (TILE_SIZE * MINIMAP_SCALE_FACTOR)) + (TILE_SIZE * MINIMAP_SCALE_FACTOR)))
 						my_mlx_pixel_put(img, x, y, color);
 				}
 			}
@@ -152,17 +176,17 @@ void    pixelize_dir_vector(t_vars *vars, t_img *img, int color)
     float tmpY;    
 
     i = 0;
-    tmpX = vars->player.pos.x;
-    tmpY = vars->player.pos.y;
+    tmpX = vars->player.pos.x * MINIMAP_SCALE_FACTOR;
+    tmpY = vars->player.pos.y * MINIMAP_SCALE_FACTOR;
 	my_mlx_pixel_put(img, tmpX, tmpY, 0x0000FF);
-    while (i < 50)
+    while (i < (50 * MINIMAP_SCALE_FACTOR))
     {
 		// printf("tmpX = %f\n", tmpX);
 		// fflush(stdout);
 		// printf("tmpY = %f\n", tmpY);
 		// fflush(stdout);
-        tmpX = tmpX + vars->player.direction.x;
-        tmpY = tmpY + vars->player.direction.y;
+        tmpX = tmpX + vars->player.direction.x * MINIMAP_SCALE_FACTOR;
+        tmpY = tmpY + vars->player.direction.y * MINIMAP_SCALE_FACTOR;
         my_mlx_pixel_put(img, tmpX, tmpY, color);
         i++;
     }
@@ -198,23 +222,20 @@ void	create_img(t_vars *vars, t_img *img, int x, int y)
 void	set_minimap(t_vars *vars)
 {
 	create_img(vars, &(vars->minimap.mini_img),
-		TILE_SIZE * ft_map_wide(vars->map), TILE_SIZE * ft_map_height(vars->map));
+		(TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_wide(vars->map), (TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_height(vars->map));
 	if (!vars->minimap.mini_img.ptr || !vars->minimap.mini_img.addr)
 	{
-		ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
+		ft_destroy_all(vars->map, vars->mlx, vars->game_win, vars);
 		exit (-1);
 	}
 	//pixelize_fill(&(vars->minimap.mini_img), 0x000000);
 	pixelize_ground(vars, &(vars->minimap.mini_img), 0x0011000);
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
-	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
+	//pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
 	castAllRays(vars);
 	drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
-	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.pos.x
-		+ vars->player.direction.x, vars->player.pos.y 
-		+ vars->player.direction.y, 0x00FF00);
 	display_minimap_img(vars);
 }
 
@@ -224,12 +245,9 @@ void	re_display_minimap(t_vars *vars)
 	//piyelize_fill(&(vars->minimap.mini_img), 0x000000);
 	pixelize_ground(vars, &(vars->minimap.mini_img), 0x0011000);
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
-	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
-	pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
+	//pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
+	pixelize_player(vars, &(vars->minimap.mini_img), 16776960);
 	drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
-	my_mlx_pixel_put(&(vars->minimap.mini_img), vars->player.pos.x
-		+ vars->player.direction.x, vars->player.pos.y 
-		+ vars->player.direction.y, 0x00FF00);
 	display_minimap_img(vars);
 }

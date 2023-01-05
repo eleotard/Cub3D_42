@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 17:13:25 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/05 19:55:54 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,8 @@ char	**create_map_tab(char *map_name)
 
 void	ft_mlx_win_init(t_vars *vars)
 {
-	int		win_height;
-	int		win_wide;
+	// int		win_height;
+	// int		win_wide;
 
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
@@ -139,18 +139,16 @@ void	ft_mlx_win_init(t_vars *vars)
 		ft_print_error_exit("Error\nMlx pointer == NULL");
 	}
 	//ft_img_init(vars);
-	win_height = TILE_SIZE * ft_map_height(vars->map);
-	win_wide = TILE_SIZE * ft_map_wide(vars->map);
-	vars->minimap.win = mlx_new_window(vars->mlx, win_wide, win_height,
-			"minimap");
-	if (!vars->minimap.win)
+	//win_height = TILE_SIZE * ft_map_height(vars->map);
+	//win_wide = TILE_SIZE * ft_map_wide(vars->map);
+	vars->game_win = mlx_new_window(vars->mlx, 1280, 720, "cub3D");
+	//mlx_get_screen_size(vars->mlx, &x, &y);
+	if (!vars->game_win)
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");
 	init_player_pos(vars);
-	// printf("perso x = %f\n", vars->player.pos.x);
-	// printf("player y = %f\n", vars->player.pos.y);
 	set_minimap(vars);
-	//findDistX(vars);
+	render(vars);
 }
 
 //ORDRE: (NORMALEMENT)
@@ -174,9 +172,9 @@ int	main(int argc, char **argv)
 	if (!vars.map)
 		return (-3);
 	ft_mlx_win_init(&vars);
-	mlx_hook(vars.minimap.win, KeyPress, KeyPressMask, ft_key_hook, &vars);
-	mlx_hook(vars.minimap.win, KeyRelease, KeyReleaseMask, ft_key_release, &vars);
-	mlx_hook(vars.minimap.win, ClientMessage, LeaveWindowMask, ft_mouse_hook, &vars);
+	mlx_hook(vars.game_win, KeyPress, KeyPressMask, ft_key_hook, &vars);
+	mlx_hook(vars.game_win, KeyRelease, KeyReleaseMask, ft_key_release, &vars);
+	mlx_hook(vars.game_win, ClientMessage, LeaveWindowMask, ft_mouse_hook, &vars);
 	mlx_loop(vars.mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 16:57:46 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/04 19:03:11 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	moveLeft(t_vars *vars)
 	
 	nextX = vars->player.pos.x + vars->player.direction.y * MOVE_SPEED;
 	nextY = vars->player.pos.y - vars->player.direction.x * MOVE_SPEED;
-	printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
+	//printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
 	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
 	{
 		vars->player.pos.x = nextX;

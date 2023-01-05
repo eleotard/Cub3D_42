@@ -6,11 +6,12 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/04 16:59:31 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/05 19:47:28 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
+
 
 int	ft_mouse_hook(t_vars *vars)
 {
@@ -76,7 +77,9 @@ int	ft_key_release(int keycode, t_vars	*vars)
 
 void	ft_close(t_vars *vars)
 {
+	// if (vars->game_win)
+	// 	mlx_destroy_window(vars->mlx, vars->game_win);
 	free(vars->rays);
-	ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
+	ft_destroy_all(vars->map, vars->mlx, vars->game_win, vars);
 	exit (0);
 }
