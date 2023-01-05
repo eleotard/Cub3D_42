@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 20:02:26 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/05 21:11:57 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define TILE_SIZE		60
-# define MINIMAP_SCALE_FACTOR	0.4
+# define TILE_SIZE		100
+# define MINIMAP_SCALE_FACTOR	0.3
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
 # define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
 # define ERROR			(-1)
@@ -99,7 +99,8 @@ typedef	struct s_ray {
 	int		isRayFacingRight;
 	int		isRayFacingLeft;
 	int		isRayFacingUp;
-	int		isRayFacingDown ;
+	int		isRayFacingDown;
+	float	wallStripHeight;
 }	t_ray;
 
 typedef struct	s_rc {//raycasting
@@ -115,8 +116,10 @@ typedef struct s_vars {
 	t_minimap	minimap;
 	t_player	player;
 	t_ray		*rays;
+	t_img		game_img;
 	void		*game_win;
 	int			gameWinWide;
+	int			gameWinHeight;
 	int			rayNb;
 	float		angleStep;
 	float		projPlanDist;
@@ -167,7 +170,7 @@ void	set_minimap(t_vars *vars);
 void	create_img(t_vars *vars, t_img *img, int x, int y);
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	pixelize_fill(t_img *img, int color);
+void	pixelize_fill(t_vars * vars, t_img *img, int color);
 void	pixelize_walls(t_vars *vars, t_img *img, int color);
 void	pixelize_grid(t_vars *vars, t_img *img, int color);
 void	pixelize_player(t_vars *vars, t_img *img, int color);
@@ -189,6 +192,7 @@ void	display_player(t_vars *vars);
 
 /*3D*/
 void	createGameWindow(t_vars *vars);
+void	display_img(t_vars *vars, t_img *img);
 
 void	render(t_vars *vars);
 

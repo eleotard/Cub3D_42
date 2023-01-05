@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 19:51:02 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/05 21:00:56 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,8 @@ void	setGoodDistance(t_ray *ray)
 		ray->goodDist = ray->distCollHoriz;
 	else if (ray->distCollVert <= ray->distCollHoriz)
 		ray->goodDist = ray->distCollVert;
+	// if(ray->isRayFacingUp == 1 && ray->isRayFacingLeft == 1)
+	// 	ray->goodDist -= 1;
 	//printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->goodDist);
 }
 

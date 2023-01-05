@@ -6,16 +6,16 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 20:04:22 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/05 20:43:04 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void	display_minimap_img(t_vars *vars)
+void	display_img(t_vars *vars, t_img *img)
 {
 	mlx_put_image_to_window(vars->mlx, vars->game_win,
-		vars->minimap.mini_img.ptr, 0, 0);
+		img->ptr, 0, 0);
 }
 
 void	drawRays(t_vars *vars, t_img *img, int color)
@@ -67,17 +67,17 @@ void	pixelize_player(t_vars *vars, t_img *img, int color)
 	}
 }
 
-void	pixelize_fill(t_img *img, int color)
+void	pixelize_fill(t_vars * vars, t_img *img, int color)
 {
 	int	x;
 	int	y;
 
 	x = 0;
 	y = 0;
-	while (y < img->px_height)
+	while (y < vars->gameWinHeight)
 	{
 		x = 0;
-		while (x < img->px_length)
+		while (x < vars->gameWinWide)
 		{
 			my_mlx_pixel_put(img, x, y, color);
 			x++;
@@ -225,6 +225,12 @@ void	set_minimap(t_vars *vars)
 		(TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_wide(vars->map), (TILE_SIZE * MINIMAP_SCALE_FACTOR) * ft_map_height(vars->map));
 	if (!vars->minimap.mini_img.ptr || !vars->minimap.mini_img.addr)
 	{
+		ft_destroy_all(vars->map, vars->mlx, vars->game_win, NULL);
+		exit (-1);
+	}
+	create_img(vars, &(vars->game_img), vars->gameWinWide, vars->gameWinHeight);
+	if (!vars->game_img.ptr || !vars->game_img.addr)
+	{
 		ft_destroy_all(vars->map, vars->mlx, vars->game_win, vars);
 		exit (-1);
 	}
@@ -236,7 +242,8 @@ void	set_minimap(t_vars *vars)
 	castAllRays(vars);
 	drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
-	display_minimap_img(vars);
+	render(vars);
+	display_img(vars, &(vars->minimap.mini_img));
 }
 
 
@@ -249,5 +256,6 @@ void	re_display_minimap(t_vars *vars)
 	pixelize_player(vars, &(vars->minimap.mini_img), 16776960);
 	drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
-	display_minimap_img(vars);
+	render(vars);
+	display_img(vars, &(vars->minimap.mini_img));
 }
