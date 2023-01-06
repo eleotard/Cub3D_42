@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 18:16:20 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/07 00:09:50 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,14 @@
 // }
 void	display_img(t_vars *vars)
 {
+	// static int i;
+
+	// i++;
 	mlx_put_image_to_window(vars->mlx, vars->game_win,
 		 vars->game_img.ptr, 0, 0);
-	usleep(1000);
-	/*mlx_put_image_to_window(vars->mlx, vars->game_win,
-		 vars->minimap.mini_img.ptr, 0, 0);*/
+	// printf("i = %d\n", i);
+	// mlx_put_image_to_window(vars->mlx, vars->game_win,
+	// 	 vars->minimap.mini_img.ptr, 0, 0);
 }
 
 void	drawRays(t_vars *vars, t_img *img, int color)
@@ -46,7 +49,7 @@ void	drawRays(t_vars *vars, t_img *img, int color)
 			my_mlx_pixel_put(img, tmpX, tmpY, color);
 			j++;
 		}
-		i++;
+		i = i + 400 * MSF;
 	}
 }
 
@@ -72,25 +75,6 @@ void	pixelize_player(t_vars *vars, t_img *img, int color)
 			my_mlx_pixel_put(img, vars->player.pos.x * MSF + i,
 				vars->player.pos.y * MSF + j, color);
 		j--;
-	}
-}
-
-void	pixelize_fill(t_vars * vars, t_img *img, int color)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	while (y < vars->gameWinHeight)
-	{
-		x = 0;
-		while (x < vars->gameWinWide)
-		{
-			my_mlx_pixel_put(img, x, y, color);
-			x++;
-		}
-		y++;
 	}
 }
 
@@ -230,14 +214,16 @@ void	set_minimap(t_vars *vars)
 		ft_destroy_all(vars->map, vars->mlx, vars->game_win, vars);
 		exit (-1);
 	}
+	castAllRays(vars);
 	//pixelize_fill(&(vars->minimap.mini_img), 0x000000);
 	//pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
+	//
 	// pixelize_ground(vars, &(vars->minimap.mini_img), 0x0011000);
 	// pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
 	// pixelize_player(vars, &(vars->minimap.mini_img), 0xFFFF00);
-	// castAllRays(vars);
 	// drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	// pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
+	//
 	render(vars);
 	display_img(vars);
 }
@@ -245,13 +231,17 @@ void	set_minimap(t_vars *vars)
 
 void	re_display_minimap(t_vars *vars)
 {
+	castAllRays(vars);
 	//piyelize_fill(&(vars->minimap.mini_img), 0x000000);
 	//pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
+	//
 	// pixelize_ground(vars, &(vars->minimap.mini_img), 0x0011000);
 	// pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
 	// pixelize_player(vars, &(vars->minimap.mini_img), 16776960);
 	// drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	// pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
+	//
+	
 	render(vars);
 	display_img(vars);
 }

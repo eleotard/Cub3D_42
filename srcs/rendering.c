@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 18:17:23 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/07 00:03:24 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ void	defineProjPlanDist(t_vars *vars)
 	//printf(RED "distance plan de projection = %f\n" RESET, vars->projPlanDist);
 }
 
-//WallStripHeight = hauteur totale de la bande du mur en pixel
-//hauteur du mur qui est aussi egale a vars->tileSize
-
 void	findWallStripHeights(t_vars *vars)
 {
 	int	i;
@@ -30,6 +27,25 @@ void	findWallStripHeights(t_vars *vars)
 	i = -1;
 	while (++i < vars->rayNb)
 		vars->rays[i].wallStripHeight = (vars->tileSize * vars->projPlanDist) / vars->rays[i].noFishEyeDist;
+}
+
+void	pixelize_fill(t_vars * vars, t_img *img, int color)
+{
+	int	x;
+	int	y;
+
+	x = 0;
+	y = 0;
+	while (y < vars->gameWinHeight)
+	{
+		x = 0;
+		while (x < vars->gameWinWide)
+		{
+			my_mlx_pixel_put(img, x, y, color);
+			x++;
+		}
+		y++;
+	}
 }
 
 void	drawWalls(t_vars *vars, t_img *img)
@@ -52,13 +68,29 @@ void	drawWalls(t_vars *vars, t_img *img)
 			else
 				break ;
 		}
+		while ((y + a) < vars->gameWinHeight)
+		{
+			if ((y + a) < vars->gameWinHeight)
+				my_mlx_pixel_put(img, x, y + a, 0x110000);
+			else
+				break ;
+			a++;
+		}
 		a = -1;
 		while (++a < vars->rays[x].wallStripHeight / 2)
 		{
-			if ((y - a) >= 0)
+			if ((y - a) > 0)
 				my_mlx_pixel_put(img, x, y - a, color);
 			else
 				break ;
+		}
+		while ((y - a) > 0)
+		{
+			if ((y - a) > 0)
+				my_mlx_pixel_put(img, x, y - a, 0x110000);
+			else
+				break ;
+			a++;
 		}
 	}
 }
@@ -66,10 +98,9 @@ void	drawWalls(t_vars *vars, t_img *img)
 void	render(t_vars *vars)
 {
 	
-	castAllRays(vars);
+	//castAllRays(vars);
 	defineProjPlanDist(vars);
 	findWallStripHeights(vars);
-	pixelize_fill(vars, &(vars->game_img), 0x000000);
 	drawWalls(vars, &(vars->game_img));
 	//display_img(vars, &(vars->game_img));
 	
