@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 17:48:49 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 18:14:44 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define TILE_SIZE		80
 # define MSF			0.2 //MINIMAP SCALE FACTOR
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
 # define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
@@ -169,6 +168,8 @@ void	pixelize_fill(t_vars * vars, t_img *img, int color);
 void	pixelize_walls(t_vars *vars, t_img *img, int color);
 void	pixelize_grid(t_vars *vars, t_img *img, int color);
 void	pixelize_player(t_vars *vars, t_img *img, int color);
+void	pixelize_ground(t_vars *vars, t_img *img, int color);
+void	pixelize_dir_vector(t_vars *vars, t_img *img, int color);
 
 void	display_minimap_img(t_vars *vars);
 void	re_display_minimap(t_vars *vars);
@@ -187,7 +188,7 @@ void	display_player(t_vars *vars);
 
 /*3D*/
 void	createGameWindow(t_vars *vars);
-void	display_img(t_vars *vars, t_img *img);
+void	display_img(t_vars *vars);
 
 void	render(t_vars *vars);
 

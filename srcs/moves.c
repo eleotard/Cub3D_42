@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 21:14:16 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 18:19:30 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ void	moveForeward(t_vars *vars)
 	moveStep = vars->player.walkDirection * MOVE_SPEED;
 	nextX = vars->player.pos.x + vars->player.direction.x * moveStep;
 	nextY = vars->player.pos.y + vars->player.direction.y * moveStep;
-	//printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
-	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
+	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
+	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
 	{
 		vars->player.pos.x = nextX;
 		vars->player.pos.y = nextY;
 	}
 	// else
 	// 	printf("\nCOLLISION\n");
-	castAllRays(vars);
+	//castAllRays(vars);
 	// printf("player x = %f\n", vars->player.pos.x);
 	// printf("player y = %f\n", vars->player.pos.y);
 	// printf("dir x = %f\n", vars->player.direction.x);
@@ -59,15 +59,15 @@ void	moveBackward(t_vars *vars)
 	moveStep = vars->player.walkDirection * MOVE_SPEED;
 	nextX = vars->player.pos.x + vars->player.direction.x * moveStep;
 	nextY = vars->player.pos.y + vars->player.direction.y * moveStep;
-	//printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
-	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
+	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
+	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
 	{
 		vars->player.pos.x = nextX;
 		vars->player.pos.y = nextY;
 	}
 	// else
 	// 	printf("\nCOLLISION\n");
-	castAllRays(vars);
+	//castAllRays(vars);
 	
 	// printf("player x = %f\n", vars->player.pos.x);
 	// printf("player y = %f\n", vars->player.pos.y);
@@ -85,15 +85,15 @@ void	moveLeft(t_vars *vars)
 	
 	nextX = vars->player.pos.x + vars->player.direction.y * MOVE_SPEED;
 	nextY = vars->player.pos.y - vars->player.direction.x * MOVE_SPEED;
-	//printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
-	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
+	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
+	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
 	{
 		vars->player.pos.x = nextX;
 		vars->player.pos.y = nextY;
 	}
 	// else
 	// 	printf("\nCOLLISION\n");
-	castAllRays(vars);
+	//castAllRays(vars);
 	
 	
 	re_display_minimap(vars);
@@ -113,15 +113,15 @@ void	moveRight(t_vars *vars)
 	
 	nextX = vars->player.pos.x - vars->player.direction.y * MOVE_SPEED;
 	nextY = vars->player.pos.y + vars->player.direction.x * MOVE_SPEED;
-	//printf("testing map[%d][%d]\n", (int)(nextY / TILE_SIZE), (int)(nextX / TILE_SIZE));
-	if (vars->map[(int)(nextY / TILE_SIZE)][(int)(nextX / TILE_SIZE)] != '1')
+	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
+	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
 	{
 		vars->player.pos.x = nextX;
 		vars->player.pos.y = nextY;
 	}
 	// else
 	// 	printf("\nCOLLISION\n");
-	castAllRays(vars);
+	//castAllRays(vars);
 	re_display_minimap(vars);
 	// printf("\nRIGHT\nplayer x = %f\n", vars->player.pos.x);
 	// printf("player y = %f\n", vars->player.pos.y);
@@ -135,13 +135,13 @@ void	watchLeft(t_vars *vars)
 {
 	vars->player.rotation.y += vars->player.turnDirection * ROTATION_SPEED;
 	updateDirection(vars);
-	castAllRays(vars);
+	//castAllRays(vars);
 	re_display_minimap(vars);
 }
 void	watchRight(t_vars *vars)
 {;
 	vars->player.rotation.y += vars->player.turnDirection * ROTATION_SPEED;
 	updateDirection(vars);
-	castAllRays(vars);
+	//castAllRays(vars);
 	re_display_minimap(vars);
 }
