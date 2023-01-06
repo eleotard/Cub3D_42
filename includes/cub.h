@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 21:11:57 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 01:24:52 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,12 @@
 # include <math.h>
 
 # define TILE_SIZE		100
-# define MINIMAP_SCALE_FACTOR	0.3
+# define MSF			0.2 //MINIMAP SCALE FACTOR
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
 # define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
 # define ERROR			(-1)
 # define PI				3.1415926535
 # define FOV_ANGLE		60 * (PI / 180)
-
-//INCRUSTE TOI CA DANS LE CRANE ELSIE, 
-
-//1 UNITE = 1 PIXEL
-//PCK LA GRILLE X Y EST EN UNITE PIXEL
-//VOILA
-//C TELLEMENT SIMPLE PK TAS MIS 1000 ANS A COMPRENDRE
-//JE saIS PAS
 
 typedef struct s_line_params {
 	int	dx; //distance
@@ -96,6 +88,7 @@ typedef	struct s_ray {
 	float	collPtVertX;
 	float	collPtVertY;
 	float	goodDist;
+	float	noFishEyeDist;
 	int		isRayFacingRight;
 	int		isRayFacingLeft;
 	int		isRayFacingUp;

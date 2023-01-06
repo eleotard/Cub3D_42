@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 21:08:15 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 01:47:29 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	findWallStripHeights(t_vars *vars)
 
 	i = -1;
 	while (++i < vars->rayNb)
-		vars->rays[i].wallStripHeight = (TILE_SIZE * vars->projPlanDist) / vars->rays[i].goodDist;
+		vars->rays[i].wallStripHeight = (TILE_SIZE * vars->projPlanDist) / vars->rays[i].noFishEyeDist;
 }
 
 void	drawWalls(t_vars *vars, t_img *img)
@@ -37,27 +37,29 @@ void	drawWalls(t_vars *vars, t_img *img)
 	int	x;
 	int y;
 	int a;
+	int color;
 
-	x = 0;
+	x = -1;
 	y = vars->gameWinHeight / 2;
-	while (x < vars->gameWinWide)
+	color = 0xFFFF00;
+	while (++x < vars->gameWinWide)
 	{
-		y = vars->gameWinHeight / 2;
-		a = 0;
-		while (a < vars->rays[x].wallStripHeight / 2)
+		a = -1;
+		while (++a < vars->rays[x].wallStripHeight / 2)
 		{
 			if ((y + a) < vars->gameWinHeight)
-				my_mlx_pixel_put(img, x, y + a, 0xFFFF00);
-			a++;
+				my_mlx_pixel_put(img, x, y + a, color);
+			else
+				break ;
 		}
-		a = 0;
-		while (a < vars->rays[x].wallStripHeight / 2)
+		a = -1;
+		while (++a < vars->rays[x].wallStripHeight / 2)
 		{
 			if ((y - a) >= 0)
-				my_mlx_pixel_put(img, x, y - a, 0xFFFF00);
-			a++;
+				my_mlx_pixel_put(img, x, y - a, color);
+			else
+				break ;
 		}
-		x++;
 	}
 }
 

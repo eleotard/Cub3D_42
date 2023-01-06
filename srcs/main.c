@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 20:31:03 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 01:51:02 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,11 @@ void	ft_mlx_win_init(t_vars *vars)
 	//win_height = TILE_SIZE * ft_map_height(vars->map);
 	//win_wide = TILE_SIZE * ft_map_wide(vars->map);
 	vars->gameWinWide = TILE_SIZE * ft_map_wide(vars->map);
-	vars->gameWinHeight = 720;
+	//vars->gameWinWide = 1920;
+	vars->gameWinHeight = 1080;
+	// VERIFIER SI CEST PAS TROP GRAND PAR RAPPORT A LA TAILLE DE LECRAN
+	//->>>>>>>>>>>>mlx_get_screen_size(vars->mlx, &x, &y);
 	vars->game_win = mlx_new_window(vars->mlx, vars->gameWinWide, vars->gameWinHeight, "cub3D");
-	//mlx_get_screen_size(vars->mlx, &x, &y);
 	if (!vars->game_win)
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");

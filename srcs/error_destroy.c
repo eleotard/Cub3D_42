@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:57:40 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/14 17:02:12 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 02:08:31 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars)
 	{
 		if (vars->minimap.mini_img.ptr)
 			mlx_destroy_image(mlx, vars->minimap.mini_img.ptr);
+		if (vars->game_img.ptr)
+			mlx_destroy_image(mlx, vars->game_img.ptr);
 	}
 	if (map)
 		ft_destroy_map(map);

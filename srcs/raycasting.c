@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 21:00:56 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 01:37:25 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,16 @@ void	findCollVert(t_vars *vars, t_ray *ray, t_rc rc)
 		if (vars->map[(int)ray->collPtVertY / TILE_SIZE]
 			[(int)ray->collPtVertX / TILE_SIZE] == '1')
 		{
-			ray->distCollVert = sqrt(fabs(vars->player.pos.x - ray->collPtVertX)
-				* fabs(vars->player.pos.x - ray->collPtVertX)
-				+ fabs(vars->player.pos.y - ray->collPtVertY)
-				* fabs(vars->player.pos.y - ray->collPtVertY));
+			// if (ray->isRayFacingLeft)
+			// 	ray->distCollVert = sqrt(fabs(vars->player.pos.x - ray->collPtVertX + 1)
+			// 		* fabs(vars->player.pos.x - ray->collPtVertX + 1)
+			// 		+ fabs(vars->player.pos.y - ray->collPtVertY + 1)
+			// 		* fabs(vars->player.pos.y - ray->collPtVertY + 1));
+			// else
+				ray->distCollVert = sqrt(fabs(vars->player.pos.x - ray->collPtVertX)
+					* fabs(vars->player.pos.x - ray->collPtVertX)
+					+ fabs(vars->player.pos.y - ray->collPtVertY)
+					* fabs(vars->player.pos.y - ray->collPtVertY));
 			found = 1;
 			// printf(RED "\tDISSSSSSSSSSSST X = %f\n" RESET, ray->distCollVert);
 			// printf(YELLOW "find wall at map[%d][%d]\n" RESET, 
@@ -123,9 +129,9 @@ void	castVertRay(t_vars *vars, t_ray *ray)
 {
 	t_rc rc;
 	
-	rc.xintercept = floor(vars->player.pos.x / TILE_SIZE) * TILE_SIZE - 1;
+	rc.xintercept = floor(vars->player.pos.x / TILE_SIZE) * TILE_SIZE - 0.1;
 	if (ray->isRayFacingRight)
-		rc.xintercept += TILE_SIZE + 1;
+		rc.xintercept += TILE_SIZE + 0.1;
 	rc.yintercept = vars->player.pos.y + (rc.xintercept - vars->player.pos.x) * tan(ray->rayAngle); //adj = opp / tan
 
 	rc.xstep = TILE_SIZE;
@@ -189,10 +195,16 @@ void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
 		if (vars->map[(int)ray->collPtHorizY / TILE_SIZE]
 			[(int)ray->collPtHorizX / TILE_SIZE] == '1')
 		{
-			ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - ray->collPtHorizX)
-				* fabs(vars->player.pos.x - ray->collPtHorizX)
-				+ fabs(vars->player.pos.y - ray->collPtHorizY)
-				* fabs(vars->player.pos.y - ray->collPtHorizY));
+			// if (ray->isRayFacingUp)
+			// 	ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - ray->collPtHorizX + 1)
+			// 		* fabs(vars->player.pos.x - ray->collPtHorizX + 1)
+			// 		+ fabs(vars->player.pos.y - ray->collPtHorizY + 1)
+			// 		* fabs(vars->player.pos.y - ray->collPtHorizY + 1));
+			// else
+				ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - ray->collPtHorizX)
+					* fabs(vars->player.pos.x - ray->collPtHorizX)
+					+ fabs(vars->player.pos.y - ray->collPtHorizY)
+					* fabs(vars->player.pos.y - ray->collPtHorizY));
 			found = 1;
 			// printf(RED "\tDISSSSSSSSSSSST Y = %f\n" RESET, ray->distCollHoriz);
 			// printf(YELLOW "find wall at map[%d][%d]\n" RESET, 
@@ -207,9 +219,9 @@ void	castHorizRay(t_vars *vars, t_ray *ray)
 {
 	t_rc rc;
 	
-	rc.yintercept = floor(vars->player.pos.y / TILE_SIZE) * TILE_SIZE -1;
+	rc.yintercept = floor(vars->player.pos.y / TILE_SIZE) * TILE_SIZE -0.1;
 	if (ray->isRayFacingDown)
-		rc.yintercept += TILE_SIZE + 1;
+		rc.yintercept += TILE_SIZE + 0.1;
 	rc.xintercept = vars->player.pos.x + (rc.yintercept - vars->player.pos.y) / tan(ray->rayAngle); //adj = opp / tan
 	rc.ystep = TILE_SIZE;
 	if (ray->isRayFacingUp)
@@ -229,7 +241,7 @@ void	castHorizRay(t_vars *vars, t_ray *ray)
 	findCollHoriz(vars, ray, rc);
 }
 
-void	setGoodDistance(t_ray *ray)
+void	setGoodDistance(t_vars *vars, t_ray *ray)
 {
 	if (ray->distCollHoriz == -1)
 		ray->goodDist = ray->distCollVert;
@@ -239,7 +251,7 @@ void	setGoodDistance(t_ray *ray)
 		ray->goodDist = ray->distCollHoriz;
 	else if (ray->distCollVert <= ray->distCollHoriz)
 		ray->goodDist = ray->distCollVert;
-	// if(ray->isRayFacingUp == 1 && ray->isRayFacingLeft == 1)
+	ray->noFishEyeDist = ray->goodDist * cos(ray->rayAngle - vars->player.rotation.y);
 	// 	ray->goodDist -= 1;
 	//printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->goodDist);
 }
@@ -258,7 +270,7 @@ void	castAllRays(t_vars *vars)
 	}
 	i = -1;
 	while (++i < vars->rayNb)
-		setGoodDistance(&(vars->rays[i]));
+		setGoodDistance(vars, &(vars->rays[i]));
 	
 	// printf(GREEN "dxray= %f\n" RESET, cos(vars->rays[0].rayAngle));
 	// printf(GREEN "dyray= %f\n" RESET, sin(vars->rays[0].rayAngle));
