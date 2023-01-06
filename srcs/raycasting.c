@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 18:23:43 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/07 00:15:17 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,10 +245,8 @@ void	castAllRays(t_vars *vars)
 	{
 		castHorizRay(vars, &(vars->rays[i]));
 		castVertRay(vars, &(vars->rays[i]));
-	}
-	i = -1;
-	while (++i < vars->rayNb)
 		setGoodDistance(vars, &(vars->rays[i]));
+	}
 	
 	// printf(GREEN "dxray= %f\n" RESET, cos(vars->rays[0].rayAngle));
 	// printf(GREEN "dyray= %f\n" RESET, sin(vars->rays[0].rayAngle));

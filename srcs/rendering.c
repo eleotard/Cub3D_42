@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/07 00:03:24 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/07 00:27:04 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	drawWalls(t_vars *vars, t_img *img)
 
 	x = -1;
 	y = vars->gameWinHeight / 2;
-	color = 0xFFFF00;
+	color = 0x000000;
 	while (++x < vars->rayNb)
 	{
 		a = -1;
@@ -71,7 +71,7 @@ void	drawWalls(t_vars *vars, t_img *img)
 		while ((y + a) < vars->gameWinHeight)
 		{
 			if ((y + a) < vars->gameWinHeight)
-				my_mlx_pixel_put(img, x, y + a, 0x110000);
+				my_mlx_pixel_put(img, x, y + a, 0xFFFFFF);
 			else
 				break ;
 			a++;
@@ -87,7 +87,7 @@ void	drawWalls(t_vars *vars, t_img *img)
 		while ((y - a) > 0)
 		{
 			if ((y - a) > 0)
-				my_mlx_pixel_put(img, x, y - a, 0x110000);
+				my_mlx_pixel_put(img, x, y - a, 0x00FFFF);
 			else
 				break ;
 			a++;
@@ -105,7 +105,7 @@ void	render(t_vars *vars)
 	//display_img(vars, &(vars->game_img));
 	
 	pixelize_ground(vars, &(vars->game_img), 0x0011000);
-	pixelize_walls(vars, &(vars->game_img), 0x00000FF);
+	pixelize_walls(vars, &(vars->game_img), 0xFFFFFF);
 	pixelize_player(vars, &(vars->game_img), 0xFFFF00);
 	drawRays(vars, &(vars->game_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->game_img), 0xFF0000);
