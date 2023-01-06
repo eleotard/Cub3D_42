@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 01:37:25 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:22:00 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void    updateRaysAngles(t_vars *vars)
 	//cb de rayons veut-on tirer sur l'ensemble des pixels
 	if (status == 0)
 	{
-		vars->rayNb = (TILE_SIZE * ft_map_wide(vars->map)); //un rayon pour tous les 40 px
+		vars->rayNb = (TILE_SIZE * ft_map_wide(vars->map)); //un rayon pour tous les px
 		vars->angleStep = FOV_ANGLE / vars->rayNb;
 		vars->rays = malloc(sizeof(t_ray) * vars->rayNb);
 		if (!vars->rays)

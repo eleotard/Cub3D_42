@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 01:47:29 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:27:56 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	defineProjPlanDist(t_vars *vars)
 {
-	vars->projPlanDist = (vars->gameWinWide / 2) / tan(FOV_ANGLE / 2);
+	vars->projPlanDist = (TILE_SIZE * ft_map_wide(vars->map) / 2) / tan(FOV_ANGLE / 2);
 	//printf(RED "distance plan de projection = %f\n" RESET, vars->projPlanDist);
 }
 
@@ -42,7 +42,7 @@ void	drawWalls(t_vars *vars, t_img *img)
 	x = -1;
 	y = vars->gameWinHeight / 2;
 	color = 0xFFFF00;
-	while (++x < vars->gameWinWide)
+	while (++x < vars->rayNb)
 	{
 		a = -1;
 		while (++a < vars->rays[x].wallStripHeight / 2)

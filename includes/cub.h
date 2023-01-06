@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 01:24:52 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:48:49 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define TILE_SIZE		100
+# define TILE_SIZE		80
 # define MSF			0.2 //MINIMAP SCALE FACTOR
 # define ROTATION_SPEED	2 * (3.1415926535 / 180)
 # define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
@@ -116,6 +116,8 @@ typedef struct s_vars {
 	int			rayNb;
 	float		angleStep;
 	float		projPlanDist;
+	float		WSF;
+	int			tileSize;
 	//tab de tab des paths de textures NSEW
 	//tab de tab des couleurs du sol et du ciel
 	

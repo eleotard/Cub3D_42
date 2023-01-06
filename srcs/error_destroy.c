@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:57:40 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 02:08:31 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 02:10:47 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars)
 		mlx_destroy_display(mlx);
 		free(mlx);
 	}
-		
 }
 
 void	ft_destroy_map(char **map)

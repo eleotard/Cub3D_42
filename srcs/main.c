@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 01:51:02 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 17:45:53 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,25 +127,32 @@ char	**create_map_tab(char *map_name)
 	return (map);
 }
 
+void	check_window_size(t_vars *vars)
+{
+	int	x;
+	int	y;
+	int	map_wide;
+
+	map_wide = ft_map_wide(vars->map);
+
+	vars->gameWinHeight = 1080;
+	mlx_get_screen_size(vars->mlx, &x, &y);
+	if (TILE_SIZE * map_wide > x)
+		TILE_SIZE = x / map_wide;
+	vars->gameWinWide = TILE_SIZE * map_wide;
+}
+
 void	ft_mlx_win_init(t_vars *vars)
 {
-	// int		win_height;
-	// int		win_wide;
-
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 	{
 		ft_destroy_map(vars->map);
 		ft_print_error_exit("Error\nMlx pointer == NULL");
 	}
-	//ft_img_init(vars);
-	//win_height = TILE_SIZE * ft_map_height(vars->map);
-	//win_wide = TILE_SIZE * ft_map_wide(vars->map);
-	vars->gameWinWide = TILE_SIZE * ft_map_wide(vars->map);
 	//vars->gameWinWide = 1920;
-	vars->gameWinHeight = 1080;
-	// VERIFIER SI CEST PAS TROP GRAND PAR RAPPORT A LA TAILLE DE LECRAN
-	//->>>>>>>>>>>>mlx_get_screen_size(vars->mlx, &x, &y);
+//	vars->gameWinHeight = 1080;
+	check_window_size(vars);
 	vars->game_win = mlx_new_window(vars->mlx, vars->gameWinWide, vars->gameWinHeight, "cub3D");
 	if (!vars->game_win)
 		ft_destroy_all_message(vars->map, vars->mlx,

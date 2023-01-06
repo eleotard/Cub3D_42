@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/05 19:47:28 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/06 02:11:54 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,9 @@ int	ft_key_hook(int keycode, t_vars	*vars)
 		moveBackward(vars);
 	}
 	if (keycode == XK_d)
-	{
 		moveRight(vars);
-	}
 	if (keycode == XK_a)
-	{
 		moveLeft(vars);
-	}
 	if (keycode == XK_Right)
 	{
 		vars->player.turnDirection = +1;
@@ -66,19 +62,11 @@ int	ft_key_release(int keycode, t_vars	*vars)
 		vars->player.turnDirection = 0;
 	if (keycode == XK_Left)
 		vars->player.turnDirection = 0;
-	//if (keycode == XK_d)
-	//	vars->player.turnDirection = 0;
-	//if (keycode == XK_a)
-	//	vars->player.turnDirection = 0;
-	// printf("turn = %d\n", vars->player.turnDirection);
-	// printf("walk = %d\n", vars->player.walkDirection);
 	return (0);
 }
 
 void	ft_close(t_vars *vars)
 {
-	// if (vars->game_win)
-	// 	mlx_destroy_window(vars->mlx, vars->game_win);
 	free(vars->rays);
 	ft_destroy_all(vars->map, vars->mlx, vars->game_win, vars);
 	exit (0);
