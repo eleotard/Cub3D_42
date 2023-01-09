@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_minimap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 21:22:11 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/19 19:03:16 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	pixelize_perso(t_vars *vars, t_img *img, int color)
 	{
 		i = -5;
 		while (++i < 5)
-			my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC + i,
-				vars->perso.position.y * SIZEPIC + j, color);
+			my_mlx_pixel_put(img, vars->perso.pos.x * SIZEPIC + i,
+				vars->perso.pos.y * SIZEPIC + j, color);
 		j++;
 		display_minimap_img(vars);
 	}
@@ -38,8 +38,8 @@ void	pixelize_perso(t_vars *vars, t_img *img, int color)
 	{
 		i = -5;
 		while (++i < 5)
-			my_mlx_pixel_put(img, vars->perso.position.x * SIZEPIC + i,
-				vars->perso.position.y * SIZEPIC + j, color);
+			my_mlx_pixel_put(img, vars->perso.pos.x * SIZEPIC + i,
+				vars->perso.pos.y * SIZEPIC + j, color);
 		display_minimap_img(vars);
 		j--;
 	}
@@ -163,6 +163,10 @@ void	set_minimap(t_vars *vars)
 	display_minimap_img(vars);
 }
 
+/*void	pixelize_dir(t_vars *vars, t_img *img, int color)
+{
+	
+}*/
 
 void	re_display_minimap(t_vars *vars)
 {
@@ -170,5 +174,6 @@ void	re_display_minimap(t_vars *vars)
 	pixelize_walls(vars, &(vars->minimap.mini_img), 0x00000FF);
 	pixelize_grid(vars, &(vars->minimap.mini_img), 0x005555);
 	pixelize_perso(vars, &(vars->minimap.mini_img), 0xFFFF00);
+	//pixelize_dir(vars,  &(vars->minimap.mini_img), 0xFFFF00)
 	display_minimap_img(vars);
 }

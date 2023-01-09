@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 19:02:24 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/19 19:01:58 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,9 +147,9 @@ void	ft_mlx_win_init(t_vars *vars)
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");
 	init_perso_pos(vars);
-	printf("perso x = %f\n", vars->perso.position.x);
+	printf("perso x = %f\n", vars->perso.pos.x);
 	//init_perso_pos_y(vars);
-	printf("perso y = %f\n", vars->perso.position.y);
+	printf("perso y = %f\n", vars->perso.pos.y);
 	set_minimap(vars);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elsie <elsie@student.42.fr>                +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/17 20:43:36 by elsie            ###   ########.fr       */
+/*   Updated: 2022/12/19 18:46:36 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ typedef struct s_vec3 {
 
 
 typedef struct s_perso {
-	t_vec3	position;
-	t_vec3	rotation;
-	t_vec3	direction;
+	t_vec3	pos;
+	t_vec3	rot;
+	t_vec3	dir;
 }	t_perso;
 
 typedef struct s_vars {

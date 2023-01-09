@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/15 21:59:48 by eleotard         ###   ########.fr       */
+/*   Updated: 2022/12/19 19:02:11 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	ft_key_hook(int keycode, t_vars	*vars)
 	// static int	count_moves;
 	if (keycode == XK_Escape)
 	{
-		printf("perso x = %f\n", vars->perso.position.x);
-		printf("perso y = %f\n", vars->perso.position.y);
+		printf("perso x = %f\n", vars->perso.pos.x);
+		printf("perso y = %f\n", vars->perso.pos.y);
 		ft_close(vars);
 	}
 	if (keycode == XK_d)
