@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/07 00:09:50 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/12 17:20:05 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,9 @@ void    pixelize_dir_vector(t_vars *vars, t_img *img, int color)
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
-
+	
+	if (x < 0 || y < 0)
+		return ;
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
@@ -225,6 +227,13 @@ void	set_minimap(t_vars *vars)
 	// pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
 	//
 	render(vars);
+	// int i;
+	// i = 0;
+	// while (i < vars->gameWinWide * vars->gameWinHeight)
+	// {
+	// 	printf(" couleur = %d\n", *((unsigned int *)vars->game_img.addr + i));
+	// 	i++;
+	// }
 	display_img(vars);
 }
 
@@ -240,7 +249,7 @@ void	re_display_minimap(t_vars *vars)
 	// pixelize_player(vars, &(vars->minimap.mini_img), 16776960);
 	// drawRays(vars, &(vars->minimap.mini_img), 0x00FFFF);
 	// pixelize_dir_vector(vars, &(vars->minimap.mini_img), 0xFF0000);
-	//
+	
 	
 	render(vars);
 	display_img(vars);

@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 18:14:44 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/12 17:31:54 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,14 @@
 # define ERROR			(-1)
 # define PI				3.1415926535
 # define FOV_ANGLE		60 * (PI / 180)
+
+typedef enum s_type
+{
+	north,
+	south,
+	west,
+	east,
+}	t_type;
 
 typedef struct s_line_params {
 	int	dx; //distance
@@ -87,12 +95,17 @@ typedef	struct s_ray {
 	float	collPtVertX;
 	float	collPtVertY;
 	float	goodDist;
+	float	goodCollX;
+	float	goodCollY;
+	int		wasHitVerticaly;
+	int		wasHitHorizontaly;
 	float	noFishEyeDist;
 	int		isRayFacingRight;
 	int		isRayFacingLeft;
 	int		isRayFacingUp;
 	int		isRayFacingDown;
 	float	wallStripHeight;
+	char	texture;
 }	t_ray;
 
 typedef struct	s_rc {//raycasting
@@ -117,6 +130,7 @@ typedef struct s_vars {
 	float		projPlanDist;
 	float		WSF;
 	int			tileSize;
+	t_img		*textures[4];
 	//tab de tab des paths de textures NSEW
 	//tab de tab des couleurs du sol et du ciel
 	

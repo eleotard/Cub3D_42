@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/07 00:27:04 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/12 17:52:16 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,3 +110,92 @@ void	render(t_vars *vars)
 	drawRays(vars, &(vars->game_img), 0x00FFFF);
 	pixelize_dir_vector(vars, &(vars->game_img), 0xFF0000);
 }
+
+	// if (ray->distCollHoriz == -1 || ray->distCollVert <= ray->distCollHoriz)
+	// {
+	// 	ray->wasHitVerticaly = 1;
+	// 	ray->goodCollX = ray->collPtVertX;
+	// 	ray->goodCollY = ray->collPtVertY;
+	// 	ray->goodDist = ray->distCollVert;
+	// }
+	// else if (ray->distCollVert == -1 || ray->distCollHoriz <= ray->distCollVert)
+	// {
+	// 	ray->wasHitHorizontaly = 1;
+	// 	ray->goodCollX = ray->collPtHorizX;
+	// 	ray->goodCollY = ray->collPtHorizY;
+	// 	ray->goodDist = ray->distCollHoriz;
+	// }
+// 	ray->noFishEyeDist = ray->goodDist * cos(ray->rayAngle - vars->player.rotation.y);
+	
+// 	//printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->goodDist);
+// }
+
+// void	findRayTexture(t_vars *vars,  *ray)
+// {
+// 	ray->texture = '0';
+// 	if (ray->wasHitHorizontaly == 1 && vars->player.pos.y <= ray->goodCollY)
+// 		ray->texture = 'S';
+// 	else if (ray->wasHitHorizontaly == 1 && vars->player.pos.y > ray->goodCollY)
+// 		ray->texture = 'N';
+// 	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x > ray->goodCollX)
+// 		ray->texture = 'E';
+// 	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x <= ray->goodCollX)
+// 		ray->texture = 'W';
+// }
+
+
+
+
+
+	// if (ray->distCollHoriz == -1)
+	// 	ray->wasHitVerticaly = 1;
+	// else if (ray->distCollVert == -1)
+	// 	ray->wasHitHorizontaly = 1;
+	// else if (ray->distCollVert <= ray->distCollHoriz)
+	// 	ray->wasHitVerticaly = 1;
+	// else if (ray->distCollHoriz <= ray->distCollVert)
+	// 	ray->wasHitHorizontaly = 1;
+	// if (ray->wasHitVerticaly)
+	// {
+	// 	ray->goodCollX = ray->collPtVertX;
+	// 	ray->goodCollY = ray->collPtVertY;
+	// 	ray->goodDist = ray->distCollVert;
+	// }
+	// else
+	// {
+	// 	ray->goodCollX = ray->collPtHorizX;
+	// 	ray->goodCollY = ray->collPtHorizY;
+	// 	ray->goodDist = ray->distCollHoriz;
+	// }
+
+
+
+
+	// 	if (ray->distCollHoriz == -1)
+	// {
+	// 	ray->wasHitVerticaly = 1;
+	// 	ray->goodCollX = ray->collPtVertX;
+	// 	ray->goodCollY = ray->collPtVertY;
+	// 	ray->goodDist = ray->distCollVert;
+	// }
+	// else if (ray->distCollVert == -1)
+	// {
+	// 	ray->wasHitHorizontaly = 1;
+	// 	ray->goodCollX = ray->collPtHorizX;
+	// 	ray->goodCollY = ray->collPtHorizY;
+	// 	ray->goodDist = ray->distCollHoriz;
+	// }
+	// else if (ray->distCollVert <= ray->distCollHoriz)
+	// {
+	// 	ray->wasHitVerticaly = 1;
+	// 	ray->goodCollX = ray->collPtVertX;
+	// 	ray->goodCollY = ray->collPtVertY;
+	// 	ray->goodDist = ray->distCollVert;
+	// }
+	// else if (ray->distCollHoriz <= ray->distCollVert)
+	// {
+	// 	ray->wasHitHorizontaly = 1;
+	// 	ray->goodCollX = ray->collPtHorizX;
+	// 	ray->goodCollY = ray->collPtHorizY;
+	// 	ray->goodDist = ray->distCollHoriz;
+	// }

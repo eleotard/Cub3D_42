@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/07 00:15:17 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/12 18:17:09 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,17 +221,43 @@ void	castHorizRay(t_vars *vars, t_ray *ray)
 
 void	setGoodDistance(t_vars *vars, t_ray *ray)
 {
+	ray->wasHitHorizontaly = 0;
+	ray->wasHitVerticaly = 0;
 	if (ray->distCollHoriz == -1)
-		ray->goodDist = ray->distCollVert;
+		ray->wasHitVerticaly = 1;
 	else if (ray->distCollVert == -1)
-		ray->goodDist = ray->distCollHoriz;
-	else if (ray->distCollHoriz <= ray->distCollVert)
-		ray->goodDist = ray->distCollHoriz;
+		ray->wasHitHorizontaly = 1;
 	else if (ray->distCollVert <= ray->distCollHoriz)
+		ray->wasHitVerticaly = 1;
+	else if (ray->distCollHoriz <= ray->distCollVert)
+		ray->wasHitHorizontaly = 1;
+	if (ray->wasHitVerticaly)
+	{
+		ray->goodCollX = ray->collPtVertX;
+		ray->goodCollY = ray->collPtVertY;
 		ray->goodDist = ray->distCollVert;
+	}
+	else
+	{
+		ray->goodCollX = ray->collPtHorizX;
+		ray->goodCollY = ray->collPtHorizY;
+		ray->goodDist = ray->distCollHoriz;
+	}
 	ray->noFishEyeDist = ray->goodDist * cos(ray->rayAngle - vars->player.rotation.y);
-	// 	ray->goodDist -= 1;
 	//printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->goodDist);
+}
+
+void	findRayTexture(t_vars *vars, t_ray *ray)
+{
+	ray->texture = '0';
+	if (ray->wasHitHorizontaly == 1 && vars->player.pos.y <= ray->goodCollY)
+		ray->texture = 'S';
+	else if (ray->wasHitHorizontaly == 1 && vars->player.pos.y > ray->goodCollY)
+		ray->texture = 'N';
+	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x > ray->goodCollX)
+		ray->texture = 'E';
+	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x <= ray->goodCollX)
+		ray->texture = 'W';
 }
 
 void	castAllRays(t_vars *vars)
@@ -246,6 +272,7 @@ void	castAllRays(t_vars *vars)
 		castHorizRay(vars, &(vars->rays[i]));
 		castVertRay(vars, &(vars->rays[i]));
 		setGoodDistance(vars, &(vars->rays[i]));
+		findRayTexture(vars, &(vars->rays[i]));
 	}
 	
 	// printf(GREEN "dxray= %f\n" RESET, cos(vars->rays[0].rayAngle));
