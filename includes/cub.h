@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/12 17:31:54 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/13 18:40:29 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef	struct s_ray {
 	int		isRayFacingUp;
 	int		isRayFacingDown;
 	float	wallStripHeight;
-	char	texture;
+	int		texture;
 }	t_ray;
 
 typedef struct	s_rc {//raycasting
@@ -130,12 +130,20 @@ typedef struct s_vars {
 	float		projPlanDist;
 	float		WSF;
 	int			tileSize;
-	t_img		*textures[4];
+	t_img		*textures;
+	int			**north;
+	int			**south;
+	int			**west;
+	int			**east;
+	int			floor;
+	int			ceiling;
 	//tab de tab des paths de textures NSEW
 	//tab de tab des couleurs du sol et du ciel
 	
 }	t_vars;
 
+
+void	parsing(char *fichier, t_vars *vars);
 int	ft_parsing_check(char *map_str);
 
 /*UTILS*/
@@ -205,6 +213,10 @@ void	createGameWindow(t_vars *vars);
 void	display_img(t_vars *vars);
 
 void	render(t_vars *vars);
+void	initPixelTabs(t_vars *vars);
+
+
+int	**createPixelTab(t_vars *vars, t_img *texture);
 
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */

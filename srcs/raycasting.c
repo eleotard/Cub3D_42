@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/12 18:17:09 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/13 18:16:19 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,15 +249,15 @@ void	setGoodDistance(t_vars *vars, t_ray *ray)
 
 void	findRayTexture(t_vars *vars, t_ray *ray)
 {
-	ray->texture = '0';
+	ray->texture = 0;
 	if (ray->wasHitHorizontaly == 1 && vars->player.pos.y <= ray->goodCollY)
-		ray->texture = 'S';
+		ray->texture = 1;
 	else if (ray->wasHitHorizontaly == 1 && vars->player.pos.y > ray->goodCollY)
-		ray->texture = 'N';
+		ray->texture = 0;
 	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x > ray->goodCollX)
-		ray->texture = 'E';
+		ray->texture = 2;
 	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x <= ray->goodCollX)
-		ray->texture = 'W';
+		ray->texture = 3;
 }
 
 void	castAllRays(t_vars *vars)

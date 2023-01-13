@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2023/01/05 15:21:40 by eleotard         ###   ########.fr        #
+#    Updated: 2023/01/13 17:07:56 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS_FILES =	main.c \
 				init_player.c \
 				raycasting.c \
 				rendering.c \
+				parse.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs
@@ -35,7 +36,7 @@ INC_DIR = includes
 
 CC = gcc
 
-FLAGS = -I${INC_DIR}/ -Wall -Wextra -Werror -g3
+FLAGS = -I${INC_DIR}/ -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 LIBFT = -Llibft -lft
 

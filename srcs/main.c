@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/12 19:27:08 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/13 19:04:45 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,7 @@ void	check_window_size(t_vars *vars)
 
 void	ft_mlx_win_init(t_vars *vars)
 {
-	vars->mlx = mlx_init();
-	if (!vars->mlx)
-	{
-		ft_destroy_map(vars->map);
-		ft_print_error_exit("Error\nMlx pointer == NULL");
-	}
+
 	//vars->gameWinWide = 1920;
 //	vars->gameWinHeight = 1080;
 	check_window_size(vars);
@@ -157,6 +152,7 @@ void	ft_mlx_win_init(t_vars *vars)
 	if (!vars->game_win)
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");
+	initPixelTabs(vars);
 	init_player_pos(vars);
 	set_minimap(vars);
 	render(vars);
@@ -177,11 +173,10 @@ int	main(int argc, char **argv)
 	vars = (t_vars){0}; //initialise la strcutures et celles a l'interieur
 	if (argc != 2)
 		return (-1);
-	if (ft_check_cub(argv[1]) == ERROR)
-		return (-2);
-	vars.map = create_map_tab(argv[1]);
-	if (!vars.map)
-		return (-3);
+	vars.mlx = mlx_init();
+	if (!vars.mlx)
+		ft_print_error_exit("Error\nMlx pointer == NULL");
+	parsing(argv[1], &vars);
 	ft_mlx_win_init(&vars);
 	mlx_hook(vars.game_win, KeyPress, KeyPressMask, ft_key_hook, &vars);
 	mlx_hook(vars.game_win, KeyRelease, KeyReleaseMask, ft_key_release, &vars);
