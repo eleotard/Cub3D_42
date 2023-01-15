@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/13 18:40:29 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/15 17:20:23 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ typedef	struct s_ray {
 	int		isRayFacingDown;
 	float	wallStripHeight;
 	int		texture;
+	int		wallTopPixel;
+	int		wallBottomPixel;
 }	t_ray;
 
 typedef struct	s_rc {//raycasting

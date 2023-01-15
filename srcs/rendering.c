@@ -6,19 +6,16 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/13 19:08:49 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/15 18:18:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-	//mlx_get_screen_size(vars->mlx, &x, &y);
-
 void	defineProjPlanDist(t_vars *vars)
 {
 	vars->projPlanDist = (vars->tileSize * ft_map_wide(vars->map) / 2)
 		/ tan(FOV_ANGLE / 2);
-	//printf(RED "distance plan de projection = %f\n" RESET, vars->projPlanDist);
 }
 
 void	findWallStripHeights(t_vars *vars)
@@ -29,25 +26,6 @@ void	findWallStripHeights(t_vars *vars)
 	while (++i < vars->rayNb)
 		vars->rays[i].wallStripHeight = (vars->tileSize * vars->projPlanDist)
 			/ vars->rays[i].noFishEyeDist;
-}
-
-void	pixelize_fill(t_vars * vars, t_img *img, int color)
-{
-	int	x;
-	int	y;
-
-	x = 0;
-	y = 0;
-	while (y < vars->gameWinHeight)
-	{
-		x = 0;
-		while (x < vars->gameWinWide)
-		{
-			my_mlx_pixel_put(img, x, y, color);
-			x++;
-		}
-		y++;
-	}
 }
 
 int	**createPixelTab(t_vars *vars, t_img *texture)
@@ -79,16 +57,6 @@ int	**createPixelTab(t_vars *vars, t_img *texture)
 	return (tab);
 }
 
-// int	my_mlx_pixel_reach(t_img *img, int x, int y)
-// {
-// 	char	*dst;
-	
-// 	// if (x < 0 || y < 0)
-// 	// 	return ;
-// 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-// 	return (*(unsigned int *)dst);
-// }
-
 void	initPixelTabs(t_vars *vars)
 {
 	vars->north = createPixelTab(vars, &vars->textures[0]);
@@ -97,79 +65,78 @@ void	initPixelTabs(t_vars *vars)
 	vars->east = createPixelTab(vars, &vars->textures[3]);
 }
 
-void	drawWalls(t_vars *vars, t_img *img)
+void	initWallTopBottomPixels(t_vars *vars, t_ray *ray)
 {
-	int	x;
-	int y;
-	int a;
-	
+	ray->wallTopPixel = (vars->gameWinHeight / 2) - (ray->wallStripHeight / 2);
+	if (ray->wallTopPixel < 0)
+		ray->wallTopPixel = 0;
+	ray->wallBottomPixel = (vars->gameWinHeight / 2) + (ray->wallStripHeight / 2);
+	if (ray->wallBottomPixel > vars->gameWinHeight)
+		ray->wallBottomPixel = vars->gameWinHeight;
+}
 
-	x = -1;
-	y = vars->gameWinHeight / 2;
-	while (++x < vars->rayNb)
+void	drawCeilingAndFloor(t_vars *vars, t_ray *ray, int x)
+{
+	int	y;
+
+	y = -1;
+	while (++y < ray->wallTopPixel)
+		my_mlx_pixel_put(&vars->game_img, x, y, vars->ceiling);
+	y = vars->gameWinHeight;
+	while (y > ray->wallBottomPixel)
 	{
-		a = -1;
-		while (++a < vars->rays[x].wallStripHeight / 2)
-		{
-			if ((y + a) < vars->gameWinHeight)
-			{
-				if (vars->rays[x].wasHitHorizontaly)
-					my_mlx_pixel_put(img, x, y + a, 
-						vars->north[(int)vars->rays[x].goodCollX % vars->tileSize]
-							[(vars->tileSize / 2) + a]);
-				else
-					my_mlx_pixel_put(img, x, y + a, 
-						vars->north[(int)vars->rays[x].goodCollY % vars->tileSize]
-							[(vars->tileSize / 2) + a]);
-				
-			}
-			else
-				break ;
-		}
-		while ((y + a) < vars->gameWinHeight)
-		{
-			if ((y + a) < vars->gameWinHeight)
-				my_mlx_pixel_put(img, x, y + a, vars->floor);
-			else
-				break ;
-			a++;
-		}
-		a = -1;
-		while (++a < vars->rays[x].wallStripHeight / 2)
-		{
-			if ((y - a) > 0)
-			{
-				if (vars->rays[x].wasHitHorizontaly)
-					my_mlx_pixel_put(img, x, y - a, 
-						vars->north[(int)vars->rays[x].goodCollX % vars->tileSize]
-							[(vars->tileSize / 2) - a]);
-				else
-					my_mlx_pixel_put(img, x, y - a, 
-						vars->north[(int)vars->rays[x].goodCollY % vars->tileSize]
-							[(vars->tileSize / 2) - a]);
-			}
-			else
-				break ;
-		}
-		while ((y - a) > 0)
-		{
-			if ((y - a) > 0)
-				my_mlx_pixel_put(img, x, y - a, vars->ceiling);
-			else
-				break ;
-			a++;
-		}
+		my_mlx_pixel_put(&vars->game_img, x, y, vars->floor);
+		y--;
 	}
+}
+
+void	drawWallTexture(t_vars *vars, t_ray *ray, int x)
+{
+	int	y;
+	int	distanceFromTop;
+	int	textureOffsetX;
+	int textureOffsetY;
+
+	if (ray->wasHitVerticaly)
+		textureOffsetX = (int)ray->goodCollY % vars->tileSize;
+	else
+		textureOffsetX = (int)ray->goodCollX % vars->tileSize;
+	y = ray->wallTopPixel;
+	while (y <= ray->wallBottomPixel)
+	{
+		distanceFromTop = y + (ray->wallStripHeight / 2) - (vars->gameWinHeight / 2);
+		textureOffsetY = distanceFromTop * ((float)vars->tileSize / ray->wallStripHeight);
+		if (textureOffsetX >= vars->tileSize || textureOffsetY >= vars->tileSize
+			|| textureOffsetY < 0)
+			break ;
+		if (ray->texture == 0)
+			my_mlx_pixel_put(&vars->game_img, x, y, vars->north[textureOffsetY][textureOffsetX]);
+		if (ray->texture == 1)
+			my_mlx_pixel_put(&vars->game_img, x, y, vars->south[textureOffsetY][textureOffsetX]);
+		if (ray->texture == 2)
+			my_mlx_pixel_put(&vars->game_img, x, y, vars->west[textureOffsetY][textureOffsetX]);
+		if (ray->texture == 3)
+			my_mlx_pixel_put(&vars->game_img, x, y, vars->east[textureOffsetY][textureOffsetX]);
+		y++;
+	}
+}
+
+void	drawStripes(t_vars *vars, t_ray *ray, int x)
+{
+	initWallTopBottomPixels(vars, ray);
+	drawCeilingAndFloor(vars, ray, x);
+	drawWallTexture(vars, ray, x);
 }
 
 void	render(t_vars *vars)
 {
-	
-	//castAllRays(vars);
+	int	x;
+
 	defineProjPlanDist(vars);
 	findWallStripHeights(vars);
-	drawWalls(vars, &(vars->game_img));
-	//display_img(vars, &(vars->game_img));
+	x = -1;
+	while (++x < vars->rayNb)
+		drawStripes(vars, &vars->rays[x], x);
 	
 	pixelize_ground(vars, &(vars->game_img), 0x0011000);
 	pixelize_walls(vars, &(vars->game_img), 0xFFFFFF);
