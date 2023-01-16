@@ -6,23 +6,22 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/01 17:16:54 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/13 18:16:19 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:25:55 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void    updateRaysAngles(t_vars *vars)
+void	update_rays_angles(t_vars *vars)
 {
 	int			i;
 	static int	status;
-	
-	//cb de rayons veut-on tirer sur l'ensemble des pixels
+
 	if (status == 0)
 	{
-		vars->rayNb = vars->gameWinWide; //un rayon pour tous les px
-		vars->angleStep = FOV_ANGLE / vars->rayNb;
-		vars->rays = malloc(sizeof(t_ray) * vars->rayNb);
+		vars->ray_nb = vars->game_win_wide;
+		vars->angle_step = FOV_ANGLE / vars->ray_nb;
+		vars->rays = malloc(sizeof(t_ray) * vars->ray_nb);
 		if (!vars->rays)
 		{
 			ft_destroy_all(vars->map, vars->mlx, vars->minimap.win, vars);
@@ -30,251 +29,234 @@ void    updateRaysAngles(t_vars *vars)
 		}
 		status++;
 	}
-	vars->rays[0].rayAngle = vars->player.rotation.y - (FOV_ANGLE / 2);
+	vars->rays[0].ray_angle = vars->player.rotation.y - (FOV_ANGLE / 2);
 	i = 0;
-	while (i < vars->rayNb)
+	while (i < vars->ray_nb)
 	{
 		i++;
-		if (i < vars->rayNb && vars->rayNb > 0)
-			vars->rays[i].rayAngle = vars->rays[i - 1].rayAngle + vars->angleStep;
-    }
+		if (i < vars->ray_nb && vars->ray_nb > 0)
+			vars->rays[i].ray_angle = vars->rays[i - 1].ray_angle \
+				+ vars->angle_step;
+	}
 }
 
-
-
-void	updateRaysOrientation(t_vars *vars)
+void	update_rays_orientation(t_vars *vars)
 {
 	int	i;
 
 	i = -1;
-	while (++i < vars->rayNb)
+	while (++i < vars->ray_nb)
 	{
-		vars->rays[i].isRayFacingUp = 0;
-		vars->rays[i].isRayFacingDown = 0;
-		vars->rays[i].isRayFacingLeft = 0;
-		vars->rays[i].isRayFacingRight = 0;
-		if (sin(vars->rays[i].rayAngle) < 0)
-			vars->rays[i].isRayFacingUp = 1;
+		vars->rays[i].is_ray_facing_up = 0;
+		vars->rays[i].is_ray_facing_down = 0;
+		vars->rays[i].is_ray_facing_left = 0;
+		vars->rays[i].is_ray_facing_right = 0;
+		if (sin(vars->rays[i].ray_angle) < 0)
+			vars->rays[i].is_ray_facing_up = 1;
 		else
-			vars->rays[i].isRayFacingDown = 1;
-		if (cos(vars->rays[i].rayAngle) < 0)
-			vars->rays[i].isRayFacingLeft = 1;
+			vars->rays[i].is_ray_facing_down = 1;
+		if (cos(vars->rays[i].ray_angle) < 0)
+			vars->rays[i].is_ray_facing_left = 1;
 		else
-			vars->rays[i].isRayFacingRight = 1;
+			vars->rays[i].is_ray_facing_right = 1;
 	}
 }
 
-void	findCollVert(t_vars *vars, t_ray *ray, t_rc rc)
+void	find_coll_vert(t_vars *vars, t_ray *ray, t_rc rc)
 {
 	int		found;
 
 	found = 0;
 	if (rc.yintercept <= 0 || rc.yintercept
-		>= (ft_map_height(vars->map)) * vars->tileSize)
+		>= (ft_map_height(vars->map)) * vars->tile_sz)
 	{
-		ray->distCollVert = -1;
-		return;
-	}
-	if (vars->map[(int)rc.yintercept / vars->tileSize][(int)rc.xintercept / vars->tileSize] == '1')
-	{
-		// printf(YELLOW "testing map[%d][%d]\n" RESET, 
-		// 	(int)(rc.yintercept / vars->tileSize), (int)rc.xintercept / vars->tileSize);
-		ray->collPtVertY = rc.yintercept;
-		ray->collPtVertX = rc.xintercept;
-		ray->distCollVert = sqrt(fabs(vars->player.pos.x - rc.xintercept)
-			* fabs(vars->player.pos.x - rc.xintercept)
-			+ fabs(vars->player.pos.y - rc.yintercept)
-			* fabs(vars->player.pos.y - rc.yintercept));
-		found = 1;
-		//printf(RED "\tDISSSSSSSSSSSST X= %f\n" RESET, ray->distCollVert);
+		ray->dist_coll_vert = -1;
 		return ;
 	}
-	ray->collPtVertX = rc.xintercept;
-	ray->collPtVertY = rc.yintercept;
+	if (vars->map[(int)rc.yintercept / vars->tile_sz]
+		[(int)rc.xintercept / vars->tile_sz] == '1')
+	{
+		ray->collptvert_y = rc.yintercept;
+		ray->collptvert_x = rc.xintercept;
+		ray->dist_coll_vert = sqrt(fabs(vars->player.pos.x - rc.xintercept) \
+			* fabs(vars->player.pos.x - rc.xintercept) \
+			+ fabs(vars->player.pos.y - rc.yintercept) \
+			* fabs(vars->player.pos.y - rc.yintercept));
+		found = 1;
+		return ;
+	}
+	ray->collptvert_x = rc.xintercept;
+	ray->collptvert_y = rc.yintercept;
 	while (found == 0)
 	{
-		ray->collPtVertX += rc.xstep;
-		ray->collPtVertY += rc.ystep;
-		if (ray->collPtVertY <= 0 || ray->collPtVertY
-			>= (ft_map_height(vars->map) * vars->tileSize))
+		ray->collptvert_x += rc.xstep;
+		ray->collptvert_y += rc.ystep;
+		if (ray->collptvert_y <= 0 || ray->collptvert_y
+			>= (ft_map_height(vars->map) * vars->tile_sz))
 		{
-			ray->distCollVert = -1;
+			ray->dist_coll_vert = -1;
 			break ;
 		}
-		if (vars->map[(int)ray->collPtVertY / vars->tileSize]
-			[(int)ray->collPtVertX / vars->tileSize] == '1')
+		if (vars->map[(int)ray->collptvert_y / vars->tile_sz]
+			[(int)ray->collptvert_x / vars->tile_sz] == '1')
 		{
-			ray->distCollVert = sqrt(fabs(vars->player.pos.x - ray->collPtVertX)
-				* fabs(vars->player.pos.x - ray->collPtVertX)
-				+ fabs(vars->player.pos.y - ray->collPtVertY)
-				* fabs(vars->player.pos.y - ray->collPtVertY));
+			ray->dist_coll_vert = sqrt(fabs(vars->player.pos.x
+						- ray->collptvert_x)
+					* fabs(vars->player.pos.x - ray->collptvert_x) \
+					+ fabs(vars->player.pos.y - ray->collptvert_y) \
+					* fabs(vars->player.pos.y - ray->collptvert_y));
 			found = 1;
 		}
 	}
 }
 
-
-void	castVertRay(t_vars *vars, t_ray *ray)
+void	cast_vert_ray(t_vars *vars, t_ray *ray)
 {
-	t_rc rc;
-	
-	rc.xintercept = floor(vars->player.pos.x / vars->tileSize) * vars->tileSize - 0.1;
-	if (ray->isRayFacingRight)
-		rc.xintercept += vars->tileSize + 0.1;
-	rc.yintercept = vars->player.pos.y + (rc.xintercept - vars->player.pos.x) * tan(ray->rayAngle); //adj = opp / tan
+	t_rc	rc;
 
-	rc.xstep = vars->tileSize;
-	if (ray->isRayFacingLeft)
+	rc.xintercept = floor(vars->player.pos.x / vars->tile_sz)
+		* vars->tile_sz - 0.1;
+	if (ray->is_ray_facing_right)
+		rc.xintercept += vars->tile_sz + 0.1;
+	rc.yintercept = vars->player.pos.y + (rc.xintercept - vars->player.pos.x)
+		* tan(ray->ray_angle);
+	rc.xstep = vars->tile_sz;
+	if (ray->is_ray_facing_left)
 		rc.xstep *= -1;
-	rc.ystep = vars->tileSize * tan(ray->rayAngle);
-	if (ray->isRayFacingUp && rc.ystep > 0)
+	rc.ystep = vars->tile_sz * tan(ray->ray_angle);
+	if (ray->is_ray_facing_up && rc.ystep > 0)
 		rc.ystep *= -1;
-	if (ray->isRayFacingDown && rc.ystep < 0)
+	if (ray->is_ray_facing_down && rc.ystep < 0)
 		rc.ystep *= -1;
-	
-	// printf("\tx intercept = %f\n", rc.xintercept);
-	// printf("\ty intercept = %f\n", rc.yintercept);
-	// printf("\txstep = %f\n", rc.xstep);
-	// printf("\tystep = %f\n", rc.ystep);
-	// printf("\tx intercept = %f\n", rc.xintercept/vars->tileSize);
-	// printf("\ty intercept = %f\n", rc.yintercept/vars->tileSize);
-	findCollVert(vars, ray, rc);
+	find_coll_vert(vars, ray, rc);
 }
 
-
-
-
-void	findCollHoriz(t_vars *vars, t_ray *ray, t_rc rc)
+void	find_coll_horiz(t_vars *vars, t_ray *ray, t_rc rc)
 {
 	int		found;
 
 	found = 0;
 	if (rc.xintercept <= 0 || rc.xintercept
-		>= (ft_map_wide(vars->map)) * vars->tileSize)
+		>= (ft_map_wide(vars->map)) * vars->tile_sz)
 	{
-		ray->distCollHoriz = -1;
-		return;
-	}
-	if (vars->map[(int)rc.yintercept / vars->tileSize][(int)rc.xintercept / vars->tileSize] == '1')
-	{
-		// printf(YELLOW "testing map[%d][%d]\n" RESET, 
-		// 	(int)(rc.yintercept / vars->tileSize), (int)rc.xintercept / vars->tileSize);
-		ray->collPtHorizY = rc.yintercept;
-		ray->collPtHorizX = rc.xintercept;
-		ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - rc.xintercept)
-			* fabs(vars->player.pos.x - rc.xintercept)
-			+ fabs(vars->player.pos.y - rc.yintercept)
-			* fabs(vars->player.pos.y - rc.yintercept));
-		found = 1;
-		//printf(RED "\tDISSSSSSSSSSSST Y= %f\n" RESET, ray->distCollHoriz);
+		ray->dist_coll_horiz = -1;
 		return ;
 	}
-	ray->collPtHorizX = rc.xintercept;
-	ray->collPtHorizY = rc.yintercept;
+	if (vars->map[(int)rc.yintercept / vars->tile_sz]
+		[(int)rc.xintercept / vars->tile_sz] == '1')
+	{
+		ray->collpthoriz_y = rc.yintercept;
+		ray->collpthoriz_x = rc.xintercept;
+		ray->dist_coll_horiz = sqrt(fabs(vars->player.pos.x - rc.xintercept) \
+			* fabs(vars->player.pos.x - rc.xintercept) \
+			+ fabs(vars->player.pos.y - rc.yintercept) \
+			* fabs(vars->player.pos.y - rc.yintercept));
+		found = 1;
+		return ;
+	}
+	ray->collpthoriz_x = rc.xintercept;
+	ray->collpthoriz_y = rc.yintercept;
 	while (found == 0)
 	{
-		ray->collPtHorizX += rc.xstep;
-		ray->collPtHorizY += rc.ystep;
-		if (ray->collPtHorizX <= 0 || ray->collPtHorizX
-			>= (ft_map_wide(vars->map) * vars->tileSize))
+		ray->collpthoriz_x += rc.xstep;
+		ray->collpthoriz_y += rc.ystep;
+		if (ray->collpthoriz_x <= 0 || ray->collpthoriz_x
+			>= (ft_map_wide(vars->map) * vars->tile_sz))
 		{
-			ray->distCollHoriz = -1;
+			ray->dist_coll_horiz = -1;
 			break ;
 		}
-		if (vars->map[(int)ray->collPtHorizY / vars->tileSize]
-			[(int)ray->collPtHorizX / vars->tileSize] == '1')
+		if (vars->map[(int)ray->collpthoriz_y / vars->tile_sz]
+			[(int)ray->collpthoriz_x / vars->tile_sz] == '1')
 		{
-			ray->distCollHoriz = sqrt(fabs(vars->player.pos.x - ray->collPtHorizX)
-				* fabs(vars->player.pos.x - ray->collPtHorizX)
-				+ fabs(vars->player.pos.y - ray->collPtHorizY)
-				* fabs(vars->player.pos.y - ray->collPtHorizY));
+			ray->dist_coll_horiz = sqrt(fabs(vars->player.pos.x
+						- ray->collpthoriz_x)
+					* fabs(vars->player.pos.x - ray->collpthoriz_x)
+					+ fabs(vars->player.pos.y - ray->collpthoriz_y)
+					* fabs(vars->player.pos.y - ray->collpthoriz_y));
 			found = 1;
 		}
 	}
 }
 
-void	castHorizRay(t_vars *vars, t_ray *ray)
+void	cast_horiz_ray(t_vars *vars, t_ray *ray)
 {
-	t_rc rc;
-	
-	rc.yintercept = floor(vars->player.pos.y / vars->tileSize) * vars->tileSize -0.1;
-	if (ray->isRayFacingDown)
-		rc.yintercept += vars->tileSize + 0.1;
-	rc.xintercept = vars->player.pos.x + (rc.yintercept - vars->player.pos.y) / tan(ray->rayAngle); //adj = opp / tan
-	rc.ystep = vars->tileSize;
-	if (ray->isRayFacingUp)
+	t_rc	rc;
+
+	rc.yintercept = floor(vars->player.pos.y / vars->tile_sz)
+		* vars->tile_sz - 0.1;
+	if (ray->is_ray_facing_down)
+		rc.yintercept += vars->tile_sz + 0.1;
+	rc.xintercept = vars->player.pos.x + (rc.yintercept - vars->player.pos.y)
+		/ tan(ray->ray_angle);
+	rc.ystep = vars->tile_sz;
+	if (ray->is_ray_facing_up)
 		rc.ystep *= -1;
-	rc.xstep = vars->tileSize / tan(ray->rayAngle);
-	if (ray->isRayFacingLeft && rc.xstep > 0)
+	rc.xstep = vars->tile_sz / tan(ray->ray_angle);
+	if (ray->is_ray_facing_left && rc.xstep > 0)
 		rc.xstep *= -1;
-	if (ray->isRayFacingRight && rc.xstep < 0)
+	if (ray->is_ray_facing_right && rc.xstep < 0)
 		rc.xstep *= -1;
-	
-	// printf("\tx intercept = %f\n", rc.xintercept);
-	// printf("\ty intercept = %f\n", rc.yintercept);
-	// printf("\txstep = %f\n", rc.xstep);
-	// printf("\tystep = %f\n", rc.ystep);
-	// printf("\tx intercept = %f\n", rc.xintercept/vars->tileSize);
-	// printf("\ty intercept = %f\n", rc.yintercept/vars->tileSize);
-	findCollHoriz(vars, ray, rc);
+	find_coll_horiz(vars, ray, rc);
 }
 
-void	setGoodDistance(t_vars *vars, t_ray *ray)
+void	set_good_distance(t_vars *vars, t_ray *ray)
 {
-	ray->wasHitHorizontaly = 0;
-	ray->wasHitVerticaly = 0;
-	if (ray->distCollHoriz == -1)
-		ray->wasHitVerticaly = 1;
-	else if (ray->distCollVert == -1)
-		ray->wasHitHorizontaly = 1;
-	else if (ray->distCollVert <= ray->distCollHoriz)
-		ray->wasHitVerticaly = 1;
-	else if (ray->distCollHoriz <= ray->distCollVert)
-		ray->wasHitHorizontaly = 1;
-	if (ray->wasHitVerticaly)
+	ray->was_hit_horizontal = 0;
+	ray->was_hit_vertical = 0;
+	if (ray->dist_coll_horiz == -1)
+		ray->was_hit_vertical = 1;
+	else if (ray->dist_coll_vert == -1)
+		ray->was_hit_horizontal = 1;
+	else if (ray->dist_coll_vert <= ray->dist_coll_horiz)
+		ray->was_hit_vertical = 1;
+	else if (ray->dist_coll_horiz <= ray->dist_coll_vert)
+		ray->was_hit_horizontal = 1;
+	if (ray->was_hit_vertical)
 	{
-		ray->goodCollX = ray->collPtVertX;
-		ray->goodCollY = ray->collPtVertY;
-		ray->goodDist = ray->distCollVert;
+		ray->goodcoll_x = ray->collptvert_x;
+		ray->goodcoll_y = ray->collptvert_y;
+		ray->good_dist = ray->dist_coll_vert;
 	}
 	else
 	{
-		ray->goodCollX = ray->collPtHorizX;
-		ray->goodCollY = ray->collPtHorizY;
-		ray->goodDist = ray->distCollHoriz;
+		ray->goodcoll_x = ray->collpthoriz_x;
+		ray->goodcoll_y = ray->collpthoriz_y;
+		ray->good_dist = ray->dist_coll_horiz;
 	}
-	ray->noFishEyeDist = ray->goodDist * cos(ray->rayAngle - vars->player.rotation.y);
-	//printf(RED "\tDISSSSSSSSSSSST = %f\n" RESET, ray->goodDist);
+	ray->no_fisheye_dist = ray->good_dist
+		* cos(ray->ray_angle - vars->player.rotation.y);
 }
 
-void	findRayTexture(t_vars *vars, t_ray *ray)
+void	find_ray_texture(t_vars *vars, t_ray *ray)
 {
 	ray->texture = 0;
-	if (ray->wasHitHorizontaly == 1 && vars->player.pos.y <= ray->goodCollY)
+	if (ray->was_hit_horizontal == 1
+		&& vars->player.pos.y <= ray->goodcoll_y)
 		ray->texture = 1;
-	else if (ray->wasHitHorizontaly == 1 && vars->player.pos.y > ray->goodCollY)
+	else if (ray->was_hit_horizontal == 1
+		&& vars->player.pos.y > ray->goodcoll_y)
 		ray->texture = 0;
-	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x > ray->goodCollX)
+	else if (ray->was_hit_vertical == 1
+		&& vars->player.pos.x > ray->goodcoll_x)
 		ray->texture = 2;
-	else if (ray->wasHitVerticaly == 1 && vars->player.pos.x <= ray->goodCollX)
+	else if (ray->was_hit_vertical == 1
+		&& vars->player.pos.x <= ray->goodcoll_x)
 		ray->texture = 3;
 }
 
-void	castAllRays(t_vars *vars)
+void	cast_all_rays(t_vars *vars)
 {
-	int i;
-	
-	updateRaysAngles(vars);
-	updateRaysOrientation(vars);
+	int	i;
+
+	update_rays_angles(vars);
+	update_rays_orientation(vars);
 	i = -1;
-	while (++i < vars->rayNb)
+	while (++i < vars->ray_nb)
 	{
-		castHorizRay(vars, &(vars->rays[i]));
-		castVertRay(vars, &(vars->rays[i]));
-		setGoodDistance(vars, &(vars->rays[i]));
-		findRayTexture(vars, &(vars->rays[i]));
+		cast_horiz_ray(vars, &(vars->rays[i]));
+		cast_vert_ray(vars, &(vars->rays[i]));
+		set_good_distance(vars, &(vars->rays[i]));
+		find_ray_texture(vars, &(vars->rays[i]));
 	}
-	
-	// printf(GREEN "dxray= %f\n" RESET, cos(vars->rays[0].rayAngle));
-	// printf(GREEN "dyray= %f\n" RESET, sin(vars->rays[0].rayAngle));
 }

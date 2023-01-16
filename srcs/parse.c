@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 17:46:00 by elpastor          #+#    #+#             */
-/*   Updated: 2023/01/13 19:07:53 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:21:29 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ int	get_texture(char *s, t_vars *vars, int texture_type)
 	path2img(get_path_texture(&s[i], &i), &vars->textures[texture_type], vars);
 	return (i + 1);
 }
-
 
 int		check_color(char *s)
 {

@@ -6,12 +6,11 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 02:11:54 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:55:52 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
-
 
 int	ft_mouse_hook(t_vars *vars)
 {
@@ -25,43 +24,41 @@ int	ft_key_hook(int keycode, t_vars	*vars)
 		ft_close(vars);
 	if (keycode == XK_w)
 	{
-		vars->player.walkDirection = +1;
-		moveForeward(vars);
+		vars->player.walk_direction = +1;
+		move_foreward(vars);
 	}
 	if (keycode == XK_s)
 	{
-		vars->player.walkDirection = -1;
-		moveBackward(vars);
+		vars->player.walk_direction = -1;
+		move_backward(vars);
 	}
 	if (keycode == XK_d)
-		moveRight(vars);
+		move_right(vars);
 	if (keycode == XK_a)
-		moveLeft(vars);
+		move_left(vars);
 	if (keycode == XK_Right)
 	{
-		vars->player.turnDirection = +1;
-		watchRight(vars);
+		vars->player.turn_direction = +1;
+		watch_right(vars);
 	}
 	if (keycode == XK_Left)
 	{
-		vars->player.turnDirection = -1;
-		watchLeft(vars);
+		vars->player.turn_direction = -1;
+		watch_left(vars);
 	}
-	// printf("turn = %d\n", vars->player.turnDirection);
-	// printf("walk = %d\n", vars->player.walkDirection);
 	return (0);
 }
 
 int	ft_key_release(int keycode, t_vars	*vars)
 {
 	if (keycode == XK_w)
-		vars->player.walkDirection = 0;
+		vars->player.walk_direction = 0;
 	if (keycode == XK_s)
-		vars->player.walkDirection = 0;
+		vars->player.walk_direction = 0;
 	if (keycode == XK_Right)
-		vars->player.turnDirection = 0;
+		vars->player.turn_direction = 0;
 	if (keycode == XK_Left)
-		vars->player.turnDirection = 0;
+		vars->player.turn_direction = 0;
 	return (0);
 }
 

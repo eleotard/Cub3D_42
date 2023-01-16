@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/15 17:20:23 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:54:00 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,18 @@
 # include <unistd.h>
 # include "../libft/libft.h"
 # include "../minilibx-linux/mlx.h"
-//# include "../minilibx-linux/mlx_int.h"
 # include "get_next_line.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <fcntl.h>
 # include <math.h>
 
-# define MSF			0.2 //MINIMAP SCALE FACTOR
-# define ROTATION_SPEED	2 * (3.1415926535 / 180)
-# define MOVE_SPEED		4 //la distance en pixels que tu vas parcourir a chaque fois
+# define MSF			0.2
+# define ROTATION_SPEED	0.03490658503888889 //2 * (3.1415926535 / 180)
+# define MOVE_SPEED		10
 # define ERROR			(-1)
 # define PI				3.1415926535
-# define FOV_ANGLE		60 * (PI / 180)
+# define FOV_ANGLE		1.0471975511666667 //60 * (3.1415926535 / 180)
 
 typedef enum s_type
 {
@@ -41,18 +40,18 @@ typedef enum s_type
 }	t_type;
 
 typedef struct s_line_params {
-	int	dx; //distance
+	int	dx;
 	int	dy;
-	int sx; //sign
+	int	sx;
 	int	sy;
-} t_line_params;
+}	t_line_params;
 
-typedef struct s_line_cd { //coordonnees
+typedef struct s_line_cd {
 	float	x0;
 	float	y0;
 	float	x1;
 	float	y1;
-} t_line_cd;
+}	t_line_cd;
 
 typedef struct s_img {
 	void	*ptr;
@@ -73,48 +72,48 @@ typedef struct s_minimap {
 }	t_minimap;
 
 typedef struct s_vec3 {
-	float x;
-	float y;
-	float z;
+	float	x;
+	float	y;
+	float	z;
 }	t_vec3;
 
 typedef struct s_player {
 	t_vec3	pos;
 	t_vec3	rotation;
 	t_vec3	direction;
-	int 	walkDirection;
-	int		turnDirection;
+	int		walk_direction;
+	int		turn_direction;
 }	t_player;
 
-typedef	struct s_ray {
-	float	rayAngle;
-	float	distCollHoriz;
-	float	distCollVert;
-	float	collPtHorizX;
-	float	collPtHorizY;
-	float	collPtVertX;
-	float	collPtVertY;
-	float	goodDist;
-	float	goodCollX;
-	float	goodCollY;
-	int		wasHitVerticaly;
-	int		wasHitHorizontaly;
-	float	noFishEyeDist;
-	int		isRayFacingRight;
-	int		isRayFacingLeft;
-	int		isRayFacingUp;
-	int		isRayFacingDown;
-	float	wallStripHeight;
+typedef struct s_ray {
+	float	ray_angle;
+	float	dist_coll_horiz;
+	float	dist_coll_vert;
+	float	collpthoriz_x;
+	float	collpthoriz_y;
+	float	collptvert_x;
+	float	collptvert_y;
+	float	good_dist;
+	float	goodcoll_x;
+	float	goodcoll_y;
+	int		was_hit_vertical;
+	int		was_hit_horizontal;
+	float	no_fisheye_dist;
+	int		is_ray_facing_right;
+	int		is_ray_facing_left;
+	int		is_ray_facing_up;
+	int		is_ray_facing_down;
+	float	wall_strip_height;
 	int		texture;
-	int		wallTopPixel;
-	int		wallBottomPixel;
+	int		wall_top_pixel;
+	int		wall_bottom_pixel;
 }	t_ray;
 
-typedef struct	s_rc {//raycasting
-	float xstep;
-	float ystep;
-	float xintercept;// = 1st intersection
-	float yintercept;// = 1st intersection
+typedef struct s_rc {//raycasting
+	float	xstep;
+	float	ystep;
+	float	xintercept;
+	float	yintercept;
 }	t_rc;
 
 typedef struct s_vars {
@@ -125,13 +124,13 @@ typedef struct s_vars {
 	t_ray		*rays;
 	t_img		game_img;
 	void		*game_win;
-	int			gameWinWide;
-	int			gameWinHeight;
-	int			rayNb;
-	float		angleStep;
-	float		projPlanDist;
-	float		WSF;
-	int			tileSize;
+	int			game_win_wide;
+	int			game_win_height;
+	int			ray_nb;
+	float		angle_step;
+	float		projplan_dist;
+	float		wsf;
+	int			tile_sz;
 	t_img		*textures;
 	int			**north;
 	int			**south;
@@ -139,14 +138,10 @@ typedef struct s_vars {
 	int			**east;
 	int			floor;
 	int			ceiling;
-	//tab de tab des paths de textures NSEW
-	//tab de tab des couleurs du sol et du ciel
-	
 }	t_vars;
 
-
 void	parsing(char *fichier, t_vars *vars);
-int	ft_parsing_check(char *map_str);
+int		ft_parsing_check(char *map_str);
 
 /*UTILS*/
 int		ft_strcmp(char *s1, char *s2);
@@ -165,20 +160,23 @@ void	ft_destroy_map(char **map);
 void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars);
 void	ft_print_error_exit(char *error);
 
+void	destroy_inttab(t_vars *vars, int **pix_tab);
+void	destroy_all_inttabs(t_vars *vars);
+
 /*MOVES*/
-void	moveLeft(t_vars *vars);
-void	moveRight(t_vars *vars);
-void	moveForeward(t_vars *vars);
-void	moveBackward(t_vars *vars);
+void	move_left(t_vars *vars);
+void	move_right(t_vars *vars);
+void	move_foreward(t_vars *vars);
+void	move_backward(t_vars *vars);
 
-void	watchLeft(t_vars *vars);
-void	watchRight(t_vars *vars);
+void	watch_left(t_vars *vars);
+void	watch_right(t_vars *vars);
 
-void	updateDirection(t_vars *vars);
+void	update_direction(t_vars *vars);
 
 /*MAP CHARACTERISTIC*/
-int	ft_map_height(char **map);
-int	ft_map_wide(char **map);
+int		ft_map_height(char **map);
+int		ft_map_wide(char **map);
 
 /*DRAW LINE*/
 void	line(t_img *img, t_line_cd cd, int color);
@@ -188,7 +186,7 @@ void	set_minimap(t_vars *vars);
 void	create_img(t_vars *vars, t_img *img, int x, int y);
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void	pixelize_fill(t_vars * vars, t_img *img, int color);
+void	pixelize_fill(t_vars *vars, t_img *img, int color);
 void	pixelize_walls(t_vars *vars, t_img *img, int color);
 void	pixelize_grid(t_vars *vars, t_img *img, int color);
 void	pixelize_player(t_vars *vars, t_img *img, int color);
@@ -196,14 +194,24 @@ void	pixelize_ground(t_vars *vars, t_img *img, int color);
 void	pixelize_dir_vector(t_vars *vars, t_img *img, int color);
 
 void	display_minimap_img(t_vars *vars);
-void	re_display_minimap(t_vars *vars);
+void	render(t_vars *vars);
 
 /*RAYCASTING*/
-void	drawRays(t_vars *vars, t_img *img, int color);
-void	castAllRays(t_vars *vars);
-void	castHorizRay(t_vars *vars, t_ray *ray);
-void	updateRaysOrientation(t_vars *vars);
-void    updateRaysAngles(t_vars *vars);
+void	draw_rays(t_vars *vars, t_img *img, int color);
+void	cast_all_rays(t_vars *vars);
+void	cast_horiz_ray(t_vars *vars, t_ray *ray);
+void	update_rays_orientation(t_vars *vars);
+void	update_rays_angles(t_vars *vars);
+
+/*RENDERING*/
+void	render(t_vars *vars);
+int		**create_pixel_tab(t_vars *vars, t_img *texture);
+void	init_pixel_tabs(t_vars *vars);
+void	init_wall_top_bottom_pixels(t_vars *vars, t_ray *ray);
+int		**create_pixel_tab(t_vars *vars, t_img *texture);
+void	find_wall_strip_heights(t_vars *vars);
+void	define_projplan_dist(t_vars *vars);
+void	set_img(t_vars *vars);
 
 /*player POSITION*/
 void	init_player_pos(t_vars *vars);
@@ -211,23 +219,16 @@ void	init_player_rotation(t_vars *vars, char dir);
 void	display_player(t_vars *vars);
 
 /*3D*/
-void	createGameWindow(t_vars *vars);
-void	display_img(t_vars *vars);
+void	create_game_window(t_vars *vars);
 
-void	render(t_vars *vars);
-void	initPixelTabs(t_vars *vars);
-
-
-int	**createPixelTab(t_vars *vars, t_img *texture);
-
-#define RESET   "\033[0m"
-#define BLACK   "\033[30m"      /* Black */
-#define RED     "\033[31m"      /* Red */
-#define GREEN   "\033[32m"      /* Green */
-#define YELLOW  "\033[33m"      /* Yellow */
-#define BLUE    "\033[34m"      /* Blue */
-#define MAGENTA "\033[35m"      /* Magenta */
-#define CYAN    "\033[36m"      /* Cyan */
-#define WHITE   "\033[37m"      /* White */
+# define RESET   "\033[0m"
+# define BLACK   "\033[30m"      /* Black */
+# define RED     "\033[31m"      /* Red */
+# define GREEN   "\033[32m"      /* Green */
+# define YELLOW  "\033[33m"      /* Yellow */
+# define BLUE    "\033[34m"      /* Blue */
+# define MAGENTA "\033[35m"      /* Magenta */
+# define CYAN    "\033[36m"      /* Cyan */
+# define WHITE   "\033[37m"      /* White */
 
 #endif

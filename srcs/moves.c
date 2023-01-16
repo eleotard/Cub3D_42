@@ -6,142 +6,83 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/13 18:31:17 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/06 18:19:30 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/16 20:55:45 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void	moveForeward(t_vars *vars)
+void	move_foreward(t_vars *vars)
 {
-	float	moveStep;
-	float	nextX;
-	float	nextY;
-	
-	moveStep = vars->player.walkDirection * MOVE_SPEED;
-	nextX = vars->player.pos.x + vars->player.direction.x * moveStep;
-	nextY = vars->player.pos.y + vars->player.direction.y * moveStep;
-	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
-	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
-	{
-		vars->player.pos.x = nextX;
-		vars->player.pos.y = nextY;
-	}
-	// else
-	// 	printf("\nCOLLISION\n");
-	//castAllRays(vars);
-	// printf("player x = %f\n", vars->player.pos.x);
-	// printf("player y = %f\n", vars->player.pos.y);
-	// printf("dir x = %f\n", vars->player.direction.x);
-	// printf("dir y = %f\n", vars->player.direction.y);
-	// printf("NEXTx = %f\n", nextX);
-	// printf("NEXTy = %f\n", nextY);
-	re_display_minimap(vars);
+	float	move_step;
+	float	next_x;
+	float	next_y;
+
+	move_step = vars->player.walk_direction * MOVE_SPEED;
+	next_x = vars->player.pos.x + vars->player.direction.x * move_step;
+	next_y = vars->player.pos.y + vars->player.direction.y * move_step;
+	if (vars->map[(int)(next_y / vars->tile_sz)]
+		[(int)vars->player.pos.x / vars->tile_sz] != '1')
+		vars->player.pos.y = next_y;
+	if (vars->map[(int)vars->player.pos.y / vars->tile_sz]
+		[(int)(next_x / vars->tile_sz)] != '1')
+		vars->player.pos.x = next_x;
+	render(vars);
 }
 
-void	updateDirection(t_vars *vars)
+void	update_direction(t_vars *vars)
 {
-	vars->player.rotation.y += vars->player.turnDirection * ROTATION_SPEED;
-    vars->player.direction.x = cos(vars->player.rotation.y); //0
-	vars->player.direction.y = sin(vars->player.rotation.y); //-1
-	
-	// printf("rot y = %f\n", vars->player.rotation.y);
-	// printf("dir x = %f\n", vars->player.direction.x);
-	// printf("dir y = %f\n\n", vars->player.direction.y);
+	vars->player.rotation.y += vars->player.turn_direction * ROTATION_SPEED;
+	vars->player.direction.x = cos(vars->player.rotation.y);
+	vars->player.direction.y = sin(vars->player.rotation.y);
 }
 
-void	moveBackward(t_vars *vars)
+void	move_backward(t_vars *vars)
 {
-	float	moveStep;
-	float	nextX;
-	float	nextY;
-	
-	moveStep = vars->player.walkDirection * MOVE_SPEED;
-	nextX = vars->player.pos.x + vars->player.direction.x * moveStep;
-	nextY = vars->player.pos.y + vars->player.direction.y * moveStep;
-	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
-	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
-	{
-		vars->player.pos.x = nextX;
-		vars->player.pos.y = nextY;
-	}
-	// else
-	// 	printf("\nCOLLISION\n");
-	//castAllRays(vars);
-	
-	// printf("player x = %f\n", vars->player.pos.x);
-	// printf("player y = %f\n", vars->player.pos.y);
-	// printf("dir x = %f\n", vars->player.direction.x);
-	// printf("dir y = %f\n", vars->player.direction.y);
-	// printf("NEXTx = %f\n", nextX);
-	// printf("NEXTy = %f\n", nextY);
-	re_display_minimap(vars);
+	float	move_step;
+	float	next_x;
+	float	next_y;
+
+	move_step = vars->player.walk_direction * MOVE_SPEED;
+	next_x = vars->player.pos.x + vars->player.direction.x * move_step;
+	next_y = vars->player.pos.y + vars->player.direction.y * move_step;
+	if (vars->map[(int)(next_y / vars->tile_sz)]
+		[(int)vars->player.pos.x / vars->tile_sz] != '1')
+		vars->player.pos.y = next_y;
+	if (vars->map[(int)vars->player.pos.y / vars->tile_sz]
+		[(int)(next_x / vars->tile_sz)] != '1')
+		vars->player.pos.x = next_x;
+	render(vars);
 }
 
-void	moveLeft(t_vars *vars)
+void	move_left(t_vars *vars)
 {
-	float	nextX;
-	float	nextY;
-	
-	nextX = vars->player.pos.x + vars->player.direction.y * MOVE_SPEED;
-	nextY = vars->player.pos.y - vars->player.direction.x * MOVE_SPEED;
-	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
-	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
-	{
-		vars->player.pos.x = nextX;
-		vars->player.pos.y = nextY;
-	}
-	// else
-	// 	printf("\nCOLLISION\n");
-	//castAllRays(vars);
-	
-	
-	re_display_minimap(vars);
-	// printf("\nLEFT\nplayer x = %f\n", vars->player.pos.x);
-	// printf("player y = %f\n", vars->player.pos.y);
-	// printf("dir x = %f\n", vars->player.direction.x);
-	// printf("dir y = %f\n", vars->player.direction.y);
-	// printf("NEXTx = %f\n", nextX);
-	// printf("NEXTy = %f\n", nextY);
+	float	next_x;
+	float	next_y;
+
+	next_x = vars->player.pos.x + vars->player.direction.y * MOVE_SPEED;
+	next_y = vars->player.pos.y - vars->player.direction.x * MOVE_SPEED;
+	if (vars->map[(int)(next_y / vars->tile_sz)]
+		[(int)vars->player.pos.x / vars->tile_sz] != '1')
+		vars->player.pos.y = next_y;
+	if (vars->map[(int)vars->player.pos.y / vars->tile_sz]
+		[(int)(next_x / vars->tile_sz)] != '1')
+		vars->player.pos.x = next_x;
+	render(vars);
 }
 
-void	moveRight(t_vars *vars)
+void	move_right(t_vars *vars)
 {
-	
-	float	nextX;
-	float	nextY;
-	
-	nextX = vars->player.pos.x - vars->player.direction.y * MOVE_SPEED;
-	nextY = vars->player.pos.y + vars->player.direction.x * MOVE_SPEED;
-	//printf("testing map[%d][%d]\n", (int)(nextY / vars->tileSize), (int)(nextX / vars->tileSize));
-	if (vars->map[(int)(nextY / vars->tileSize)][(int)(nextX / vars->tileSize)] != '1')
-	{
-		vars->player.pos.x = nextX;
-		vars->player.pos.y = nextY;
-	}
-	// else
-	// 	printf("\nCOLLISION\n");
-	//castAllRays(vars);
-	re_display_minimap(vars);
-	// printf("\nRIGHT\nplayer x = %f\n", vars->player.pos.x);
-	// printf("player y = %f\n", vars->player.pos.y);
-	// printf("dir x = %f\n", vars->player.direction.x);
-	// printf("dir y = %f\n", vars->player.direction.y);
-	// printf("NEXTx = %f\n", nextX);
-	// printf("NEXTy = %f\n", nextY);
-}
+	float	next_x;
+	float	next_y;
 
-void	watchLeft(t_vars *vars)
-{
-	vars->player.rotation.y += vars->player.turnDirection * ROTATION_SPEED;
-	updateDirection(vars);
-	//castAllRays(vars);
-	re_display_minimap(vars);
-}
-void	watchRight(t_vars *vars)
-{;
-	vars->player.rotation.y += vars->player.turnDirection * ROTATION_SPEED;
-	updateDirection(vars);
-	//castAllRays(vars);
-	re_display_minimap(vars);
+	next_x = vars->player.pos.x - vars->player.direction.y * MOVE_SPEED;
+	next_y = vars->player.pos.y + vars->player.direction.x * MOVE_SPEED;
+	if (vars->map[(int)(next_y / vars->tile_sz)]
+		[(int)vars->player.pos.x / vars->tile_sz] != '1')
+		vars->player.pos.y = next_y;
+	if (vars->map[(int)vars->player.pos.y / vars->tile_sz]
+		[(int)(next_x / vars->tile_sz)] != '1')
+		vars->player.pos.x = next_x;
+	render(vars);
 }
