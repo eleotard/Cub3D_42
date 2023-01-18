@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/16 20:54:00 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:48:38 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,11 @@ typedef struct s_ray {
 	int		texture;
 	int		wall_top_pixel;
 	int		wall_bottom_pixel;
+	int		textureoffset_x;
+	int		textureoffset_y;
 }	t_ray;
 
-typedef struct s_rc {//raycasting
+typedef struct s_rc {
 	float	xstep;
 	float	ystep;
 	float	xintercept;
@@ -202,6 +204,11 @@ void	cast_all_rays(t_vars *vars);
 void	cast_horiz_ray(t_vars *vars, t_ray *ray);
 void	update_rays_orientation(t_vars *vars);
 void	update_rays_angles(t_vars *vars);
+void	set_good_distance(t_vars *vars, t_ray *ray);
+void	find_ray_texture(t_vars *vars, t_ray *ray);
+int		precheck_coll_vert(t_vars *vars, t_ray *ray, t_rc *rc, int *found);
+void	find_coll_vert(t_vars *vars, t_ray *ray, t_rc *rc);
+void	cast_vert_ray(t_vars *vars, t_ray *ray);
 
 /*RENDERING*/
 void	render(t_vars *vars);

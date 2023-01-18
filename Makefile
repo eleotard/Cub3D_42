@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2023/01/16 20:55:07 by eleotard         ###   ########.fr        #
+#    Updated: 2023/01/18 18:41:05 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,8 @@ SRCS_FILES =	main.c \
 				line.c \
 				init_player.c \
 				raycasting.c \
+				rays_material.c \
+				vertical_collision_raycasting.c \
 				rendering.c \
 				rendering_material.c \
 				parse.c \

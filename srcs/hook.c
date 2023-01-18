@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:28:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/16 20:55:52 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:51:36 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 int	ft_mouse_hook(t_vars *vars)
 {
 	ft_close(vars);
+	return (0);
+}
+
+int	key_hook_2(int keycode, t_vars	*vars)
+{
+	if (keycode == XK_Right)
+	{
+		vars->player.turn_direction = +1;
+		watch_right(vars);
+	}
+	if (keycode == XK_Left)
+	{
+		vars->player.turn_direction = -1;
+		watch_left(vars);
+	}
 	return (0);
 }
 
@@ -36,16 +51,7 @@ int	ft_key_hook(int keycode, t_vars	*vars)
 		move_right(vars);
 	if (keycode == XK_a)
 		move_left(vars);
-	if (keycode == XK_Right)
-	{
-		vars->player.turn_direction = +1;
-		watch_right(vars);
-	}
-	if (keycode == XK_Left)
-	{
-		vars->player.turn_direction = -1;
-		watch_left(vars);
-	}
+	key_hook_2(keycode, vars);
 	return (0);
 }
 

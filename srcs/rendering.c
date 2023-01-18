@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/16 20:52:04 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:47:23 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,39 +27,42 @@ void	draw_ceiling_and_floor(t_vars *vars, t_ray *ray, int x)
 	}
 }
 
+void	chose_good_texture(t_vars *vars, t_ray *ray, int x, int y)
+{
+	if (ray->texture == 0)
+		my_mlx_pixel_put(&vars->game_img, x, y,
+			vars->north[ray->textureoffset_y][ray->textureoffset_x]);
+	else if (ray->texture == 1)
+		my_mlx_pixel_put(&vars->game_img, x, y,
+			vars->south[ray->textureoffset_y][ray->textureoffset_x]);
+	else if (ray->texture == 2)
+		my_mlx_pixel_put(&vars->game_img, x, y,
+			vars->west[ray->textureoffset_y][ray->textureoffset_x]);
+	else if (ray->texture == 3)
+		my_mlx_pixel_put(&vars->game_img, x, y,
+			vars->east[ray->textureoffset_y][ray->textureoffset_x]);
+}
+
 void	draw_wall_texture(t_vars *vars, t_ray *ray, int x)
 {
 	int	y;
 	int	dist_from_top;
-	int	textureoffset_x;
-	int	textureoffset_y;
 
 	if (ray->was_hit_vertical)
-		textureoffset_x = (int)ray->goodcoll_y % vars->tile_sz;
+		ray->textureoffset_x = (int)ray->goodcoll_y % vars->tile_sz;
 	else
-		textureoffset_x = (int)ray->goodcoll_x % vars->tile_sz;
+		ray->textureoffset_x = (int)ray->goodcoll_x % vars->tile_sz;
 	y = ray->wall_top_pixel;
 	while (y <= ray->wall_bottom_pixel)
 	{
 		dist_from_top = y + (ray->wall_strip_height / 2)
 			- (vars->game_win_height / 2);
-		textureoffset_y = dist_from_top
+		ray->textureoffset_y = dist_from_top
 			* ((float)vars->tile_sz / ray->wall_strip_height);
-		if (textureoffset_x >= vars->tile_sz || textureoffset_y >= vars->tile_sz
-			|| textureoffset_y < 0)
+		if (ray->textureoffset_x >= vars->tile_sz || ray->textureoffset_y
+			>= vars->tile_sz || ray->textureoffset_y < 0)
 			break ;
-		if (ray->texture == 0)
-			my_mlx_pixel_put(&vars->game_img, x, y,
-				vars->north[textureoffset_y][textureoffset_x]);
-		if (ray->texture == 1)
-			my_mlx_pixel_put(&vars->game_img, x, y,
-				vars->south[textureoffset_y][textureoffset_x]);
-		if (ray->texture == 2)
-			my_mlx_pixel_put(&vars->game_img, x, y,
-				vars->west[textureoffset_y][textureoffset_x]);
-		if (ray->texture == 3)
-			my_mlx_pixel_put(&vars->game_img, x, y,
-				vars->east[textureoffset_y][textureoffset_x]);
+		chose_good_texture(vars, ray, x, y);
 		y++;
 	}
 }
