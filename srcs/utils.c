@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:30:03 by eleotard          #+#    #+#             */
-/*   Updated: 2022/12/12 23:31:31 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:02:22 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,45 @@ char	*join(char *base, char *read)
 		return (free(read), free(base), NULL);
 	free(read);
 	return (new_read);
+}
+
+int	find_char(char *s, char c)
+{
+	int	i;
+
+	if (!s)
+		return (0);
+	i = -1;
+	while (s[++i] && s[i] != '\n')
+		if (s[i] == c)
+			return (1);
+	return (0);
+}
+
+char	*ft_strjoinspe(char *s1, char *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*dst;
+
+	if (!s2)
+		return (NULL);
+	dst = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (dst == NULL)
+		return (NULL);
+	i = 0;
+	if (s1)
+	{
+		while (s1[i])
+		{
+			dst[i] = s1[i];
+			i++;
+		}
+		free(s1);
+	}
+	j = -1;
+	while (s2[++j])
+		dst[i + j] = s2[j];
+	dst[i + j] = 0;
+	return (dst);
 }

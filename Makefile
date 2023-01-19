@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
+#    By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2023/01/18 18:41:05 by eleotard         ###   ########.fr        #
+#    Updated: 2023/01/19 19:15:19 by elpastor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,9 @@ SRCS_FILES =	main.c \
 				rendering.c \
 				rendering_material.c \
 				parse.c \
+				parse_color_textures.c \
+				parse_map.c \
+				parse_map_utils.c \
 
 SRCS_DIR = srcs
 OBJS_DIR = objs

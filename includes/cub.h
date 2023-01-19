@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/18 18:48:38 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:59:33 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,13 +142,39 @@ typedef struct s_vars {
 	int			ceiling;
 }	t_vars;
 
+
+/*PARSE*/
+char	*file_to_str(char *fichier, t_vars *vars);
+int		get_color_and_texture(char *s, t_vars *vars);
+void	verify_colors_and_texture(t_vars *vars, char *to_free);
+void	get_map(char *s, t_vars *vars, char *to_free);
 void	parsing(char *fichier, t_vars *vars);
-int		ft_parsing_check(char *map_str);
+
+/*PARSE COLOR TEXTURES*/
+int		check_color(char *s);
+int		get_color(char *s, t_vars *vars, char *to_free);
+void	path2img(char *path, t_img *texture, t_vars *vars, char *to_free);
+char	*get_path_texture(char *s, int *count, t_vars *vars, char *to_free);
+int		get_texture(char *s, t_vars *vars, int texture_type, char *to_free);
+
+/*PARSE MAP*/
+int		map_is_valid(char *s);
+void	get_map_line(t_vars *vars, int j, char *to_free, char **map);
+int		splited_map_is_closed(char **map, int j);
+
+/*PARSE MAP UTILS*/
+int		is_in_map(char *s);
+int		is_in_map_wbn(char *s);
+int		get_map_height(char *s);
+int		map_height(char **map);
+int		map_length(char **map);
 
 /*UTILS*/
 int		ft_strcmp(char *s1, char *s2);
 char	*ft_strjoin_s(char *base, char *read);
 char	*join(char *base, char *read);
+int		find_char(char *s, char c);
+char	*ft_strjoinspe(char *s1, char *s2);
 
 /*HOOK*/
 int		ft_mouse_hook(t_vars *vars);
@@ -157,13 +183,17 @@ int		ft_key_release(int keycode, t_vars	*vars);
 void	ft_close(t_vars *vars);
 
 /*ERRORS DESTROY FREE*/
-void	ft_destroy_all_message(char **map, void	*mlx, char *message);
-void	ft_destroy_map(char **map);
-void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars);
 void	ft_print_error_exit(char *error);
+void	destroy_all_imgs(t_vars *vars);
+void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars);
+void	ft_destroy_all_message(char **map, void	*mlx, char *message);
+void	destroy_all_msg(t_vars *vars, char *message, char *to_free, char **map_to_free);
 
+
+/*DESTROY TABS*/
 void	destroy_inttab(t_vars *vars, int **pix_tab);
 void	destroy_all_inttabs(t_vars *vars);
+void	ft_destroy_map(char **map);
 
 /*MOVES*/
 void	move_left(t_vars *vars);
