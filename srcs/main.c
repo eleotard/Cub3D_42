@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/20 18:02:04 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:10:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	check_window_size(t_vars *vars)
 	int	x;
 	int	y;
 
-	vars->tile_sz = 60;
+	vars->tile_sz = 64;
 	mlx_get_screen_size(vars->mlx, &x, &y);
 	vars->game_win_height = y ;
 	vars->game_win_wide = x;

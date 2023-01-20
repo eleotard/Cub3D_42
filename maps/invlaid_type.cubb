@@ -1,12 +1,12 @@
-NO ./textures/fish4.xpm
-SO ./textures/glace3.xpm
-WE ./textures/pingouin.xpm
-EA ./textures/sol3.xpm
+NO ./textures/bookshelf.xpm
+SO ./textures/eagle.xpm
+WE ./textures/greystone.xpm
+
 
 F 000,100,0
 C 0,0,255
 
-
+EA ./textures/red.xpm
 111111111111
 100011110001
 100000000001
