@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/19 16:26:25 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:02:04 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,11 @@ void	check_window_size(t_vars *vars)
 {
 	int	x;
 	int	y;
-	int	map_wide;
 
 	vars->tile_sz = 60;
-	map_wide = ft_map_wide(vars->map);
 	mlx_get_screen_size(vars->mlx, &x, &y);
 	vars->game_win_height = y ;
-	vars->game_win_wide = vars->tile_sz * map_wide;
+	vars->game_win_wide = x;
 }
 
 void	ft_mlx_win_init(t_vars *vars)

@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:45:19 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/16 20:46:06 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/20 17:36:31 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	define_projplan_dist(t_vars *vars)
 {
-	vars->projplan_dist = (vars->tile_sz * ft_map_wide(vars->map) / 2)
+	vars->projplan_dist = (vars->game_win_height / 2)
 		/ tan(FOV_ANGLE / 2);
 }
 

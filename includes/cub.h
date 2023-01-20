@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/19 19:59:33 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:05:06 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ typedef struct s_vars {
 	int			ceiling;
 }	t_vars;
 
-
 /*PARSE*/
 char	*file_to_str(char *fichier, t_vars *vars);
 int		get_color_and_texture(char *s, t_vars *vars);
@@ -187,8 +186,8 @@ void	ft_print_error_exit(char *error);
 void	destroy_all_imgs(t_vars *vars);
 void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars);
 void	ft_destroy_all_message(char **map, void	*mlx, char *message);
-void	destroy_all_msg(t_vars *vars, char *message, char *to_free, char **map_to_free);
-
+void	destroy_all_msg(t_vars *vars, char *message, char *to_free,
+			char **map_to_free);
 
 /*DESTROY TABS*/
 void	destroy_inttab(t_vars *vars, int **pix_tab);

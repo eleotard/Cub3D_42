@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/18 18:47:23 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:55:52 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	draw_wall_texture(t_vars *vars, t_ray *ray, int x)
 	int	y;
 	int	dist_from_top;
 
+	ray->textureoffset_x = 0;
+	ray->textureoffset_y = 0;
 	if (ray->was_hit_vertical)
 		ray->textureoffset_x = (int)ray->goodcoll_y % vars->tile_sz;
 	else
