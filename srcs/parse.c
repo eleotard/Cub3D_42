@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 17:46:00 by elpastor          #+#    #+#             */
-/*   Updated: 2023/01/19 19:59:25 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:13:01 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	get_color_and_texture(char *s, t_vars *vars)
 			i += get_color(&s[i], vars, s);
 		else if (s[i] != '\n' && is_in_map(&s[i]))
 			break ;
+		else if (s[i] != '\n')
+			destroy_all_msg(vars, "Error\nInvalid char in '.cub'\n", s, NULL);
 		else
 			i++;
 	}
@@ -123,6 +125,8 @@ void	parsing(char *fichier, t_vars *vars)
 	i = 0;
 	while (i < 4)
 		vars->textures[i++].ptr = NULL;
+	if (!check_file(fichier))
+		destroy_all_msg(vars, "Error\nFile name invalid\n", NULL, NULL);
 	str = file_to_str(fichier, vars);
 	if (!str)
 		destroy_all_msg(vars, "Error\nFile '.cub' empty\n", NULL, NULL);

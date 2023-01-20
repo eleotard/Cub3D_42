@@ -6,7 +6,7 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:11:14 by elpastor          #+#    #+#             */
-/*   Updated: 2023/01/19 19:55:01 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:03:24 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	check_color(char *s)
 	while (s[i] && ft_isdigit(s[i]))
 		i++;
 	if (s[i++] != ',')
+		return (0);
+	if (!s[i] || !ft_isdigit(s[i]))
 		return (0);
 	while (s[i] && ft_isdigit(s[i]))
 		i++;

@@ -6,11 +6,11 @@
 #    By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2023/01/19 19:15:19 by elpastor         ###   ########.fr        #
+#    Updated: 2023/01/20 17:28:03 by elpastor         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = cub3d
+NAME = cub3D
 
 SRCS_FILES =	main.c \
 				utils.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/20 18:05:06 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:11:03 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ char	*get_path_texture(char *s, int *count, t_vars *vars, char *to_free);
 int		get_texture(char *s, t_vars *vars, int texture_type, char *to_free);
 
 /*PARSE MAP*/
+int		check_file(char *s);
 int		map_is_valid(char *s);
 void	get_map_line(t_vars *vars, int j, char *to_free, char **map);
 int		splited_map_is_closed(char **map, int j);

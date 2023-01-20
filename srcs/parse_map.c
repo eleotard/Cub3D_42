@@ -6,11 +6,23 @@
 /*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 19:14:48 by elpastor          #+#    #+#             */
-/*   Updated: 2023/01/19 19:59:09 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:11:49 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub.h"
+
+int	check_file(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i] && s[i] != '.')
+		i++;
+	if (s[i] == '.' && !ft_strcmp(&s[i], ".cub"))
+		return (1);
+	return (0);
+}
 
 int	map_is_valid(char *s)
 {
