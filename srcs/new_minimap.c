@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   new_minimap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/16 20:52:57 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:25:58 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	draw_rays(t_vars *vars, t_img *img, int color)
 			my_mlx_pixel_put(img, tmp_x, tmp_y, color);
 			j++;
 		}
-		i = i + 400 * MSF;
-	}
+		i = i + 1 ;
+	} //400 * MSF
 }
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)

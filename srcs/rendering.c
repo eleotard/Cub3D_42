@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 15:07:38 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/18 18:55:52 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:43:33 by elpastor         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	render(t_vars *vars)
 	define_projplan_dist(vars);
 	find_wall_strip_heights(vars);
 	x = -1;
-	while (++x < vars->ray_nb)
+	while (++x < vars->ray_nb - 1)
 		draw_stripes(vars, &vars->rays[x], x);
 	pixelize_ground(vars, &(vars->game_img), 0x0011000);
 	pixelize_walls(vars, &(vars->game_img), 0xFFFFFF);
