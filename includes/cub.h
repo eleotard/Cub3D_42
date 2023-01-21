@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:35:10 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/20 19:11:03 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/21 22:22:45 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,25 +211,25 @@ int		ft_map_height(char **map);
 int		ft_map_wide(char **map);
 
 /*DRAW LINE*/
-void	line(t_img *img, t_line_cd cd, int color);
+void	line(t_vars *vars, t_line_cd cd, int color);
 
 /*MINIMAP IMAGE PAR IMAGE*/
 void	set_minimap(t_vars *vars);
 void	create_img(t_vars *vars, t_img *img, int x, int y);
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color);
 void	pixelize_fill(t_vars *vars, t_img *img, int color);
-void	pixelize_walls(t_vars *vars, t_img *img, int color);
-void	pixelize_grid(t_vars *vars, t_img *img, int color);
-void	pixelize_player(t_vars *vars, t_img *img, int color);
-void	pixelize_ground(t_vars *vars, t_img *img, int color);
-void	pixelize_dir_vector(t_vars *vars, t_img *img, int color);
+void	pixelize_walls(t_vars *vars, int color);
+void	pixelize_grid(t_vars *vars, int color);
+void	pixelize_player(t_vars *vars, int color);
+void	pixelize_ground(t_vars *vars, int color);
+void	pixelize_dir_vector(t_vars *vars, int color);
 
 void	display_minimap_img(t_vars *vars);
 void	render(t_vars *vars);
 
 /*RAYCASTING*/
-void	draw_rays(t_vars *vars, t_img *img, int color);
+void	draw_rays(t_vars *vars, int color);
 void	cast_all_rays(t_vars *vars);
 void	cast_horiz_ray(t_vars *vars, t_ray *ray);
 void	update_rays_orientation(t_vars *vars);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   new_minimap.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 16:40:53 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/20 19:25:58 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/21 22:25:45 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void	draw_rays(t_vars *vars, t_img *img, int color)
+void	draw_rays(t_vars *vars, int color)
 {
 	float	tmp_x;
 	float	tmp_y;
@@ -29,20 +29,21 @@ void	draw_rays(t_vars *vars, t_img *img, int color)
 		{
 			tmp_x = tmp_x + cos(vars->rays[i].ray_angle);
 			tmp_y = tmp_y + sin(vars->rays[i].ray_angle);
-			my_mlx_pixel_put(img, tmp_x, tmp_y, color);
+			my_mlx_pixel_put(vars, tmp_x, tmp_y, color);
 			j++;
 		}
-		i = i + 1 ;
-	} //400 * MSF
+		i = i + 400 * MSF ;
+	}
 }
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_vars *vars, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x < 0 || y < 0)
+	if (x < 0 || y < 0 || x > vars->game_win_wide || y > vars->game_win_height)
 		return ;
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	dst = vars->game_img.addr + (y * vars->game_img.line_length + x
+			* (vars->game_img.bits_per_pixel / 8));
 	*(unsigned int *)dst = color;
 }
 

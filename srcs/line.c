@@ -6,13 +6,13 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 19:51:27 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/16 17:42:25 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/21 22:18:39 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub.h"
 
-void	line_2(t_img *img, t_line_cd *cd, t_line_params *pa, int color)
+void	line_2(t_vars *vars, t_line_cd *cd, t_line_params *pa, int color)
 {
 	int	err;
 	int	e2;
@@ -23,7 +23,7 @@ void	line_2(t_img *img, t_line_cd *cd, t_line_params *pa, int color)
 		err = -pa->dy / 2;
 	while (1)
 	{
-		my_mlx_pixel_put(img, cd->x0, cd->y0, color);
+		my_mlx_pixel_put(vars, cd->x0, cd->y0, color);
 		if (cd->x0 == cd->x1 && cd->y0 == cd->y1)
 			break ;
 		e2 = err;
@@ -40,7 +40,7 @@ void	line_2(t_img *img, t_line_cd *cd, t_line_params *pa, int color)
 	}
 }
 
-void	line(t_img *img, t_line_cd cd, int color)
+void	line(t_vars *vars, t_line_cd cd, int color)
 {
 	t_line_params	pa;
 
@@ -54,5 +54,5 @@ void	line(t_img *img, t_line_cd cd, int color)
 		pa.sy = 1;
 	else
 		pa.sy = -1;
-	line_2(img, &cd, &pa, color);
+	line_2(vars, &cd, &pa, color);
 }

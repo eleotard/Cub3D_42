@@ -1,6 +1,6 @@
 NO ./textures/bookshelf.xpm
 SO ./textures/eagle.xpm
-WE ./textures/greystone.xpm
+WE ./textures/greystone.xpmm
 EA ./textures/red.xpm
 
 C 255,200,50
