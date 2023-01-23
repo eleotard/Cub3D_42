@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:45:19 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/20 17:36:31 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:45:31 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,20 @@ int	**create_pixel_tab(t_vars *vars, t_img *texture)
 
 	tab = malloc(sizeof(int *) * (vars->tile_sz));
 	if (!tab)
+	{
 		ft_destroy_all(vars->map, vars->mlx, vars->game_win, vars);
-	i = 0;
+		exit (-1);
+	}
+	i = -1;
 	k = 0;
-	while (i < vars->tile_sz)
+	while (++i < vars->tile_sz)
 	{
 		tab[i] = malloc(sizeof(int) * (vars->tile_sz));
 		if (!tab[i])
 			ft_destroy_all(vars->map, vars->mlx, vars->game_win, vars);
-		j = 0;
-		while (j < vars->tile_sz)
-		{
-			tab[i][j] = *((unsigned int *)texture->addr + k);
-			j++;
-			k++;
-		}
-		i++;
+		j = -1;
+		while (++j < vars->tile_sz)
+			tab[i][j] = *((unsigned int *)texture->addr + k++);
 	}
 	return (tab);
 }

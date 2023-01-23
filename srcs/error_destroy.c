@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_destroy.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: elpastor <elpastor@student.42.fr>          +#+  +:+       +#+        */
+/*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 23:57:40 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/19 20:01:01 by elpastor         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:39:57 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	ft_destroy_all(char **map, void *mlx, void *win, t_vars *vars)
 		mlx_destroy_display(mlx);
 		free(mlx);
 	}
-	exit(-1);
 }
 
 void	ft_destroy_all_message(char **map, void	*mlx, char *message)
@@ -68,4 +67,5 @@ void	destroy_all_msg(t_vars *vars, char *msg, char *to_free, char **map_free)
 	if (vars->textures)
 		free(vars->textures);
 	ft_destroy_all_message(vars->map, vars->mlx, msg);
+	exit (-1);
 }

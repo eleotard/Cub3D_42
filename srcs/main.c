@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/21 23:40:32 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/23 14:40:30 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,11 @@ void	ft_mlx_win_init(t_vars *vars)
 	vars->game_win = mlx_new_window(vars->mlx, vars->game_win_wide,
 			vars->game_win_height, "cub3D");
 	if (!vars->game_win)
+	{
 		ft_destroy_all_message(vars->map, vars->mlx,
 			"Error\nWin pointer == NULL\n");
+		exit (-1);
+	}
 	init_pixel_tabs(vars);
 	init_player_pos(vars);
 	set_img(vars);
