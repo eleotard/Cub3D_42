@@ -6,7 +6,7 @@
 #    By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/12 17:20:01 by eleotard          #+#    #+#              #
-#    Updated: 2023/01/21 22:46:22 by eleotard         ###   ########.fr        #
+#    Updated: 2023/01/21 23:51:37 by eleotard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ INC_DIR = includes
 
 CC = gcc
 
-FLAGS = -I${INC_DIR}/ -O3 -Wall -Wextra -Werror -g3 -fsanitize=address
+FLAGS = -I${INC_DIR}/ -O3 -Wall -Wextra -Werror -g3 #-fsanitize=address
 
 LIBFT = -Llibft -lft
 
