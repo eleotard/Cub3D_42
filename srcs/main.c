@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:19:58 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/23 22:21:15 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:01:41 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	check_window_size(t_vars *vars)
 	vars->tile_sz = 64;
 	mlx_get_screen_size(vars->mlx, &x, &y);
 	vars->game_win_height = y ;
-	vars->game_win_wide = y;
+	vars->game_win_wide = x;
 }
 
 void	ft_mlx_win_init(t_vars *vars)

@@ -6,7 +6,7 @@
 /*   By: eleotard <eleotard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/16 20:45:19 by eleotard          #+#    #+#             */
-/*   Updated: 2023/01/23 14:45:31 by eleotard         ###   ########.fr       */
+/*   Updated: 2023/01/24 17:04:08 by eleotard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	find_wall_strip_heights(t_vars *vars)
 	i = -1;
 	while (++i < vars->ray_nb)
 		vars->rays[i].wall_strip_height = (vars->tile_sz * vars->projplan_dist)
-			/ vars->rays[i].no_fisheye_dist;
+			/ vars->rays[i].no_fisheye_dist * ((float)vars->game_win_wide
+				/ vars->game_win_height);
 }
 
 int	**create_pixel_tab(t_vars *vars, t_img *texture)
